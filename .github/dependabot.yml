@@ -1,0 +1,125 @@
+# Dependabot configuration for WASM Shim for Torch
+# Automates dependency updates across all package ecosystems
+
+version: 2
+updates:
+  # Python dependencies
+  - package-ecosystem: "pip"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 10
+    reviewers:
+      - "danieleschmidt"
+    assignees:
+      - "danieleschmidt"
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "python"
+    ignore:
+      # Ignore major version updates for stable dependencies
+      - dependency-name: "torch"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "numpy"
+        update-types: ["version-update:semver-major"]
+    groups:
+      # Group development dependencies together
+      development-dependencies:
+        patterns:
+          - "pytest*"
+          - "ruff"
+          - "black"
+          - "mypy"
+          - "pre-commit"
+        update-types:
+          - "minor"
+          - "patch"
+      
+      # Group testing dependencies
+      testing-dependencies:
+        patterns:
+          - "pytest"
+          - "pytest-*"
+          - "coverage"
+          - "hypothesis"
+        update-types:
+          - "minor"
+          - "patch"
+      
+      # Group documentation dependencies  
+      documentation-dependencies:
+        patterns:
+          - "sphinx*"
+          - "myst-parser"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # GitHub Actions dependencies
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    reviewers:
+      - "danieleschmidt"
+    assignees:
+      - "danieleschmidt"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "github-actions"
+    groups:
+      # Group related actions together
+      setup-actions:
+        patterns:
+          - "actions/setup-*"
+          - "actions/checkout"
+          - "actions/cache"
+        update-types:
+          - "minor"
+          - "patch"
+      
+      security-actions:
+        patterns:
+          - "github/codeql-action*"
+          - "ossf/scorecard-action"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # Docker dependencies
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "06:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 3
+    reviewers:
+      - "danieleschmidt"
+    assignees:
+      - "danieleschmidt"
+    commit-message:
+      prefix: "docker"
+      include: "scope"
+    labels:
+      - "dependencies"
+      - "docker"
+    ignore:
+      # Pin Python version to avoid compatibility issues
+      - dependency-name: "python"
+        update-types: ["version-update:semver-major"]

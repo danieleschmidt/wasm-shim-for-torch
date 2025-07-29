@@ -1,0 +1,15 @@
+# Core dependencies for WASM Shim for Torch
+# This file provides a complete dependency specification for reproducible builds
+
+torch>=2.4.0,<3.0.0
+numpy>=1.24.0,<2.0.0
+pybind11>=2.11.0,<3.0.0
+typing-extensions>=4.0.0,<5.0.0
+
+# Build dependencies
+setuptools>=64.0.0
+wheel>=0.40.0
+
+# Runtime utilities
+packaging>=21.0
+importlib-metadata>=4.6.0; python_version < "3.10"
