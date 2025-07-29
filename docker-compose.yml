@@ -1,0 +1,133 @@
+# Docker Compose configuration for WASM Shim for Torch development
+
+version: '3.8'
+
+services:
+  # Development environment
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+      args:
+        PYTHON_VERSION: 3.11
+        EMSCRIPTEN_VERSION: 3.1.61
+    volumes:
+      - .:/workspace
+      - pip-cache:/root/.cache/pip
+      - emscripten-cache:/opt/emsdk/.emscripten_cache
+    environment:
+      - PYTHONPATH=/workspace/src
+      - PYTEST_ARGS=--cov=wasm_torch --cov-report=html
+    command: bash
+    stdin_open: true
+    tty: true
+    networks:
+      - wasm-torch-net
+
+  # Testing service
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - .:/workspace
+      - pip-cache:/root/.cache/pip
+    environment:
+      - PYTHONPATH=/workspace/src
+      - CI=true
+    command: pytest tests/ --cov=wasm_torch --cov-report=xml --cov-report=term
+    networks:
+      - wasm-torch-net
+
+  # Documentation builder
+  docs:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - .:/workspace
+      - docs-build:/workspace/docs/_build
+    working_dir: /workspace
+    command: sphinx-build -b html docs/ docs/_build/html
+    ports:
+      - "8000:8000"
+    networks:
+      - wasm-torch-net
+
+  # Code quality checks
+  lint:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - .:/workspace
+    command: >
+      sh -c "
+        ruff check src/ tests/ &&
+        ruff format --check src/ tests/ &&
+        mypy src/ &&
+        bandit -r src/
+      "
+    networks:
+      - wasm-torch-net
+
+  # Security scanning
+  security:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - .:/workspace
+    command: >
+      sh -c "
+        safety check --json &&
+        bandit -r src/ -f json &&
+        pip-audit --format=json
+      "
+    networks:
+      - wasm-torch-net
+
+  # Benchmarking service
+  benchmark:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    volumes:
+      - .:/workspace
+      - benchmark-results:/workspace/benchmark-results
+    environment:
+      - PYTHONPATH=/workspace/src
+    command: pytest tests/benchmarks/ --benchmark-json=/workspace/benchmark-results/results.json
+    networks:
+      - wasm-torch-net
+
+  # Production build
+  prod:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    environment:
+      - PYTHONPATH=/usr/local/lib/python3.11/site-packages
+    networks:
+      - wasm-torch-net
+
+volumes:
+  pip-cache:
+    driver: local
+  emscripten-cache:
+    driver: local
+  docs-build:
+    driver: local
+  benchmark-results:
+    driver: local
+
+networks:
+  wasm-torch-net:
+    driver: bridge
