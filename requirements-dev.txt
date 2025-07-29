@@ -32,7 +32,7 @@ sphinx-autodoc-typehints>=1.24.0,<2.0.0
 
 # Build tools
 build>=0.10.0,<1.0.0
-twine>=4.0.2,<5.0.0
+twine>=4.0.2,<7.0.0
 cmake>=3.26.0
 
 # Development utilities
