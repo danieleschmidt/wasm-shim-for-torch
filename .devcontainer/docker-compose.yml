@@ -1,0 +1,174 @@
+version: '3.8'
+
+services:
+  devcontainer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VARIANT: "3.11-bullseye"
+        INSTALL_NODE: "true"
+        INSTALL_CMAKE: "true"
+        INSTALL_EMSCRIPTEN: "true"
+    
+    volumes:
+      - ../..:/workspaces:cached
+      - /var/run/docker.sock:/var/run/docker-host.sock
+    
+    environment:
+      - DOCKER_HOST=unix:///var/run/docker-host.sock
+      - PYTHONPATH=/workspace/src
+      - EMSCRIPTEN_VERSION=3.1.61
+      - WASMTIME_VERSION=10.0.0
+      
+    command: sleep infinity
+    
+    ports:
+      - "3000:3000"   # Development server
+      - "8080:8080"   # WASM demo server
+      - "9090:9090"   # Prometheus
+      - "3001:3001"   # Grafana
+      - "16686:16686" # Jaeger UI
+    
+    networks:
+      - wasm-torch-dev
+
+  # Development database for testing
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_DB: wasm_torch_dev
+      POSTGRES_USER: dev
+      POSTGRES_PASSWORD: dev_password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - wasm-torch-dev
+
+  # Redis for caching and session management
+  redis:
+    image: redis:7-alpine
+    command: redis-server --appendonly yes
+    volumes:
+      - redis_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - wasm-torch-dev
+
+  # Monitoring stack
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ../monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    ports:
+      - "9090:9090"
+    networks:
+      - wasm-torch-dev
+
+  grafana:
+    image: grafana/grafana:latest
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ../monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+      - ../monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+    ports:
+      - "3001:3000"
+    networks:
+      - wasm-torch-dev
+    depends_on:
+      - prometheus
+
+  # Distributed tracing
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    ports:
+      - "16686:16686"  # Jaeger UI
+      - "14268:14268"  # jaeger.thrift
+      - "14250:14250"  # gRPC
+      - "6831:6831/udp"  # agent
+      - "6832:6832/udp"  # agent  
+    networks:
+      - wasm-torch-dev
+
+  # Log aggregation
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.0
+    environment:
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - xpack.security.enabled=false
+    volumes:
+      - elasticsearch_data:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+    networks:
+      - wasm-torch-dev
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:8.11.0
+    environment:
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+    ports:
+      - "5601:5601"
+    networks:
+      - wasm-torch-dev
+    depends_on:
+      - elasticsearch
+
+  # Message queue for async processing
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    environment:
+      - RABBITMQ_DEFAULT_USER=dev
+      - RABBITMQ_DEFAULT_PASS=dev_password
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"   # AMQP
+      - "15672:15672" # Management UI
+    networks:
+      - wasm-torch-dev
+
+  # MinIO for object storage (model artifacts)
+  minio:
+    image: minio/minio:latest
+    environment:
+      - MINIO_ROOT_USER=minioadmin
+      - MINIO_ROOT_PASSWORD=minioadmin123
+    volumes:
+      - minio_data:/data
+    ports:
+      - "9000:9000"   # API
+      - "9001:9001"   # Console
+    command: server /data --console-address ":9001"
+    networks:
+      - wasm-torch-dev
+
+volumes:
+  postgres_data:
+  redis_data:
+  prometheus_data:
+  grafana_data:
+  elasticsearch_data:
+  rabbitmq_data:
+  minio_data:
+
+networks:
+  wasm-torch-dev:
+    driver: bridge
