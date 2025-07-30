@@ -1,0 +1,63 @@
+# CODEOWNERS file for WASM Shim for Torch
+# This file defines who has ownership/review responsibilities for different parts of the codebase
+# See: https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+
+# Global owners - will be requested for review on all PRs unless overridden
+* @danieleschmidt
+
+# Core source code
+/src/ @danieleschmidt
+/src/wasm_torch/ @danieleschmidt
+
+# Tests
+/tests/ @danieleschmidt
+
+# Build and configuration files
+/pyproject.toml @danieleschmidt
+/CMakeLists.txt @danieleschmidt
+/Makefile @danieleschmidt
+/Dockerfile @danieleschmidt
+/docker-compose.yml @danieleschmidt
+/tox.ini @danieleschmidt
+/pytest.ini @danieleschmidt
+
+# CI/CD and GitHub configuration
+/.github/ @danieleschmidt
+/.github/workflows/ @danieleschmidt
+/.github/actions/ @danieleschmidt
+
+# Documentation
+/docs/ @danieleschmidt
+/README.md @danieleschmidt
+/CHANGELOG.md @danieleschmidt
+/CONTRIBUTING.md @danieleschmidt
+
+# Security and compliance
+/SECURITY.md @danieleschmidt
+/scripts/security-scan.sh @danieleschmidt
+/scripts/generate-sbom.py @danieleschmidt
+
+# Dependencies and requirements
+/requirements*.txt @danieleschmidt
+
+# Runtime and native code
+/runtime/ @danieleschmidt
+
+# Scripts and automation
+/scripts/ @danieleschmidt
+
+# Benchmarks and performance
+/benchmarks/ @danieleschmidt
+
+# Package and distribution files
+/setup.py @danieleschmidt
+/MANIFEST.in @danieleschmidt
+
+# Environment and configuration
+/.gitignore @danieleschmidt
+/.gitattributes @danieleschmidt
+/.editorconfig @danieleschmidt
+/.pre-commit-config.yaml @danieleschmidt
+
+# License and legal
+/LICENSE @danieleschmidt
