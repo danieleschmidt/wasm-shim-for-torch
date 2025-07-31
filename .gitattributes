@@ -1,0 +1,105 @@
+# Git attributes for WASM Shim for Torch
+# See: https://git-scm.com/docs/gitattributes
+
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Explicitly declare files that should always have LF line endings on checkout
+*.py text eol=lf
+*.pyi text eol=lf
+*.md text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.toml text eol=lf
+*.txt text eol=lf
+*.cfg text eol=lf
+*.ini text eol=lf
+*.sh text eol=lf
+*.dockerfile text eol=lf
+Dockerfile text eol=lf
+Makefile text eol=lf
+
+# Declare files that will always have CRLF line endings on checkout
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# Binary files
+*.wasm binary
+*.so binary
+*.dylib binary
+*.dll binary
+*.exe binary
+*.tar binary
+*.gz binary
+*.zip binary
+*.7z binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.pdf binary
+
+# Archive files
+*.tar.* binary
+*.zip binary
+*.7z binary
+*.rar binary
+
+# Font files
+*.ttf binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+*.eot binary
+
+# Jupyter notebooks (treat as text but with special diff)
+*.ipynb text
+
+# Python bytecode
+*.pyc binary
+*.pyo binary
+*.pyd binary
+
+# C/C++ files for WASM builds
+*.c text eol=lf
+*.cpp text eol=lf
+*.cc text eol=lf
+*.cxx text eol=lf
+*.h text eol=lf
+*.hpp text eol=lf
+*.hxx text eol=lf
+*.cmake text eol=lf
+CMakeLists.txt text eol=lf
+
+# Web files for browser integration
+*.html text eol=lf
+*.css text eol=lf
+*.js text eol=lf
+*.ts text eol=lf
+*.jsx text eol=lf
+*.tsx text eol=lf
+
+# Configuration files
+.gitignore text eol=lf
+.gitattributes text eol=lf
+.editorconfig text eol=lf
+.dockerignore text eol=lf
+
+# Git LFS tracking for large files
+*.wasm filter=lfs diff=lfs merge=lfs -text
+*.model filter=lfs diff=lfs merge=lfs -text
+*.onnx filter=lfs diff=lfs merge=lfs -text
+*.pb filter=lfs diff=lfs merge=lfs -text
+*.bin filter=lfs diff=lfs merge=lfs -text
+
+# Language-specific settings
+[attr]python text eol=lf
+[attr]web text eol=lf
+[attr]config text eol=lf
+
+# Merge drivers for specific files
+*.md merge=union
+CHANGELOG.md merge=union
