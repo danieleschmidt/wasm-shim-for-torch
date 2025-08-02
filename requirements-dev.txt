@@ -22,7 +22,7 @@ bandit[toml]>=1.7.5,<2.0.0
 safety>=2.3.5,<3.0.0
 
 # Pre-commit hooks
-pre-commit>=3.4.0,<4.0.0
+pre-commit>=3.4.0,<5.0.0
 
 # Documentation
 sphinx>=7.1.0,<9.0.0
