@@ -369,9 +369,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 ```bibtex
 @software{wasm_shim_torch,
   title={WASM Shim for Torch: Browser-native PyTorch Inference},
-  author={Your Name},
+  author={Daniel Schmidt},
   year={2025},
-  url={https://github.com/yourusername/wasm-shim-for-torch}
+  url={https://github.com/danieleschmidt/wasm-shim-for-torch}
 }
 ```
 
