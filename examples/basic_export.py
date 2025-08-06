@@ -9,7 +9,7 @@ including model tracing, compilation unit generation, and WASM compilation.
 import torch
 import torch.nn as nn
 from pathlib import Path
-from wasm_torch import export_to_wasm, register_custom_op
+from wasm_torch import export_to_wasm, register_custom_op, get_custom_operators
 
 
 class SimpleClassifier(nn.Module):

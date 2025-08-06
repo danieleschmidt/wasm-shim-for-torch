@@ -125,7 +125,7 @@ def _convert_to_ir(
             "kind": node.kind(),
             "inputs": [str(inp) for inp in node.inputs()],
             "outputs": [str(out) for out in node.outputs()],
-            "attributes": {attr: node[attr] for attr in node.attributeNames()},
+            "attributes": {attr: getattr(node, attr, None) for attr in node.attributeNames()},
         }
         operations.append(op_info)
     
