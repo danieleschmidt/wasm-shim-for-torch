@@ -118,6 +118,82 @@ services:
     networks:
       - wasm-torch-net
 
+  # Production deployment with load balancer
+  prod-cluster:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    deploy:
+      replicas: 3
+      resources:
+        limits:
+          cpus: '1.0'
+          memory: 2G
+        reservations:
+          cpus: '0.25'
+          memory: 512M
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
+      update_config:
+        parallelism: 1
+        delay: 10s
+        failure_action: rollback
+        order: stop-first
+    environment:
+      - PYTHONPATH=/usr/local/lib/python3.11/site-packages
+      - WASM_TORCH_ENV=production
+      - WASM_TORCH_LOG_LEVEL=INFO
+      - WASM_TORCH_WORKER_THREADS=4
+    ports:
+      - "8000:8000"
+    networks:
+      - wasm-torch-net
+    healthcheck:
+      test: ["CMD", "python", "-c", "import wasm_torch; print('OK')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Load balancer/proxy
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./ssl:/etc/ssl/certs:ro
+    depends_on:
+      - prod-cluster
+    networks:
+      - wasm-torch-net
+
+  # Monitoring stack
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - wasm-torch-net
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - grafana-storage:/var/lib/grafana
+    networks:
+      - wasm-torch-net
+
 volumes:
   pip-cache:
     driver: local
@@ -126,6 +202,8 @@ volumes:
   docs-build:
     driver: local
   benchmark-results:
+    driver: local
+  grafana-storage:
     driver: local
 
 networks:

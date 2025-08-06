@@ -130,7 +130,10 @@ async def main():
             
             output = await wasm_model.forward(test_input)
             print(f"   ✅ Inference completed! Output shape: {output.shape}")
-            print(f"      Output value: {output.item():.4f}")
+            if output.numel() == 1:
+                print(f"      Output value: {output.item():.4f}")
+            else:
+                print(f"      Output mean: {output.mean().item():.4f}")
             
             # Get memory stats
             memory_stats = await wasm_model.get_memory_stats()

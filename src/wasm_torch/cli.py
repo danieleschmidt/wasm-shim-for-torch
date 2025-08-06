@@ -11,6 +11,8 @@ import torch.nn as nn
 from .export import export_to_wasm
 from .runtime import WASMRuntime
 from .optimize import optimize_for_browser, quantize_for_wasm, get_optimization_info
+from .security import SecurityConfig, validate_model_path, verify_model_integrity, audit_log_event
+from .validation import sanitize_file_path
 
 # Configure logging
 logging.basicConfig(
