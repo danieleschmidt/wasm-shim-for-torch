@@ -1,0 +1,172 @@
+# Prometheus alert rules for WASM Torch monitoring
+groups:
+  - name: wasm-torch.rules
+    rules:
+      # High error rate
+      - alert: HighErrorRate
+        expr: rate(wasm_torch_http_requests_total{status=~"5.."}[5m]) > 0.1
+        for: 2m
+        labels:
+          severity: warning
+          service: wasm-torch
+        annotations:
+          summary: "High error rate detected"
+          description: "Error rate is {{ $value | humanizePercentage }} for the last 5 minutes"
+
+      # High response time
+      - alert: HighResponseTime
+        expr: histogram_quantile(0.95, rate(wasm_torch_http_request_duration_seconds_bucket[5m])) > 2
+        for: 5m
+        labels:
+          severity: warning
+          service: wasm-torch
+        annotations:
+          summary: "High response time detected"
+          description: "95th percentile response time is {{ $value }}s"
+
+      # High memory usage
+      - alert: HighMemoryUsage
+        expr: wasm_torch_memory_usage_bytes / wasm_torch_memory_limit_bytes > 0.9
+        for: 5m
+        labels:
+          severity: critical
+          service: wasm-torch
+        annotations:
+          summary: "High memory usage"
+          description: "Memory usage is {{ $value | humanizePercentage }} of limit"
+
+      # High CPU usage
+      - alert: HighCPUUsage
+        expr: rate(wasm_torch_cpu_seconds_total[5m]) > 0.8
+        for: 10m
+        labels:
+          severity: warning
+          service: wasm-torch
+        annotations:
+          summary: "High CPU usage"
+          description: "CPU usage is {{ $value | humanizePercentage }}"
+
+      # Service down
+      - alert: ServiceDown
+        expr: up{job="wasm-torch"} == 0
+        for: 1m
+        labels:
+          severity: critical
+          service: wasm-torch
+        annotations:
+          summary: "Service is down"
+          description: "WASM Torch service has been down for more than 1 minute"
+
+      # Low number of replicas
+      - alert: LowReplicas
+        expr: wasm_torch_replicas_available < 2
+        for: 5m
+        labels:
+          severity: warning
+          service: wasm-torch
+        annotations:
+          summary: "Low number of replicas"
+          description: "Only {{ $value }} replicas are available"
+
+      # Disk space running low
+      - alert: DiskSpaceLow
+        expr: wasm_torch_disk_free_bytes / wasm_torch_disk_total_bytes < 0.1
+        for: 5m
+        labels:
+          severity: warning
+          service: wasm-torch
+        annotations:
+          summary: "Disk space running low"
+          description: "Only {{ $value | humanizePercentage }} disk space remaining"
+
+      # Model loading failures
+      - alert: ModelLoadingFailures
+        expr: rate(wasm_torch_model_load_failures_total[5m]) > 0.01
+        for: 2m
+        labels:
+          severity: warning
+          service: wasm-torch
+        annotations:
+          summary: "High model loading failure rate"
+          description: "Model loading failure rate is {{ $value }} failures per second"
+
+      # Long-running model inference
+      - alert: LongRunningInference
+        expr: wasm_torch_inference_duration_seconds > 30
+        for: 0m
+        labels:
+          severity: warning
+          service: wasm-torch
+        annotations:
+          summary: "Long-running model inference detected"
+          description: "Model inference taking {{ $value }}s to complete"
+
+      # Database connection issues
+      - alert: DatabaseConnectionFailure
+        expr: rate(wasm_torch_database_connection_failures_total[5m]) > 0.1
+        for: 1m
+        labels:
+          severity: critical
+          service: wasm-torch
+        annotations:
+          summary: "Database connection failures"
+          description: "Database connection failure rate is {{ $value }} per second"
+
+  - name: system.rules
+    rules:
+      # Node filesystem usage
+      - alert: NodeFilesystemUsage
+        expr: (node_filesystem_size_bytes - node_filesystem_free_bytes) / node_filesystem_size_bytes > 0.85
+        for: 5m
+        labels:
+          severity: warning
+          service: system
+        annotations:
+          summary: "Node filesystem usage high"
+          description: "Filesystem usage is {{ $value | humanizePercentage }} on {{ $labels.device }}"
+
+      # Node memory usage
+      - alert: NodeMemoryUsage
+        expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes > 0.9
+        for: 5m
+        labels:
+          severity: critical
+          service: system
+        annotations:
+          summary: "Node memory usage high"
+          description: "Memory usage is {{ $value | humanizePercentage }}"
+
+      # Node load average
+      - alert: NodeLoadAverage
+        expr: node_load15 > node_nprocs * 0.8
+        for: 10m
+        labels:
+          severity: warning
+          service: system
+        annotations:
+          summary: "Node load average high"
+          description: "Load average is {{ $value }} ({{ $labels.instance }})"
+
+  - name: nginx.rules
+    rules:
+      # Nginx high connection count
+      - alert: NginxHighConnections
+        expr: nginx_connections_active > 1000
+        for: 5m
+        labels:
+          severity: warning
+          service: nginx
+        annotations:
+          summary: "High number of active connections"
+          description: "{{ $value }} active connections to Nginx"
+
+      # Nginx high error rate
+      - alert: NginxHighErrorRate
+        expr: rate(nginx_http_requests_total{status=~"4..|5.."}[5m]) / rate(nginx_http_requests_total[5m]) > 0.05
+        for: 2m
+        labels:
+          severity: warning
+          service: nginx
+        annotations:
+          summary: "High error rate in Nginx"
+          description: "Error rate is {{ $value | humanizePercentage }} for the last 5 minutes"

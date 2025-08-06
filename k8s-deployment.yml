@@ -1,0 +1,255 @@
+---
+# Namespace for WASM Torch application
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wasm-torch
+  labels:
+    name: wasm-torch
+    app: wasm-torch
+
+---
+# ConfigMap for application configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wasm-torch-config
+  namespace: wasm-torch
+data:
+  WASM_TORCH_LOG_LEVEL: "INFO"
+  WASM_TORCH_MAX_MODEL_SIZE_MB: "1000"
+  WASM_TORCH_WORKER_THREADS: "4"
+  WASM_TORCH_CACHE_SIZE: "256"
+  WASM_TORCH_MONITORING_ENABLED: "true"
+
+---
+# Secret for sensitive configuration
+apiVersion: v1
+kind: Secret
+metadata:
+  name: wasm-torch-secrets
+  namespace: wasm-torch
+type: Opaque
+data:
+  # Base64 encoded placeholder values - replace in production
+  api-key: cGxhY2Vob2xkZXItYXBpLWtleQ==  # placeholder-api-key
+  db-password: cGxhY2Vob2xkZXItZGItcGFzc3dvcmQ=  # placeholder-db-password
+
+---
+# PersistentVolume for model storage
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: wasm-torch-models-pv
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: fast-ssd
+  hostPath:
+    path: /data/wasm-torch/models
+
+---
+# PersistentVolumeClaim for model storage
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wasm-torch-models-pvc
+  namespace: wasm-torch
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  storageClassName: fast-ssd
+
+---
+# Deployment for WASM Torch application
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wasm-torch-app
+  namespace: wasm-torch
+  labels:
+    app: wasm-torch
+    version: v1.0.0
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: wasm-torch
+  template:
+    metadata:
+      labels:
+        app: wasm-torch
+        version: v1.0.0
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: wasm-torch
+        image: wasm-torch:v1.0.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+          name: http
+        - containerPort: 8080
+          name: metrics
+        envFrom:
+        - configMapRef:
+            name: wasm-torch-config
+        env:
+        - name: API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: wasm-torch-secrets
+              key: api-key
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+        volumeMounts:
+        - name: models-storage
+          mountPath: /app/models
+        - name: temp-storage
+          mountPath: /app/temp
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          successThreshold: 1
+          failureThreshold: 3
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          runAsNonRoot: true
+          runAsUser: 1000
+          capabilities:
+            drop:
+            - ALL
+      volumes:
+      - name: models-storage
+        persistentVolumeClaim:
+          claimName: wasm-torch-models-pvc
+      - name: temp-storage
+        emptyDir:
+          sizeLimit: 1Gi
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+
+---
+# Service for WASM Torch application
+apiVersion: v1
+kind: Service
+metadata:
+  name: wasm-torch-service
+  namespace: wasm-torch
+  labels:
+    app: wasm-torch
+spec:
+  selector:
+    app: wasm-torch
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8000
+    protocol: TCP
+  - name: metrics
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP
+
+---
+# Horizontal Pod Autoscaler
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: wasm-torch-hpa
+  namespace: wasm-torch
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: wasm-torch-app
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+
+---
+# NetworkPolicy for security
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: wasm-torch-netpol
+  namespace: wasm-torch
+spec:
+  podSelector:
+    matchLabels:
+      app: wasm-torch
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 8000
+  - from: []
+    ports:
+    - protocol: TCP
+      port: 8080  # Metrics
+  egress:
+  - {} # Allow all egress for now - restrict in production
+
+---
+# PodDisruptionBudget for high availability
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: wasm-torch-pdb
+  namespace: wasm-torch
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: wasm-torch

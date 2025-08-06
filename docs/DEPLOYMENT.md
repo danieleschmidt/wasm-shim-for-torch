@@ -1,10 +1,35 @@
 # Deployment Guide
 
-This guide covers deployment strategies, environment configuration, and operational considerations for WASM Shim for Torch.
+This guide covers deployment strategies, environment configuration, and operational considerations for WASM Torch. 
+
+**🎯 PRODUCTION READY**: This project includes complete production deployment configurations including Docker, Kubernetes, monitoring, and CI/CD automation.
 
 ## Deployment Overview
 
 WASM Shim for Torch supports multiple deployment patterns, from simple static hosting to sophisticated CDN-based distribution with caching and optimization.
+
+## Quick Start Production Deployment
+
+For immediate production deployment, use our automated deployment script:
+
+```bash
+# Deploy to Kubernetes with monitoring
+./scripts/deploy-production.sh v1.0.0 production
+
+# Deploy using Docker Swarm
+docker stack deploy -c docker-compose.prod.yml wasm-torch
+
+# Deploy single-node production
+docker-compose -f docker-compose.yml up -d prod-cluster nginx prometheus grafana
+```
+
+All configurations include:
+- ✅ Load balancing with Nginx
+- ✅ SSL/TLS termination  
+- ✅ Monitoring with Prometheus & Grafana
+- ✅ Health checks and auto-restart
+- ✅ Security headers and rate limiting
+- ✅ Logging and metrics collection
 
 ## Deployment Patterns
 
