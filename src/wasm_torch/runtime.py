@@ -16,6 +16,7 @@ from concurrent.futures import ThreadPoolExecutor
 from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 from .validation import validate_input_tensor, validate_intermediate_tensor, validate_output_tensor
+from .performance import get_performance_monitor, profile_operation, BatchProcessor, AdaptiveLoadBalancer
 
 
 logger = logging.getLogger(__name__)
@@ -63,6 +64,9 @@ class WASMRuntime:
         self._startup_time: Optional[float] = None
         self._stats = RuntimeStats()
         self._health_check_task: Optional[asyncio.Task] = None
+        self._performance_monitor = get_performance_monitor()
+        self._batch_processor = BatchProcessor(batch_size=16, max_wait_time=0.05)
+        self._load_balancer = AdaptiveLoadBalancer(initial_workers=self.threads)
         
     async def init(self) -> 'WASMRuntime':
         """Initialize the WASM runtime asynchronously.
@@ -242,6 +246,7 @@ class WASMModel:
         self.parameters: Dict[str, torch.Tensor] = {}
         self._is_loaded = False
         
+    @profile_operation("model_forward_pass")
     async def forward(self, input_tensor: torch.Tensor) -> torch.Tensor:
         """Run forward pass on input tensor with comprehensive error handling and monitoring.
         
@@ -323,6 +328,12 @@ class WASMModel:
                 self.runtime._stats.last_inference_time = inference_time
                 
                 logger.debug(f"Forward pass completed in {inference_time:.3f}s")
+                # Cache result for future use
+                import hashlib
+                input_hash = hashlib.md5(input_tensor.detach().numpy().tobytes()).hexdigest()[:16]
+                cache_key = f"forward_{id(self)}_{input_hash}_{input_tensor.shape}"
+                self.runtime._performance_monitor.cache_result(cache_key, current_tensor.clone())
+                
                 return current_tensor
         
         except asyncio.TimeoutError as e:
