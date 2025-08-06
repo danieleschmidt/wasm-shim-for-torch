@@ -76,6 +76,19 @@ def export_to_wasm(
             
         logger.info(f"WASM export completed successfully: {output_path}")
         
+    except FileNotFoundError as e:
+        logger.error(f"Required file not found during export: {e}")
+        raise RuntimeError(f"Export failed - missing required file: {e}") from e
+    except PermissionError as e:
+        logger.error(f"Permission denied during export: {e}")
+        raise RuntimeError(f"Export failed - permission denied: {e}") from e
+    except subprocess.TimeoutExpired as e:
+        logger.error(f"Export timed out: {e}")
+        raise RuntimeError(f"Export failed - compilation timed out after {e.timeout}s") from e
+    except subprocess.CalledProcessError as e:
+        logger.error(f"Compilation process failed: {e}")
+        stderr_msg = e.stderr.decode() if e.stderr else "No error details available"
+        raise RuntimeError(f"Export failed - compilation error: {stderr_msg}") from e
     except Exception as e:
         logger.error(f"WASM export failed: {e}")
         raise RuntimeError(f"Failed to export model to WASM: {e}") from e
@@ -86,25 +99,86 @@ def _validate_export_inputs(
     example_input: torch.Tensor, 
     optimization_level: str
 ) -> None:
-    """Validate export function inputs."""
+    """Validate export function inputs with comprehensive checks."""
+    # Model validation
     if not isinstance(model, nn.Module):
         raise ValueError("model must be a torch.nn.Module")
     
+    if model.training:
+        logger.warning("Model is in training mode. Setting to eval mode for export.")
+        model.eval()
+    
+    # Check if model has parameters
+    param_count = sum(p.numel() for p in model.parameters())
+    if param_count == 0:
+        logger.warning("Model has no parameters. This might be intentional but unusual.")
+    
+    # Input tensor validation
     if not isinstance(example_input, torch.Tensor):
         raise ValueError("example_input must be a torch.Tensor")
     
+    if example_input.numel() == 0:
+        raise ValueError("example_input cannot be empty")
+    
+    if torch.isnan(example_input).any():
+        raise ValueError("example_input contains NaN values")
+    
+    if torch.isinf(example_input).any():
+        raise ValueError("example_input contains infinite values")
+    
+    # Size validation (prevent extremely large models)
+    input_size_mb = (example_input.numel() * example_input.element_size()) / (1024 * 1024)
+    if input_size_mb > 100:  # 100MB input limit
+        raise ValueError(f"Input tensor too large ({input_size_mb:.1f}MB). Maximum 100MB allowed.")
+    
+    # Optimization level validation
     valid_opt_levels = {"O0", "O1", "O2", "O3"}
     if optimization_level not in valid_opt_levels:
         raise ValueError(f"optimization_level must be one of {valid_opt_levels}")
+    
+    # Check model compatibility (basic heuristics)
+    unsupported_modules = _check_unsupported_modules(model)
+    if unsupported_modules:
+        logger.warning(f"Model contains potentially unsupported modules: {unsupported_modules}")
 
 
 def _trace_model(model: nn.Module, example_input: torch.Tensor) -> torch.jit.ScriptModule:
-    """Trace PyTorch model for export."""
+    """Trace PyTorch model for export with robust error handling."""
     try:
+        # Ensure model is in eval mode
+        model.eval()
+        
+        # Try tracing with no_grad context
         with torch.no_grad():
+            # First run a test forward pass to check for errors
+            try:
+                test_output = model(example_input)
+                logger.debug(f"Test forward pass successful. Output shape: {test_output.shape}")
+            except Exception as e:
+                logger.error(f"Model forward pass failed during test: {e}")
+                raise ValueError(f"Model forward pass failed: {e}") from e
+            
+            # Now trace the model
             traced_model = torch.jit.trace(model, example_input)
-        return traced_model
+            
+            # Verify traced model produces same output
+            traced_output = traced_model(example_input)
+            if not torch.allclose(test_output, traced_output, rtol=1e-4, atol=1e-6):
+                logger.warning("Traced model output differs from original. This may indicate tracing issues.")
+            
+            return traced_model
+            
+    except torch.jit.TracingCheckError as e:
+        logger.error(f"Tracing failed due to dynamic behavior in model: {e}")
+        raise ValueError(
+            f"Model contains dynamic behavior that cannot be traced: {e}. "
+            "Consider using torch.jit.script instead of trace, or modify the model."
+        ) from e
+    except RuntimeError as e:
+        logger.error(f"Runtime error during model tracing: {e}")
+        raise ValueError(f"Failed to trace model due to runtime error: {e}") from e
     except Exception as e:
+        logger.error(f"Unexpected error during model tracing: {e}")
         raise ValueError(f"Failed to trace model: {e}") from e
 
 
@@ -584,3 +658,85 @@ def get_custom_operators() -> Dict[str, Any]:
         Dictionary of registered custom operators
     """
     return getattr(register_custom_op, '_custom_ops', {})
+
+
+def _check_unsupported_modules(model: nn.Module) -> List[str]:
+    """Check for potentially unsupported modules in the model.
+    
+    Args:
+        model: PyTorch model to check
+        
+    Returns:
+        List of unsupported module type names
+    """
+    # List of known problematic module types for WASM export
+    potentially_unsupported = {
+        'LSTM', 'GRU', 'RNN',  # RNN modules may have limited support
+        'Transformer', 'MultiheadAttention',  # Complex attention mechanisms
+        'DataParallel', 'DistributedDataParallel',  # Parallel wrappers
+        'LazyLinear', 'LazyConv2d',  # Lazy modules
+        'QuantizedLinear', 'QuantizedConv2d',  # Pre-quantized modules
+    }
+    
+    unsupported_found = []
+    
+    for name, module in model.named_modules():
+        module_type = type(module).__name__
+        if module_type in potentially_unsupported:
+            unsupported_found.append(f"{name} ({module_type})")
+    
+    return unsupported_found
+
+
+def _estimate_compilation_time(model: nn.Module) -> float:
+    """Estimate compilation time based on model complexity.
+    
+    Args:
+        model: PyTorch model
+        
+    Returns:
+        Estimated compilation time in seconds
+    """
+    param_count = sum(p.numel() for p in model.parameters())
+    
+    # Rough estimation based on parameter count
+    # These are heuristic estimates
+    if param_count < 10000:  # Small model
+        return 30
+    elif param_count < 1000000:  # Medium model  
+        return 120
+    elif param_count < 10000000:  # Large model
+        return 300
+    else:  # Very large model
+        return 600
+
+
+def _check_system_requirements() -> Dict[str, bool]:
+    """Check system requirements for WASM compilation.
+    
+    Returns:
+        Dictionary with requirement check results
+    """
+    requirements = {}
+    
+    # Check available memory
+    try:
+        import psutil
+        available_memory_gb = psutil.virtual_memory().available / (1024**3)
+        requirements['sufficient_memory'] = available_memory_gb >= 2.0
+    except ImportError:
+        logger.warning("psutil not available, cannot check memory requirements")
+        requirements['sufficient_memory'] = True  # Assume sufficient
+    
+    # Check disk space
+    try:
+        import shutil
+        free_space_gb = shutil.disk_usage('.').free / (1024**3)
+        requirements['sufficient_disk'] = free_space_gb >= 1.0
+    except Exception:
+        requirements['sufficient_disk'] = True  # Assume sufficient
+    
+    # Check Emscripten availability
+    requirements['emscripten_available'] = _check_emscripten()
+    
+    return requirements
