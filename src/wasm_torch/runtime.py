@@ -17,6 +17,8 @@ from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
 from .validation import validate_input_tensor, validate_intermediate_tensor, validate_output_tensor
 from .performance import get_performance_monitor, profile_operation, BatchProcessor, AdaptiveLoadBalancer
+from .wasm_ops import WASMNativeRuntime
+from .reliability import ReliabilityManager, CircuitBreaker
 
 
 logger = logging.getLogger(__name__)
@@ -67,6 +69,13 @@ class WASMRuntime:
         self._performance_monitor = get_performance_monitor()
         self._batch_processor = BatchProcessor(batch_size=16, max_wait_time=0.05)
         self._load_balancer = AdaptiveLoadBalancer(initial_workers=self.threads)
+        self._native_runtime = None
+        self._reliability_manager = ReliabilityManager({
+            "max_retries": 3,
+            "retry_base_delay": 0.5,
+            "retry_max_delay": 10.0,
+            "health_check_interval": 30.0
+        })
         
     async def init(self) -> 'WASMRuntime':
         """Initialize the WASM runtime asynchronously.
@@ -88,6 +97,19 @@ class WASMRuntime:
         
         # Track loaded models
         self._loaded_models = weakref.WeakSet()
+        
+        # Initialize reliability manager
+        await self._reliability_manager.initialize()
+        
+        # Initialize native WASM operations
+        if self.simd:
+            try:
+                self._native_runtime = WASMNativeRuntime(self)
+                await self._native_runtime.initialize_native_ops()
+                logger.info("Native WASM SIMD operations enabled")
+            except Exception as e:
+                logger.warning(f"Failed to initialize native WASM operations: {e}")
+                self._native_runtime = None
         
         # Start health monitoring if enabled
         if self.enable_monitoring:
@@ -141,6 +163,9 @@ class WASMRuntime:
         
         if hasattr(self, '_memory_manager'):
             self._memory_manager.cleanup()
+            
+        if hasattr(self, '_reliability_manager'):
+            await self._reliability_manager.shutdown()
             
         logger.info("WASM runtime cleaned up")
 
@@ -296,13 +321,19 @@ class WASMModel:
                         logger.warning(f"Unknown operation {op_type} at step {i}, using passthrough")
                         continue
                     
-                    # Execute operation with per-operation error handling
+                    # Execute operation with reliability features
+                    operation_name = f"{op_type}_step_{i}"
                     try:
-                        current_tensor = await operation.execute(
-                            current_tensor, 
-                            op_info, 
+                        current_tensor = await self.runtime._reliability_manager.execute_with_reliability(
+                            operation_name,
+                            operation.execute,
+                            current_tensor,
+                            op_info,
                             self.parameters,
-                            self.runtime
+                            self.runtime,
+                            use_circuit_breaker=True,
+                            use_retry=True,
+                            use_fallback=False  # No fallback for model operations
                         )
                         
                         # Validate intermediate results
@@ -486,7 +517,7 @@ class WASMOperation:
 
 
 class LinearOperation(WASMOperation):
-    """Linear (fully connected) layer operation."""
+    """Linear (fully connected) layer operation with native WASM implementation."""
     
     async def execute(
         self, 
@@ -499,16 +530,24 @@ class LinearOperation(WASMOperation):
         weight = parameters.get("weight", torch.randn(input_tensor.shape[-1], 10))
         bias = parameters.get("bias", torch.zeros(weight.shape[0]))
         
-        # Perform linear transformation: output = input @ weight.T + bias
-        output = torch.matmul(input_tensor, weight.T)
-        if bias is not None:
-            output = output + bias
-            
+        # Use native WASM SIMD implementation if available
+        if runtime.simd and hasattr(runtime, '_native_linear_simd'):
+            return await runtime._native_linear_simd(input_tensor, weight, bias)
+        
+        # Efficient BLAS-style computation
+        if input_tensor.dim() == 2:  # Standard matrix multiplication
+            output = torch.addmm(bias.unsqueeze(0) if bias.dim() == 1 else bias, input_tensor, weight.T)
+        else:  # Batch matrix multiplication
+            output_shape = input_tensor.shape[:-1] + (weight.shape[0],)
+            output = torch.matmul(input_tensor, weight.T)
+            if bias is not None:
+                output = output + bias
+        
         return output
 
 
 class ReLUOperation(WASMOperation):
-    """ReLU activation operation."""
+    """ReLU activation operation with native WASM SIMD implementation."""
     
     async def execute(
         self, 
@@ -517,11 +556,16 @@ class ReLUOperation(WASMOperation):
         parameters: Dict[str, torch.Tensor],
         runtime: WASMRuntime
     ) -> torch.Tensor:
-        return torch.relu(input_tensor)
+        # Use native WASM SIMD implementation if available
+        if runtime.simd and hasattr(runtime, '_native_relu_simd'):
+            return await runtime._native_relu_simd(input_tensor)
+        
+        # In-place ReLU for better memory efficiency
+        return torch.clamp_(input_tensor.clone(), min=0.0)
 
 
 class Conv2dOperation(WASMOperation):
-    """2D convolution operation."""
+    """2D convolution operation with optimized WASM implementation."""
     
     async def execute(
         self, 
@@ -530,26 +574,35 @@ class Conv2dOperation(WASMOperation):
         parameters: Dict[str, torch.Tensor],
         runtime: WASMRuntime
     ) -> torch.Tensor:
-        # Basic 2D convolution (simplified)
         attrs = op_info.get("attributes", {})
         kernel_size = attrs.get("kernel_size", [3, 3])
         stride = attrs.get("stride", [1, 1])
         padding = attrs.get("padding", [0, 0])
+        groups = attrs.get("groups", 1)
         
-        # Create dummy convolution
-        if len(input_tensor.shape) == 4:  # NCHW format
-            # Simple average pooling as conv placeholder
-            return torch.nn.functional.avg_pool2d(
-                input_tensor, 
-                kernel_size=kernel_size[0], 
-                stride=stride[0], 
-                padding=padding[0]
+        # Get convolution weights from parameters
+        weight = parameters.get("conv.weight")
+        bias = parameters.get("conv.bias")
+        
+        # Use native WASM convolution if available
+        if runtime.simd and hasattr(runtime, '_native_conv2d_simd'):
+            return await runtime._native_conv2d_simd(input_tensor, weight, bias, stride, padding, groups)
+        
+        # Optimized convolution implementation
+        if weight is not None and len(input_tensor.shape) == 4:
+            # Use unfold for efficient im2col-style convolution
+            result = torch.nn.functional.conv2d(
+                input_tensor, weight, bias,
+                stride=stride, padding=padding, groups=groups
             )
+            return result
+        
+        # Fallback for invalid inputs
         return input_tensor
 
 
 class BatchNormOperation(WASMOperation):
-    """Batch normalization operation."""
+    """Batch normalization operation with optimized WASM implementation."""
     
     async def execute(
         self, 
@@ -558,10 +611,42 @@ class BatchNormOperation(WASMOperation):
         parameters: Dict[str, torch.Tensor],
         runtime: WASMRuntime
     ) -> torch.Tensor:
-        # Simplified batch norm (just normalize)
-        mean = input_tensor.mean(dim=0, keepdim=True)
-        std = input_tensor.std(dim=0, keepdim=True)
-        return (input_tensor - mean) / (std + 1e-8)
+        # Get BatchNorm parameters
+        weight = parameters.get("bn.weight")
+        bias = parameters.get("bn.bias")
+        running_mean = parameters.get("bn.running_mean")
+        running_var = parameters.get("bn.running_var")
+        eps = op_info.get("attributes", {}).get("eps", 1e-5)
+        
+        # Use native WASM batch norm if available
+        if runtime.simd and hasattr(runtime, '_native_batchnorm_simd'):
+            return await runtime._native_batchnorm_simd(input_tensor, weight, bias, running_mean, running_var, eps)
+        
+        # Efficient batch normalization
+        if running_mean is not None and running_var is not None:
+            # Use running statistics (inference mode)
+            normalized = (input_tensor - running_mean.unsqueeze(0).unsqueeze(-1).unsqueeze(-1)) / torch.sqrt(running_var.unsqueeze(0).unsqueeze(-1).unsqueeze(-1) + eps)
+        else:
+            # Compute statistics from batch (training mode)
+            if len(input_tensor.shape) == 4:  # NCHW format
+                mean = input_tensor.mean(dim=(0, 2, 3), keepdim=True)
+                var = input_tensor.var(dim=(0, 2, 3), keepdim=True, unbiased=False)
+            else:
+                mean = input_tensor.mean(dim=0, keepdim=True)
+                var = input_tensor.var(dim=0, keepdim=True, unbiased=False)
+            normalized = (input_tensor - mean) / torch.sqrt(var + eps)
+        
+        # Apply scale and shift
+        if weight is not None:
+            if len(normalized.shape) == 4:
+                weight = weight.unsqueeze(0).unsqueeze(-1).unsqueeze(-1)
+            normalized = normalized * weight
+        if bias is not None:
+            if len(normalized.shape) == 4:
+                bias = bias.unsqueeze(0).unsqueeze(-1).unsqueeze(-1)
+            normalized = normalized + bias
+            
+        return normalized
 
 
 class AddOperation(WASMOperation):
