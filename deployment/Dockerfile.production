@@ -1,0 +1,101 @@
+# Production Dockerfile for WASM-Torch
+# Multi-stage build for optimized production image
+
+FROM python:3.12-slim as builder
+
+# Install system dependencies for building
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    cmake \
+    git \
+    curl \
+    wget \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Emscripten for WASM compilation
+WORKDIR /opt
+RUN git clone https://github.com/emscripten-core/emsdk.git && \
+    cd emsdk && \
+    ./emsdk install latest && \
+    ./emsdk activate latest
+
+# Set up Python environment
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy source code
+COPY src/ ./src/
+COPY pyproject.toml .
+COPY README.md .
+
+# Build wheel
+RUN pip install build && python -m build
+
+# Production stage
+FROM python:3.12-slim as production
+
+# Create non-root user
+RUN groupadd -r wasm-torch && useradd -r -g wasm-torch -u 1000 wasm-torch
+
+# Install runtime dependencies only
+RUN apt-get update && apt-get install -y \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
+# Install Python packages from builder
+COPY --from=builder /app/dist/*.whl /tmp/
+RUN pip install --no-cache-dir /tmp/*.whl && rm /tmp/*.whl
+
+# Copy Emscripten runtime (minimal)
+COPY --from=builder /opt/emsdk /opt/emsdk
+ENV PATH="/opt/emsdk:/opt/emsdk/upstream/emscripten:${PATH}"
+ENV EMSDK="/opt/emsdk"
+
+# Create application directory structure
+WORKDIR /app
+RUN mkdir -p cache logs tmp config \
+    && chown -R wasm-torch:wasm-torch /app
+
+# Copy application files
+COPY --from=builder /app/src ./src
+COPY deployment/config/production.yaml ./config/
+COPY deployment/scripts/entrypoint.sh ./
+
+# Make entrypoint executable
+RUN chmod +x entrypoint.sh
+
+# Set proper permissions
+RUN chown -R wasm-torch:wasm-torch /app
+
+# Health check script
+COPY deployment/scripts/health-check.py ./health-check.py
+
+# Security settings
+RUN chmod 755 /app && \
+    chmod -R 750 /app/src && \
+    chmod 755 /app/entrypoint.sh /app/health-check.py
+
+# Switch to non-root user
+USER wasm-torch
+
+# Environment variables
+ENV PYTHONPATH=/app/src
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV LOG_LEVEL=INFO
+ENV WORKERS=4
+ENV CONFIG_PATH=/app/config/production.yaml
+
+# Expose ports
+EXPOSE 8080 9090
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=60s --retries=3 \
+    CMD python health-check.py
+
+# Use entrypoint script
+ENTRYPOINT ["./entrypoint.sh"]
+CMD ["serve"]
