@@ -1,0 +1,225 @@
+# WASM-Torch Production Configuration
+# Optimized settings for production deployment
+
+# Performance settings
+performance:
+  # Enable SIMD operations for better performance
+  enable_simd: true
+  
+  # Number of worker threads (auto-detect based on CPU count)
+  threads: 4
+  
+  # Memory limits
+  memory_limit_mb: 512
+  cache_size_mb: 256
+  model_cache_size_mb: 1024
+  
+  # Batch processing settings
+  batch_size: 16
+  max_batch_size: 128
+  batch_timeout_ms: 100
+  
+  # Optimization settings
+  enable_ml_optimization: true
+  adaptive_batch_sizes: true
+  intelligent_caching: true
+  performance_profiling: true
+  
+  # Concurrency settings
+  max_concurrent_requests: 100
+  worker_pool_size: 8
+  io_worker_pool_size: 16
+
+# Security configuration
+security:
+  # Model validation
+  max_model_size_mb: 1000
+  allowed_model_extensions:
+    - ".wasm"
+    - ".pth" 
+    - ".pt"
+    - ".onnx"
+  
+  # Security features
+  enable_model_verification: true
+  enable_input_validation: true
+  enable_output_validation: true
+  log_security_events: true
+  
+  # Rate limiting
+  rate_limit_requests_per_minute: 1000
+  rate_limit_per_ip: 100
+  
+  # Access control
+  enable_cors: true
+  allowed_origins:
+    - "https://app.example.com"
+    - "https://dashboard.example.com"
+  
+  # Encryption
+  encrypt_models: false
+  encrypt_cache: false
+
+# Reliability and resilience
+reliability:
+  # Retry configuration
+  max_retries: 3
+  retry_base_delay: 0.1
+  retry_max_delay: 5.0
+  retry_backoff_multiplier: 2.0
+  
+  # Health monitoring
+  health_check_interval: 30.0
+  health_check_timeout: 10.0
+  
+  # Circuit breaker
+  circuit_breaker_enabled: true
+  circuit_breaker_threshold: 5
+  circuit_breaker_timeout: 60.0
+  
+  # Graceful shutdown
+  shutdown_timeout: 30.0
+  drain_requests_on_shutdown: true
+
+# Monitoring and observability
+monitoring:
+  # Metrics
+  metrics_enabled: true
+  metrics_port: 9090
+  metrics_path: "/metrics"
+  
+  # Tracing
+  tracing_enabled: true
+  tracing_sample_rate: 0.1
+  jaeger_endpoint: "http://jaeger:14268/api/traces"
+  
+  # Logging
+  log_level: "INFO"
+  log_format: "json"
+  log_file: "/app/logs/wasm-torch.log"
+  log_rotation: "daily"
+  log_retention_days: 30
+  
+  # Custom metrics
+  enable_custom_metrics: true
+  histogram_buckets: [0.005, 0.01, 0.025, 0.05, 0.075, 0.1, 0.25, 0.5, 0.75, 1.0, 2.5, 5.0, 7.5, 10.0]
+
+# WASM compilation settings
+wasm:
+  # Compilation options
+  optimization_level: "O3"
+  enable_simd128: true
+  enable_bulk_memory: true
+  enable_mutable_globals: true
+  
+  # Runtime options
+  memory_growth_enabled: true
+  initial_memory_mb: 16
+  maximum_memory_mb: 512
+  stack_size_kb: 64
+  
+  # Compilation caching
+  enable_compilation_cache: true
+  compilation_cache_size_mb: 100
+  compilation_timeout_seconds: 300
+
+# Storage configuration
+storage:
+  # Local storage
+  cache_directory: "/app/cache"
+  logs_directory: "/app/logs"
+  models_directory: "/app/models"
+  temp_directory: "/tmp"
+  
+  # Cache settings
+  cache_backend: "memory"  # Options: memory, redis, filesystem
+  cache_ttl_seconds: 3600
+  cache_cleanup_interval: 300
+  
+  # Model storage
+  model_storage_backend: "filesystem"
+  model_compression: true
+  model_checksum_validation: true
+
+# API configuration
+api:
+  # Server settings
+  host: "0.0.0.0"
+  port: 8080
+  workers: 4
+  
+  # Request handling
+  max_request_size_mb: 100
+  request_timeout_seconds: 300
+  keepalive_timeout_seconds: 5
+  
+  # Documentation
+  enable_docs: false  # Disabled in production
+  docs_url: "/docs"
+  
+  # Middleware
+  enable_gzip: true
+  enable_cors: true
+  enable_security_headers: true
+
+# Development and debugging (disabled in production)
+development:
+  debug_mode: false
+  auto_reload: false
+  profiling_enabled: false
+  detailed_error_responses: false
+
+# Feature flags
+features:
+  # Experimental features
+  enable_experimental_optimizations: false
+  enable_model_quantization: true
+  enable_federated_inference: false
+  enable_streaming_inference: true
+  
+  # Research features
+  enable_adaptive_optimization: true
+  enable_ml_quantization: true
+  enable_advanced_caching: true
+
+# Resource limits
+limits:
+  # CPU limits
+  max_cpu_percent: 80
+  cpu_alert_threshold: 70
+  
+  # Memory limits
+  max_memory_percent: 80
+  memory_alert_threshold: 70
+  
+  # Disk limits
+  max_disk_percent: 85
+  disk_alert_threshold: 75
+  
+  # File limits
+  max_open_files: 1024
+  max_log_file_size_mb: 100
+
+# Environment-specific overrides
+environment: "production"
+
+# External service integrations
+integrations:
+  # Redis (if used)
+  redis:
+    enabled: false
+    url: "redis://redis:6379/0"
+    password: null
+    max_connections: 10
+  
+  # Database (if used)
+  database:
+    enabled: false
+    url: null
+    max_connections: 10
+  
+  # Message queue (if used)
+  message_queue:
+    enabled: false
+    broker_url: null
+    result_backend: null

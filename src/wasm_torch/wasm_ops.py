@@ -329,14 +329,16 @@ EMSCRIPTEN_BINDINGS(wasm_batchnorm_ops) {
                     "-s", "MODULARIZE=1",
                     "-s", "EXPORT_NAME='WASMModule'",
                     "-O3",
-                    "-msimd128",
-                    "-mbulk-memory",
                     "--bind"
                 ]
                 
-                # Add target features
-                for feature in self.target_features:
-                    cmd.extend(["-s", f"WASM_TARGET_FEATURE={feature}"])
+                # Add target features using correct Emscripten flag format
+                if "simd128" in self.target_features:
+                    cmd.extend(["-msimd128"])
+                if "bulk-memory" in self.target_features:
+                    cmd.extend(["-mbulk-memory"])
+                if "mutable-globals" in self.target_features:
+                    cmd.extend(["-mmutable-globals"])
                 
                 logger.info(f"Compiling {op_name} operation to WASM...")
                 result = subprocess.run(cmd, capture_output=True, text=True, cwd=self.temp_dir)

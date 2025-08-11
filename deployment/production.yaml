@@ -1,0 +1,405 @@
+# Production deployment configuration for WASM-Torch
+# Kubernetes deployment with auto-scaling, monitoring, and security
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wasm-torch
+  labels:
+    app: wasm-torch
+    version: v1.0.0
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wasm-torch-config
+  namespace: wasm-torch
+data:
+  config.yaml: |
+    performance:
+      enable_simd: true
+      threads: 4
+      memory_limit_mb: 512
+      cache_size_mb: 256
+      batch_size: 16
+      
+    security:
+      max_model_size_mb: 1000
+      allowed_extensions: [".wasm", ".pth", ".pt", ".onnx"]
+      enable_model_verification: true
+      log_security_events: true
+      
+    reliability:
+      max_retries: 3
+      retry_base_delay: 0.1
+      health_check_interval: 30.0
+      circuit_breaker_threshold: 5
+      
+    monitoring:
+      metrics_enabled: true
+      tracing_enabled: true
+      log_level: INFO
+      prometheus_port: 9090
+      
+    optimization:
+      enable_ml_optimization: true
+      adaptive_batch_sizes: true
+      intelligent_caching: true
+      performance_profiling: true
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: wasm-torch-secrets
+  namespace: wasm-torch
+type: Opaque
+data:
+  # API keys and sensitive configuration (base64 encoded)
+  model_encryption_key: ""  # Generated during deployment
+  monitoring_token: ""      # Generated during deployment
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wasm-torch-api
+  namespace: wasm-torch
+  labels:
+    app: wasm-torch-api
+    version: v1.0.0
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app: wasm-torch-api
+  template:
+    metadata:
+      labels:
+        app: wasm-torch-api
+        version: v1.0.0
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 2000
+      containers:
+      - name: wasm-torch-api
+        image: wasm-torch:1.0.0
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+          name: http
+        - containerPort: 9090
+          name: metrics
+        env:
+        - name: PYTHONPATH
+          value: "/app/src"
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: WORKERS
+          value: "4"
+        - name: CONFIG_PATH
+          value: "/etc/wasm-torch/config.yaml"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/wasm-torch
+        - name: model-cache
+          mountPath: /app/cache
+        - name: tmp-storage
+          mountPath: /tmp
+        resources:
+          requests:
+            cpu: 1
+            memory: 2Gi
+            ephemeral-storage: 1Gi
+          limits:
+            cpu: 4
+            memory: 8Gi
+            ephemeral-storage: 10Gi
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /startup
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 30
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+      volumes:
+      - name: config-volume
+        configMap:
+          name: wasm-torch-config
+      - name: model-cache
+        emptyDir:
+          sizeLimit: 5Gi
+      - name: tmp-storage
+        emptyDir:
+          sizeLimit: 2Gi
+      nodeSelector:
+        node.kubernetes.io/instance-type: "compute-optimized"
+      tolerations:
+      - key: "compute-intensive"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wasm-torch-service
+  namespace: wasm-torch
+  labels:
+    app: wasm-torch-api
+spec:
+  selector:
+    app: wasm-torch-api
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8080
+    protocol: TCP
+  - name: metrics
+    port: 9090
+    targetPort: 9090
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: wasm-torch-hpa
+  namespace: wasm-torch
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: wasm-torch-api
+  minReplicas: 3
+  maxReplicas: 20
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  - type: Pods
+    pods:
+      metric:
+        name: inference_requests_per_second
+      target:
+        type: AverageValue
+        averageValue: "50"
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+      - type: Pods
+        value: 2
+        periodSeconds: 60
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 10
+        periodSeconds: 60
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: wasm-torch-pdb
+  namespace: wasm-torch
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: wasm-torch-api
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: wasm-torch-network-policy
+  namespace: wasm-torch
+spec:
+  podSelector:
+    matchLabels:
+      app: wasm-torch-api
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    ports:
+    - protocol: TCP
+      port: 8080
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    ports:
+    - protocol: TCP
+      port: 9090
+  egress:
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: monitoring
+    ports:
+    - protocol: TCP
+      port: 9090
+
+---
+# Ingress for external access
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wasm-torch-ingress
+  namespace: wasm-torch
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    nginx.ingress.kubernetes.io/rate-limit: "100"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  tls:
+  - hosts:
+    - api.wasm-torch.example.com
+    secretName: wasm-torch-tls
+  rules:
+  - host: api.wasm-torch.example.com
+    http:
+      paths:
+      - path: /(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: wasm-torch-service
+            port:
+              number: 80
+
+---
+# ServiceMonitor for Prometheus monitoring
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: wasm-torch-metrics
+  namespace: wasm-torch
+  labels:
+    app: wasm-torch-api
+spec:
+  selector:
+    matchLabels:
+      app: wasm-torch-api
+  endpoints:
+  - port: metrics
+    interval: 30s
+    path: /metrics
+
+---
+# PrometheusRule for alerting
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: wasm-torch-alerts
+  namespace: wasm-torch
+spec:
+  groups:
+  - name: wasm-torch.rules
+    rules:
+    - alert: WASMTorchHighErrorRate
+      expr: rate(wasm_torch_errors_total[5m]) > 0.1
+      for: 2m
+      labels:
+        severity: warning
+      annotations:
+        summary: High error rate detected
+        description: "Error rate is {{ $value }} errors per second"
+    
+    - alert: WASMTorchHighLatency
+      expr: histogram_quantile(0.95, rate(wasm_torch_request_duration_seconds_bucket[5m])) > 2
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: High latency detected
+        description: "95th percentile latency is {{ $value }}s"
+    
+    - alert: WASMTorchPodCrashLooping
+      expr: rate(kube_pod_container_status_restarts_total{namespace="wasm-torch"}[10m]) > 0.1
+      for: 5m
+      labels:
+        severity: critical
+      annotations:
+        summary: Pod crash looping
+        description: "Pod {{ $labels.pod }} is crash looping"
+    
+    - alert: WASMTorchHighMemoryUsage
+      expr: container_memory_usage_bytes{namespace="wasm-torch"} / container_spec_memory_limit_bytes > 0.9
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: High memory usage
+        description: "Memory usage is {{ $value | humanizePercentage }}"
+    
+    - alert: WASMTorchHighCPUUsage
+      expr: rate(container_cpu_usage_seconds_total{namespace="wasm-torch"}[5m]) > 3
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: High CPU usage
+        description: "CPU usage is {{ $value | humanizePercentage }}"
