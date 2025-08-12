@@ -1,0 +1,17 @@
+{
+  "scan_info": {
+    "timestamp": "2025-08-12T20:59:26+00:00",
+    "project": "WASM Shim for Torch",
+    "version": "0.1.0",
+    "scanner_version": "1.0.0"
+  },
+  "summary": {
+    "total_issues": 0,
+    "critical": 0,
+    "high": 0,
+    "medium": 0,
+    "low": 0,
+    "info": 0
+  },
+  "scans": {}
+}
