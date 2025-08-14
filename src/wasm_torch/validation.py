@@ -270,11 +270,12 @@ def validate_system_resources() -> Dict[str, Any]:
     resources = {
         "sufficient": True,
         "warnings": [],
-        "details": {}
+        "details": {},
+        "recovery_suggestions": []
     }
     
     try:
-        # Memory check
+        # Memory check with adaptive thresholds
         try:
             import psutil
             memory_info = psutil.virtual_memory()
@@ -284,18 +285,24 @@ def validate_system_resources() -> Dict[str, Any]:
             resources["details"]["memory"] = {
                 "total_gb": round(total_gb, 1),
                 "available_gb": round(available_gb, 1),
-                "usage_percent": memory_info.percent
+                "usage_percent": memory_info.percent,
+                "threshold_warning": 2.0,
+                "threshold_critical": 1.0
             }
             
             if available_gb < 2.0:
                 resources["warnings"].append(f"Low memory ({available_gb:.1f}GB available)")
+                resources["recovery_suggestions"].append("Close other applications to free memory")
                 if available_gb < 1.0:
                     resources["sufficient"] = False
+                    resources["recovery_suggestions"].append("Consider using a machine with more RAM")
+            elif available_gb < 4.0:
+                resources["recovery_suggestions"].append("Monitor memory usage during compilation")
                     
         except ImportError:
             resources["warnings"].append("psutil not available, cannot check memory")
         
-        # Disk space check
+        # Disk space check with cleanup suggestions
         try:
             import shutil
             disk_usage = shutil.disk_usage('.')
@@ -303,13 +310,18 @@ def validate_system_resources() -> Dict[str, Any]:
             
             resources["details"]["disk"] = {
                 "free_gb": round(free_gb, 1),
-                "total_gb": round(disk_usage.total / (1024**3), 1)
+                "total_gb": round(disk_usage.total / (1024**3), 1),
+                "usage_percent": round((disk_usage.used / disk_usage.total) * 100, 1)
             }
             
             if free_gb < 2.0:
                 resources["warnings"].append(f"Low disk space ({free_gb:.1f}GB free)")
+                resources["recovery_suggestions"].append("Clean temporary files and caches")
                 if free_gb < 0.5:
                     resources["sufficient"] = False
+                    resources["recovery_suggestions"].append("Free up disk space or use different directory")
+            elif free_gb < 5.0:
+                resources["recovery_suggestions"].append("Monitor disk usage during build process")
                     
         except Exception as e:
             resources["warnings"].append(f"Cannot check disk space: {e}")

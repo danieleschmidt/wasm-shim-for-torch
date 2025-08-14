@@ -1,0 +1,717 @@
+# Global multi-region deployment configuration for WASM Torch
+# Includes auto-scaling, load balancing, and geo-distributed architecture
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: wasm-torch-global
+  labels:
+    app.kubernetes.io/name: wasm-torch
+    app.kubernetes.io/version: "v1.0.0"
+    deployment.type: "global"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wasm-torch-config
+  namespace: wasm-torch-global
+data:
+  config.yaml: |
+    # Global configuration for WASM Torch deployment
+    global:
+      regions:
+        - name: "us-east-1"
+          primary: true
+          endpoint: "us-east.wasm-torch.ai"
+          capacity: 1000
+        - name: "eu-west-1"
+          primary: false
+          endpoint: "eu-west.wasm-torch.ai"
+          capacity: 800
+        - name: "ap-southeast-1"
+          primary: false
+          endpoint: "ap-southeast.wasm-torch.ai"
+          capacity: 600
+    
+    performance:
+      auto_scaling:
+        enabled: true
+        min_replicas: 3
+        max_replicas: 50
+        target_cpu_utilization: 70
+        target_memory_utilization: 80
+        scale_up_pods: 2
+        scale_down_pods: 1
+        stabilization_window_seconds: 300
+      
+      load_balancing:
+        strategy: "geo_aware"
+        health_check_interval: 30
+        unhealthy_threshold: 3
+        healthy_threshold: 2
+        timeout_seconds: 5
+      
+      caching:
+        enabled: true
+        redis_cluster: true
+        cache_size_mb: 2048
+        ttl_seconds: 3600
+        compression: true
+    
+    security:
+      tls:
+        enabled: true
+        cert_manager: true
+        issuer: "letsencrypt-prod"
+      
+      authentication:
+        enabled: true
+        jwt_secret_ref: "wasm-torch-jwt-secret"
+        token_expiry: "24h"
+      
+      rate_limiting:
+        enabled: true
+        requests_per_minute: 1000
+        burst_size: 100
+    
+    monitoring:
+      metrics:
+        enabled: true
+        prometheus: true
+        custom_metrics: true
+        retention_days: 30
+      
+      tracing:
+        enabled: true
+        jaeger: true
+        sample_rate: 0.1
+      
+      logging:
+        level: "INFO"
+        structured: true
+        aggregation: true
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wasm-torch-api
+  namespace: wasm-torch-global
+  labels:
+    app: wasm-torch-api
+    tier: api
+    version: v1
+spec:
+  replicas: 5
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 2
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app: wasm-torch-api
+  template:
+    metadata:
+      labels:
+        app: wasm-torch-api
+        tier: api
+        version: v1
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+        jaeger.io/trace: "true"
+    spec:
+      serviceAccountName: wasm-torch-service-account
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+      - name: wasm-torch-api
+        image: wasm-torch/api:v1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          name: http
+          protocol: TCP
+        - containerPort: 8081
+          name: grpc
+          protocol: TCP
+        - containerPort: 9090
+          name: metrics
+          protocol: TCP
+        env:
+        - name: ENV
+          value: "production"
+        - name: REGION
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.annotations['topology.kubernetes.io/region']
+        - name: POD_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: POD_NAMESPACE
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.namespace
+        - name: JWT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: wasm-torch-jwt-secret
+              key: secret
+        - name: REDIS_URL
+          value: "redis://redis-cluster:6379"
+        - name: JAEGER_AGENT_HOST
+          value: "jaeger-agent.wasm-torch-monitoring.svc.cluster.local"
+        - name: PROMETHEUS_GATEWAY
+          value: "prometheus-pushgateway.wasm-torch-monitoring.svc.cluster.local:9091"
+        livenessProbe:
+          httpGet:
+            path: /health/live
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 2
+        startupProbe:
+          httpGet:
+            path: /health/startup
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 30
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "250m"
+            ephemeral-storage: "1Gi"
+          limits:
+            memory: "2Gi"
+            cpu: "1000m"
+            ephemeral-storage: "5Gi"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /app/config
+          readOnly: true
+        - name: model-cache
+          mountPath: /app/cache/models
+        - name: tmp-volume
+          mountPath: /tmp
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+      - name: wasm-runtime
+        image: wasm-torch/runtime:v1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8082
+          name: runtime
+          protocol: TCP
+        env:
+        - name: SIMD_ENABLED
+          value: "true"
+        - name: THREADS_MAX
+          value: "4"
+        - name: MEMORY_LIMIT_MB
+          value: "1024"
+        - name: CACHE_SIZE_MB
+          value: "512"
+        resources:
+          requests:
+            memory: "1Gi"
+            cpu: "500m"
+          limits:
+            memory: "4Gi"
+            cpu: "2000m"
+        volumeMounts:
+        - name: wasm-modules
+          mountPath: /app/wasm
+        - name: tmp-volume
+          mountPath: /tmp
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+      volumes:
+      - name: config-volume
+        configMap:
+          name: wasm-torch-config
+      - name: model-cache
+        emptyDir:
+          sizeLimit: 10Gi
+      - name: wasm-modules
+        emptyDir:
+          sizeLimit: 5Gi
+      - name: tmp-volume
+        emptyDir:
+          sizeLimit: 1Gi
+      nodeSelector:
+        kubernetes.io/arch: amd64
+      tolerations:
+      - key: "high-performance"
+        operator: "Equal"
+        value: "true"
+        effect: "NoSchedule"
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchExpressions:
+                - key: app
+                  operator: In
+                  values:
+                  - wasm-torch-api
+              topologyKey: kubernetes.io/hostname
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            preference:
+              matchExpressions:
+              - key: node-type
+                operator: In
+                values:
+                - compute-optimized
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wasm-torch-api
+  namespace: wasm-torch-global
+  labels:
+    app: wasm-torch-api
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-type: "nlb"
+    service.beta.kubernetes.io/aws-load-balancer-cross-zone-load-balancing-enabled: "true"
+    service.beta.kubernetes.io/aws-load-balancer-backend-protocol: "tcp"
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  - port: 443
+    targetPort: 8080
+    protocol: TCP
+    name: https
+  - port: 8081
+    targetPort: 8081
+    protocol: TCP
+    name: grpc
+  selector:
+    app: wasm-torch-api
+  sessionAffinity: ClientIP
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 300
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: wasm-torch-api-hpa
+  namespace: wasm-torch-global
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: wasm-torch-api
+  minReplicas: 3
+  maxReplicas: 50
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+  - type: Pods
+    pods:
+      metric:
+        name: custom_requests_per_second
+      target:
+        type: AverageValue
+        averageValue: "30"
+  behavior:
+    scaleUp:
+      stabilizationWindowSeconds: 60
+      policies:
+      - type: Percent
+        value: 50
+        periodSeconds: 60
+      - type: Pods
+        value: 2
+        periodSeconds: 60
+      selectPolicy: Max
+    scaleDown:
+      stabilizationWindowSeconds: 300
+      policies:
+      - type: Percent
+        value: 10
+        periodSeconds: 60
+      - type: Pods
+        value: 1
+        periodSeconds: 60
+      selectPolicy: Min
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: wasm-torch-api-pdb
+  namespace: wasm-torch-global
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: wasm-torch-api
+
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: wasm-torch-api-network-policy
+  namespace: wasm-torch-global
+spec:
+  podSelector:
+    matchLabels:
+      app: wasm-torch-api
+  policyTypes:
+  - Ingress
+  - Egress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          name: wasm-torch-monitoring
+    - namespaceSelector:
+        matchLabels:
+          name: ingress-nginx
+    - podSelector:
+        matchLabels:
+          app: wasm-torch-gateway
+    ports:
+    - protocol: TCP
+      port: 8080
+    - protocol: TCP
+      port: 8081
+    - protocol: TCP
+      port: 9090
+  egress:
+  - to:
+    - namespaceSelector:
+        matchLabels:
+          name: wasm-torch-monitoring
+    - podSelector:
+        matchLabels:
+          app: redis
+    - podSelector:
+        matchLabels:
+          app: jaeger
+    ports:
+    - protocol: TCP
+      port: 6379
+    - protocol: TCP
+      port: 14268
+    - protocol: UDP
+      port: 6831
+  - to: []
+    ports:
+    - protocol: TCP
+      port: 53
+    - protocol: UDP
+      port: 53
+    - protocol: TCP
+      port: 443
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: wasm-torch-service-account
+  namespace: wasm-torch-global
+automountServiceAccountToken: true
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: wasm-torch-role
+  namespace: wasm-torch-global
+rules:
+- apiGroups: [""]
+  resources: ["configmaps", "secrets"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list", "watch"]
+- apiGroups: ["apps"]
+  resources: ["deployments"]
+  verbs: ["get", "list", "watch", "patch"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: wasm-torch-role-binding
+  namespace: wasm-torch-global
+subjects:
+- kind: ServiceAccount
+  name: wasm-torch-service-account
+  namespace: wasm-torch-global
+roleRef:
+  kind: Role
+  name: wasm-torch-role
+  apiGroup: rbac.authorization.k8s.io
+
+---
+# Redis cluster for distributed caching
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: redis-cluster
+  namespace: wasm-torch-global
+spec:
+  serviceName: redis-cluster
+  replicas: 6
+  selector:
+    matchLabels:
+      app: redis-cluster
+  template:
+    metadata:
+      labels:
+        app: redis-cluster
+    spec:
+      containers:
+      - name: redis
+        image: redis:7-alpine
+        ports:
+        - containerPort: 6379
+          name: client
+        - containerPort: 16379
+          name: cluster
+        command:
+        - redis-server
+        args:
+        - /conf/redis.conf
+        volumeMounts:
+        - name: conf
+          mountPath: /conf
+        - name: data
+          mountPath: /data
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+      volumes:
+      - name: conf
+        configMap:
+          name: redis-config
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes:
+      - ReadWriteOnce
+      resources:
+        requests:
+          storage: 10Gi
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-config
+  namespace: wasm-torch-global
+data:
+  redis.conf: |
+    cluster-enabled yes
+    cluster-require-full-coverage no
+    cluster-node-timeout 15000
+    cluster-config-file nodes.conf
+    cluster-migration-barrier 1
+    appendonly yes
+    protected-mode no
+    port 6379
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis-cluster
+  namespace: wasm-torch-global
+spec:
+  type: ClusterIP
+  clusterIP: None
+  ports:
+  - port: 6379
+    targetPort: 6379
+    name: client
+  - port: 16379
+    targetPort: 16379
+    name: cluster
+  selector:
+    app: redis-cluster
+
+---
+# Ingress configuration with TLS and global load balancing
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wasm-torch-ingress
+  namespace: wasm-torch-global
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*"
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
+    nginx.ingress.kubernetes.io/rate-limit: "1000"
+    nginx.ingress.kubernetes.io/rate-limit-window: "1m"
+    nginx.ingress.kubernetes.io/proxy-body-size: "100m"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "300"
+spec:
+  tls:
+  - hosts:
+    - api.wasm-torch.ai
+    - us-east.wasm-torch.ai
+    - eu-west.wasm-torch.ai
+    - ap-southeast.wasm-torch.ai
+    secretName: wasm-torch-tls
+  rules:
+  - host: api.wasm-torch.ai
+    http:
+      paths:
+      - path: /api(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: wasm-torch-api
+            port:
+              number: 80
+  - host: us-east.wasm-torch.ai
+    http:
+      paths:
+      - path: /api(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: wasm-torch-api
+            port:
+              number: 80
+  - host: eu-west.wasm-torch.ai
+    http:
+      paths:
+      - path: /api(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: wasm-torch-api
+            port:
+              number: 80
+  - host: ap-southeast.wasm-torch.ai
+    http:
+      paths:
+      - path: /api(/|$)(.*)
+        pathType: Prefix
+        backend:
+          service:
+            name: wasm-torch-api
+            port:
+              number: 80
+
+---
+# Certificate issuer for TLS
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: letsencrypt-prod
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: admin@wasm-torch.ai
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+    - http01:
+        ingress:
+          class: nginx
+
+---
+# Secrets for JWT and other sensitive data
+apiVersion: v1
+kind: Secret
+metadata:
+  name: wasm-torch-jwt-secret
+  namespace: wasm-torch-global
+type: Opaque
+data:
+  secret: <base64-encoded-jwt-secret>  # Replace with actual secret
+
+---
+# ConfigMap for additional application configuration
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wasm-torch-app-config
+  namespace: wasm-torch-global
+data:
+  app.properties: |
+    # Application-specific configuration
+    wasm.runtime.simd.enabled=true
+    wasm.runtime.threads.max=4
+    wasm.runtime.memory.limit=1024
+    wasm.cache.size=512
+    wasm.cache.ttl=3600
+    
+    # Performance tuning
+    gc.max_heap_size=2g
+    gc.parallel_threads=4
+    
+    # Monitoring
+    metrics.enabled=true
+    metrics.interval=30
+    tracing.enabled=true
+    tracing.sample_rate=0.1
+    
+    # Security
+    auth.enabled=true
+    auth.jwt.expiry=86400
+    rate_limit.enabled=true
+    rate_limit.rpm=1000
