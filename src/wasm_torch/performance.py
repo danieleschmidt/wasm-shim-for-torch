@@ -17,7 +17,7 @@ T = TypeVar('T')
 
 @dataclass
 class PerformanceStats:
-    """Performance statistics and metrics."""
+    """Enhanced performance statistics and metrics."""
     operation_count: int = 0
     total_execution_time: float = 0.0
     average_execution_time: float = 0.0
@@ -30,17 +30,28 @@ class PerformanceStats:
     memory_pool_misses: int = 0
     concurrent_operations: int = 0
     peak_concurrent_operations: int = 0
+    throughput_ops_per_second: float = 0.0
+    p95_latency: float = 0.0
+    p99_latency: float = 0.0
+    error_rate: float = 0.0
+    recent_latencies: List[float] = field(default_factory=list)
+    adaptive_batch_size: int = 1
+    optimization_score: float = 0.0
 
 
 class LRUCache(Generic[T]):
-    """Thread-safe LRU cache with performance monitoring."""
+    """Advanced thread-safe LRU cache with predictive pre-loading."""
     
-    def __init__(self, max_size: int = 128):
+    def __init__(self, max_size: int = 128, enable_prediction: bool = True):
         self.max_size = max_size
         self.cache: OrderedDict[str, T] = OrderedDict()
         self.lock = threading.RLock()
         self.hits = 0
         self.misses = 0
+        self.access_patterns: Dict[str, List[float]] = {}
+        self.enable_prediction = enable_prediction
+        self.prediction_threshold = 0.8
+        self.preload_callbacks: Dict[str, Callable] = {}
         
     def get(self, key: str) -> Optional[T]:
         """Get item from cache."""

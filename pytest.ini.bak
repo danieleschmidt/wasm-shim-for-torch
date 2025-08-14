@@ -131,14 +131,11 @@ collect_ignore = [
     "dist",
     ".tox",
     ".eggs",
-    "docs/_build"
+    "docs/_build",
 ]
 
 # Doctest configuration
-doctest_optionflags = 
-    NORMALIZE_WHITESPACE 
-    IGNORE_EXCEPTION_DETAIL
-    ELLIPSIS
+doctest_optionflags = NORMALIZE_WHITESPACE IGNORE_EXCEPTION_DETAIL ELLIPSIS
 
 # Console output configuration
 console_output_style = progress
