@@ -1,0 +1,222 @@
+{
+  "timestamp": 1755270486.431394,
+  "test_suite": "Basic WASM-Torch Test Suite",
+  "version": "1.0.0",
+  "summary": {
+    "total_tests": 8,
+    "passed_tests": 5,
+    "failed_tests": 3,
+    "pass_rate": "62.50%",
+    "total_execution_time": "0.23s",
+    "avg_execution_time": "0.028s"
+  },
+  "categories": {
+    "module": {
+      "total": 1,
+      "passed": 0
+    },
+    "mock": {
+      "total": 1,
+      "passed": 0
+    },
+    "core": {
+      "total": 1,
+      "passed": 1
+    },
+    "configuration": {
+      "total": 1,
+      "passed": 1
+    },
+    "basic": {
+      "total": 1,
+      "passed": 1
+    },
+    "error": {
+      "total": 1,
+      "passed": 1
+    },
+    "performance": {
+      "total": 1,
+      "passed": 1
+    },
+    "integration": {
+      "total": 1,
+      "passed": 0
+    }
+  },
+  "detailed_results": [
+    {
+      "test_name": "module_imports",
+      "passed": false,
+      "execution_time": "0.114s",
+      "error_message": "'MockNumpy' object has no attribute 'ndarray'",
+      "metrics": {}
+    },
+    {
+      "test_name": "mock_pytorch",
+      "passed": false,
+      "execution_time": "0.001s",
+      "error_message": "No module named 'numpy'",
+      "metrics": {}
+    },
+    {
+      "test_name": "core_systems",
+      "passed": true,
+      "execution_time": "0.006s",
+      "error_message": null,
+      "metrics": {
+        "initialized_systems": [
+          "error_recovery",
+          "validation",
+          "scaling"
+        ],
+        "system_count": 3
+      }
+    },
+    {
+      "test_name": "configuration",
+      "passed": true,
+      "execution_time": "0.000s",
+      "error_message": null,
+      "metrics": {
+        "config_keys": [
+          "model_path",
+          "batch_size",
+          "optimization_level",
+          "use_simd",
+          "use_threads",
+          "memory_limit_mb"
+        ],
+        "config_valid": true
+      }
+    },
+    {
+      "test_name": "basic_validation",
+      "passed": true,
+      "execution_time": "0.000s",
+      "error_message": null,
+      "metrics": {
+        "validation_tests": [
+          [
+            "safe_path",
+            true
+          ],
+          [
+            "safe_path",
+            true
+          ],
+          [
+            "safe_path",
+            true
+          ],
+          [
+            "unsafe_path_detected",
+            true
+          ],
+          [
+            "unsafe_path_detected",
+            true
+          ],
+          [
+            "input_valid",
+            true
+          ],
+          [
+            "input_valid",
+            true
+          ],
+          [
+            "input_valid",
+            true
+          ],
+          [
+            "input_valid",
+            true
+          ],
+          [
+            "resource_limit_valid",
+            true
+          ],
+          [
+            "resource_limit_valid",
+            true
+          ],
+          [
+            "resource_limit_valid",
+            true
+          ]
+        ],
+        "passed_validations": 12,
+        "validation_rate": 1.0
+      }
+    },
+    {
+      "test_name": "error_handling",
+      "passed": true,
+      "execution_time": "0.101s",
+      "error_message": null,
+      "metrics": {
+        "error_scenarios": [
+          [
+            "exception_caught",
+            true
+          ],
+          [
+            "recovery_ValueError",
+            true
+          ],
+          [
+            "recovery_RuntimeError",
+            true
+          ],
+          [
+            "recovery_CustomError",
+            true
+          ],
+          [
+            "timeout_handling",
+            true
+          ]
+        ],
+        "passed_scenarios": 5
+      }
+    },
+    {
+      "test_name": "performance",
+      "passed": true,
+      "execution_time": "0.003s",
+      "error_message": null,
+      "metrics": {
+        "performance_tests": [
+          [
+            "computation_speed",
+            true
+          ],
+          [
+            "memory_allocation",
+            true
+          ],
+          [
+            "async_performance",
+            true
+          ],
+          [
+            "cache_performance",
+            true
+          ]
+        ],
+        "computation_time": 0.00013303756713867188,
+        "memory_time": 0.0008590221405029297,
+        "async_time": 0.0017266273498535156,
+        "cache_time": 0.00013113021850585938
+      }
+    },
+    {
+      "test_name": "integration",
+      "passed": false,
+      "execution_time": "0.001s",
+      "error_message": "No module named 'numpy'",
+      "metrics": {}
+    }
+  ]
+}
