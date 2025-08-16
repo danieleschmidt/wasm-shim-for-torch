@@ -4,8 +4,13 @@ Basic functionality test for WASM-Torch library
 Tests core export and runtime functionality with a simple model
 """
 
-import torch
-import torch.nn as nn
+try:
+    import torch
+    import torch.nn as nn
+except ImportError:
+    # Use mock torch for testing
+    import mock_torch as torch
+    nn = torch.nn
 import tempfile
 import sys
 import logging

@@ -1,0 +1,137 @@
+{
+  "total_tests": 8,
+  "passed_tests": 1,
+  "failed_tests": 7,
+  "test_details": [
+    {
+      "category": "Core Export System",
+      "passed": true,
+      "tests_run": 3,
+      "message": "Core export system handles missing dependencies gracefully",
+      "error": "",
+      "metrics": {},
+      "performance_metrics": {},
+      "security_metrics": {},
+      "compliance_summary": {},
+      "integration_metrics": {}
+    },
+    {
+      "category": "Autonomous Inference Pipeline",
+      "passed": false,
+      "tests_run": 1,
+      "message": "",
+      "error": "No module named 'numpy'",
+      "metrics": {},
+      "performance_metrics": {},
+      "security_metrics": {},
+      "compliance_summary": {},
+      "integration_metrics": {}
+    },
+    {
+      "category": "Quantum Optimization Engine",
+      "passed": false,
+      "tests_run": 1,
+      "message": "",
+      "error": "No module named 'numpy'",
+      "metrics": {},
+      "performance_metrics": {},
+      "security_metrics": {},
+      "compliance_summary": {},
+      "integration_metrics": {}
+    },
+    {
+      "category": "Planetary Deployment Engine",
+      "passed": false,
+      "tests_run": 1,
+      "message": "",
+      "error": "No module named 'numpy'",
+      "metrics": {},
+      "performance_metrics": {},
+      "security_metrics": {},
+      "compliance_summary": {},
+      "integration_metrics": {}
+    },
+    {
+      "category": "Performance Benchmarks",
+      "passed": false,
+      "tests_run": 1,
+      "message": "",
+      "error": "name 'np' is not defined",
+      "metrics": {},
+      "performance_metrics": {},
+      "security_metrics": {},
+      "compliance_summary": {},
+      "integration_metrics": {}
+    },
+    {
+      "category": "Security Validation",
+      "passed": false,
+      "tests_run": 1,
+      "message": "",
+      "error": "Dangerous path accepted: ..\\..\\windows\\system32",
+      "metrics": {},
+      "performance_metrics": {},
+      "security_metrics": {},
+      "compliance_summary": {},
+      "integration_metrics": {}
+    },
+    {
+      "category": "Compliance Engine",
+      "passed": false,
+      "tests_run": 1,
+      "message": "",
+      "error": "No module named 'numpy'",
+      "metrics": {},
+      "performance_metrics": {},
+      "security_metrics": {},
+      "compliance_summary": {},
+      "integration_metrics": {}
+    },
+    {
+      "category": "Integration Tests",
+      "passed": false,
+      "tests_run": 1,
+      "message": "",
+      "error": "No module named 'numpy'",
+      "metrics": {},
+      "performance_metrics": {},
+      "security_metrics": {},
+      "compliance_summary": {},
+      "integration_metrics": {}
+    }
+  ],
+  "performance_metrics": {
+    "total_execution_time": 0.15697598457336426,
+    "average_test_time": 0.019621998071670532,
+    "performance_benchmarks": {},
+    "resource_usage": {},
+    "scalability_metrics": {}
+  },
+  "coverage_analysis": {
+    "coverage_percentage": 12.5,
+    "covered_areas": [
+      "Core Export System"
+    ],
+    "uncovered_areas": [
+      "Autonomous Pipeline",
+      "Quantum Optimization",
+      "Planetary Deployment",
+      "Performance Benchmarks",
+      "Security Features",
+      "Compliance Engine",
+      "Integration Scenarios"
+    ],
+    "detailed_coverage": {
+      "Core Export System": true,
+      "Autonomous Pipeline": false,
+      "Quantum Optimization": false,
+      "Planetary Deployment": false,
+      "Performance Benchmarks": false,
+      "Security Features": false,
+      "Compliance Engine": false,
+      "Integration Scenarios": false
+    }
+  },
+  "total_execution_time": 0.15697598457336426,
+  "success_rate": 0.125
+}
