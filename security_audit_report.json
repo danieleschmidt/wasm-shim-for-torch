@@ -1,0 +1,5652 @@
+{
+  "scan_timestamp": 1755376814.6333501,
+  "total_files_scanned": 69,
+  "vulnerabilities": [
+    {
+      "type": "code_injection",
+      "file": "mock_torch.py",
+      "line": 57,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_basic_tests.py",
+      "line": 308,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_basic_tests.py",
+      "line": 308,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_basic_tests.py",
+      "line": 308,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_basic_tests.py",
+      "line": 308,
+      "pattern": "\\.\\.\\\\",
+      "matched_text": "..\\",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "code_injection",
+      "file": "run_comprehensive_tests.py",
+      "line": 124,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "run_comprehensive_tests.py",
+      "line": 322,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "run_comprehensive_tests.py",
+      "line": 409,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "run_enhanced_tests.py",
+      "line": 444,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_enhanced_tests.py",
+      "line": 259,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_enhanced_tests.py",
+      "line": 259,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_enhanced_tests.py",
+      "line": 259,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_quantum_tests.py",
+      "line": 300,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_quantum_tests.py",
+      "line": 300,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_quantum_tests.py",
+      "line": 300,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_quantum_tests.py",
+      "line": 339,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_quantum_tests.py",
+      "line": 339,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_quantum_tests.py",
+      "line": 339,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_quantum_tests.py",
+      "line": 935,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_quantum_tests.py",
+      "line": 935,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_quantum_tests.py",
+      "line": 935,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_quantum_tests.py",
+      "line": 301,
+      "pattern": "\\.\\.\\\\",
+      "matched_text": "..\\",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "code_injection",
+      "file": "security_audit.py",
+      "line": 445,
+      "pattern": "__import__\\s*\\(",
+      "matched_text": "__import__(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "test_basic_functionality.py",
+      "line": 56,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 456,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 456,
+      "pattern": "exec\\s*\\(",
+      "matched_text": "exec(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 505,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 505,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 505,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 505,
+      "pattern": "\\.\\.\\\\",
+      "matched_text": "..\\",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 505,
+      "pattern": "\\.\\.\\\\",
+      "matched_text": "..\\",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 735,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 736,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 737,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_dependency_free_tests.py",
+      "line": 271,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_dependency_free_tests.py",
+      "line": 292,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_dependency_free_tests.py",
+      "line": 271,
+      "pattern": "\\.\\.\\\\",
+      "matched_text": "..\\",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_dependency_free_tests.py",
+      "line": 292,
+      "pattern": "\\.\\.\\\\",
+      "matched_text": "..\\",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "sql_injection",
+      "file": "run_security_audit.py",
+      "line": 42,
+      "pattern": "SELECT.*\\+.*",
+      "matched_text": "SELECT.*\\+.*\",",
+      "severity": "high",
+      "description": "Potential SQL injection vulnerability through string concatenation"
+    },
+    {
+      "type": "sql_injection",
+      "file": "run_security_audit.py",
+      "line": 43,
+      "pattern": "INSERT.*\\+.*",
+      "matched_text": "INSERT.*\\+.*\",",
+      "severity": "high",
+      "description": "Potential SQL injection vulnerability through string concatenation"
+    },
+    {
+      "type": "sql_injection",
+      "file": "run_security_audit.py",
+      "line": 44,
+      "pattern": "UPDATE.*\\+.*",
+      "matched_text": "UPDATE.*\\+.*\",",
+      "severity": "high",
+      "description": "Potential SQL injection vulnerability through string concatenation"
+    },
+    {
+      "type": "sql_injection",
+      "file": "run_security_audit.py",
+      "line": 45,
+      "pattern": "DELETE.*\\+.*",
+      "matched_text": "DELETE.*\\+.*\",",
+      "severity": "high",
+      "description": "Potential SQL injection vulnerability through string concatenation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_security_audit.py",
+      "line": 61,
+      "pattern": "%2e%2e%2f",
+      "matched_text": "%2e%2e%2f",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "run_security_audit.py",
+      "line": 62,
+      "pattern": "%2e%2e%5c",
+      "matched_text": "%2e%2e%5c",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "code_injection",
+      "file": "examples/basic_export.py",
+      "line": 46,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "examples/simple_model_example.py",
+      "line": 64,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "tests/test_export.py",
+      "line": 68,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "tests/test_export_comprehensive.py",
+      "line": 60,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "tests/test_export_comprehensive.py",
+      "line": 138,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "tests/test_export_comprehensive.py",
+      "line": 191,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "tests/test_export_comprehensive.py",
+      "line": 369,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "tests/test_export_comprehensive.py",
+      "line": 410,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "tests/test_integration.py",
+      "line": 67,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "path_traversal",
+      "file": "tests/test_validation.py",
+      "line": 114,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "tests/test_validation.py",
+      "line": 114,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "tests/test_validation.py",
+      "line": 114,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "code_injection",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 43,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 112,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 168,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 302,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 318,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 342,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/autonomous_scaling_system.py",
+      "line": 43,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/autonomous_scaling_system.py",
+      "line": 44,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/autonomous_scaling_system.py",
+      "line": 52,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/autonomous_scaling_system.py",
+      "line": 53,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 277,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 299,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 321,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 343,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 365,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 388,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 410,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 432,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 454,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 620,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 672,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 726,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 777,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 304,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 414,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 554,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 646,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 609,
+      "pattern": "random\\.choice\\(",
+      "matched_text": "random.choice(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 913,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 913,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 913,
+      "pattern": "\\.\\./",
+      "matched_text": "../",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "path_traversal",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 295,
+      "pattern": "%2e%2e%2f",
+      "matched_text": "%2e%2e%2f",
+      "severity": "high",
+      "description": "Path traversal vulnerability allowing directory navigation"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/export.py",
+      "line": 47,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/export.py",
+      "line": 109,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/export.py",
+      "line": 149,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 365,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 426,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 1065,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/optimize.py",
+      "line": 43,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/optimize.py",
+      "line": 83,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/optimize.py",
+      "line": 192,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 389,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 418,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 434,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 435,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 436,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 437,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 438,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 715,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 720,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 725,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 730,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 737,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 738,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 766,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 812,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1023,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1065,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 423,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/production_reliability.py",
+      "line": 451,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/production_reliability.py",
+      "line": 813,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/production_reliability.py",
+      "line": 821,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/production_reliability.py",
+      "line": 864,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/production_reliability.py",
+      "line": 814,
+      "pattern": "random\\.choice\\(",
+      "matched_text": "random.choice(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/production_reliability.py",
+      "line": 822,
+      "pattern": "random\\.choice\\(",
+      "matched_text": "random.choice(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_leap_features.py",
+      "line": 158,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_leap_features.py",
+      "line": 166,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 28,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 30,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 32,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 258,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 805,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 977,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 983,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 1033,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 1119,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 1132,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 106,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 107,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 930,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 1098,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 1134,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 101,
+      "pattern": "random\\.choice\\(",
+      "matched_text": "random.choice(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 934,
+      "pattern": "random\\.choice\\(",
+      "matched_text": "random.choice(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 971,
+      "pattern": "random\\.choice\\(",
+      "matched_text": "random.choice(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 972,
+      "pattern": "random\\.choice\\(",
+      "matched_text": "random.choice(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 1094,
+      "pattern": "random\\.choice\\(",
+      "matched_text": "random.choice(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/reliability.py",
+      "line": 172,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/security.py",
+      "line": 440,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/security.py",
+      "line": 452,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/security.py",
+      "line": 440,
+      "pattern": "exec\\s*\\(",
+      "matched_text": "exec(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/security.py",
+      "line": 452,
+      "pattern": "exec\\s*\\(",
+      "matched_text": "exec(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/torch_free_modules.py",
+      "line": 257,
+      "pattern": "__import__\\s*\\(",
+      "matched_text": "__import__(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/torch_free_modules.py",
+      "line": 257,
+      "pattern": "__import__\\s*\\(",
+      "matched_text": "__import__(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/validation.py",
+      "line": 225,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/autonomous_inference_pipeline.py",
+      "line": 378,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "sql_injection",
+      "file": "src/wasm_torch/quantum_enhanced_optimization.py",
+      "line": 401,
+      "pattern": "SELECT.*\\+.*",
+      "matched_text": "selected_state.amplitudes + \\",
+      "severity": "high",
+      "description": "Potential SQL injection vulnerability through string concatenation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_enhanced_optimization.py",
+      "line": 391,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/quantum_enhanced_optimization.py",
+      "line": 197,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/planetary_scale_deployment.py",
+      "line": 751,
+      "pattern": "random\\.choice\\(",
+      "matched_text": "random.choice(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 238,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 111,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 112,
+      "pattern": "random\\.randint\\(",
+      "matched_text": "random.randint(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 167,
+      "pattern": "random\\.choice\\(",
+      "matched_text": "random.choice(",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/research/federated_inference.py",
+      "line": 532,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/research/ml_quantizer.py",
+      "line": 93,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/research/ml_quantizer.py",
+      "line": 120,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/research/ml_quantizer.py",
+      "line": 282,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/research/ml_quantizer.py",
+      "line": 382,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/research/ml_quantizer.py",
+      "line": 383,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "code_injection",
+      "file": "src/wasm_torch/research/streaming_pipeline.py",
+      "line": 535,
+      "pattern": "eval\\s*\\(",
+      "matched_text": "eval(",
+      "severity": "critical",
+      "description": "Code injection vulnerability through dynamic execution"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/webgpu/gpu_runtime.py",
+      "line": 448,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/webgpu/gpu_runtime.py",
+      "line": 467,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/webgpu/gpu_runtime.py",
+      "line": 468,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/webgpu/gpu_runtime.py",
+      "line": 516,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/webgpu/gpu_runtime.py",
+      "line": 534,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    },
+    {
+      "type": "insecure_random",
+      "file": "src/wasm_torch/webgpu/gpu_runtime.py",
+      "line": 535,
+      "pattern": "random\\.random\\(\\)",
+      "matched_text": "random.random()",
+      "severity": "medium",
+      "description": "Use of insecure random number generation"
+    }
+  ],
+  "security_score": 0.0,
+  "compliance_status": {},
+  "recommendations": [
+    "Implement comprehensive input validation for all user inputs",
+    "Use parameterized queries to prevent SQL injection",
+    "Implement proper error handling without information disclosure",
+    "Use strong cryptographic algorithms (AES-256, SHA-256 or better)",
+    "Implement proper authentication and authorization mechanisms",
+    "Use secure random number generation for cryptographic purposes",
+    "Regularly update dependencies to patch known vulnerabilities",
+    "Implement comprehensive logging without sensitive data exposure",
+    "Use environment variables for configuration secrets",
+    "Implement rate limiting and DoS protection",
+    "CRITICAL: Remove all dynamic code execution (eval, exec)",
+    "HIGH: Review and strengthen cryptographic implementations",
+    "MEDIUM: Implement comprehensive input validation"
+  ],
+  "file_security_issues": [
+    {
+      "type": "file_permissions",
+      "file": "security_audit.py",
+      "issue": "Executable Python file (potential security risk)",
+      "mode": "755",
+      "severity": "low"
+    },
+    {
+      "type": "file_permissions",
+      "file": "scripts/generate-sbom.py",
+      "issue": "Executable Python file (potential security risk)",
+      "mode": "755",
+      "severity": "low"
+    },
+    {
+      "type": "sensitive_files",
+      "file": ".env.example",
+      "issue": "Potentially sensitive file in repository",
+      "pattern": ".env.*",
+      "severity": "high"
+    },
+    {
+      "type": "sensitive_files",
+      "file": ".env.production",
+      "issue": "Potentially sensitive file in repository",
+      "pattern": ".env.*",
+      "severity": "high"
+    }
+  ],
+  "configuration_issues": [
+    {
+      "type": "configuration_security",
+      "file": "docker-compose.prod.yml",
+      "issue": "Configuration contains sensitive keyword: password",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "docker-compose.prod.yml",
+      "issue": "Configuration contains sensitive keyword: secret",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "docker-compose.prod.yml",
+      "issue": "Configuration contains sensitive keyword: cert",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "docker-compose.yml",
+      "issue": "Configuration contains sensitive keyword: password",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "docker-compose.yml",
+      "issue": "Configuration contains sensitive keyword: cert",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "k8s-deployment.yml",
+      "issue": "Configuration contains sensitive keyword: password",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "k8s-deployment.yml",
+      "issue": "Configuration contains sensitive keyword: secret",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "k8s-deployment.yml",
+      "issue": "Configuration contains sensitive keyword: key",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "k8s-deployment.yml",
+      "issue": "Configuration contains sensitive keyword: api_key",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": ".devcontainer/docker-compose.yml",
+      "issue": "Configuration contains sensitive keyword: password",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "deployment/docker-compose.production.yml",
+      "issue": "Configuration contains sensitive keyword: password",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "monitoring/prometheus.yml",
+      "issue": "Configuration contains sensitive keyword: password",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "monitoring/prometheus.yml",
+      "issue": "Configuration contains sensitive keyword: secret",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "monitoring/prometheus.yml",
+      "issue": "Configuration contains sensitive keyword: token",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "monitoring/prometheus.yml",
+      "issue": "Configuration contains sensitive keyword: auth",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": ".terragon/config.yaml",
+      "issue": "Configuration contains sensitive keyword: key",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "deployment/advanced-monitoring.yaml",
+      "issue": "Configuration contains sensitive keyword: password",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "deployment/advanced-monitoring.yaml",
+      "issue": "Configuration contains sensitive keyword: auth",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "deployment/global-deployment.yaml",
+      "issue": "Configuration contains sensitive keyword: secret",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "deployment/global-deployment.yaml",
+      "issue": "Configuration contains sensitive keyword: key",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "deployment/global-deployment.yaml",
+      "issue": "Configuration contains sensitive keyword: token",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "deployment/global-deployment.yaml",
+      "issue": "Configuration contains sensitive keyword: auth",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "deployment/global-deployment.yaml",
+      "issue": "Configuration contains sensitive keyword: private",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "deployment/global-deployment.yaml",
+      "issue": "Configuration contains sensitive keyword: cert",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "deployment/production.yaml",
+      "issue": "Configuration contains sensitive keyword: secret",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "deployment/production.yaml",
+      "issue": "Configuration contains sensitive keyword: key",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "deployment/production.yaml",
+      "issue": "Configuration contains sensitive keyword: token",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "deployment/production.yaml",
+      "issue": "Configuration contains sensitive keyword: cert",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "deployment/config/production.yaml",
+      "issue": "Configuration contains sensitive keyword: password",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "basic_test_report.json",
+      "issue": "Configuration contains sensitive keyword: key",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "pyproject.toml",
+      "issue": "Configuration contains sensitive keyword: key",
+      "severity": "medium"
+    },
+    {
+      "type": "configuration_security",
+      "file": "pyproject.toml",
+      "issue": "Configuration contains sensitive keyword: auth",
+      "severity": "medium"
+    }
+  ],
+  "dependency_issues": [],
+  "input_validation_issues": [
+    {
+      "type": "input_validation",
+      "file": "run_basic_tests.py",
+      "line": 607,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\\n{'='*60}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_basic_tests.py",
+      "line": 608,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83e\uddea BASIC TEST SUITE RESULTS\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_basic_tests.py",
+      "line": 609,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"{'='*60}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_basic_tests.py",
+      "line": 610,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Total Tests: {report['summary']['total_tests']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_basic_tests.py",
+      "line": 611,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Passed: {report['summary']['passed_tests']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_basic_tests.py",
+      "line": 612,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Failed: {report['summary']['failed_tests']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_basic_tests.py",
+      "line": 613,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Pass Rate: {report['summary']['pass_rate']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_basic_tests.py",
+      "line": 614,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Total Time: {report['summary']['total_execution_time']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_basic_tests.py",
+      "line": 615,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Avg Time: {report['summary']['avg_execution_time']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_basic_tests.py",
+      "line": 618,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\\n{'='*30}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_basic_tests.py",
+      "line": 619,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"CATEGORY BREAKDOWN\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_basic_tests.py",
+      "line": 620,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"{'='*30}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_basic_tests.py",
+      "line": 623,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"{category}: {stats['passed']}/{stats['total']} ({pass_rate:.1%})",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_basic_tests.py",
+      "line": 625,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"{'='*60}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_tests.py",
+      "line": 514,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\\n\" + \"=\"*80)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_tests.py",
+      "line": 515,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83e\uddea WASM-TORCH COMPREHENSIVE TEST RESULTS\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_tests.py",
+      "line": 516,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\"*80)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_tests.py",
+      "line": 519,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\\n\ud83d\udcca SUMMARY:\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_tests.py",
+      "line": 520,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   Status: {results['overall_status']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_tests.py",
+      "line": 521,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   Total Duration: {results['total_duration_seconds']:.2f}s\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_tests.py",
+      "line": 522,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   Tests Passed: {results['summary']['total_passed']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_tests.py",
+      "line": 531,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\\n\ud83d\udccb DETAILED RESULTS:\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_tests.py",
+      "line": 549,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"         {model_name}: {benchmark_data['avg_inference_time_ms']}ms avg\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_tests.py",
+      "line": 566,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\ude80 WASM-Torch Comprehensive Test Suite\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_tests.py",
+      "line": 567,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\" * 50)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_quantum_tests.py",
+      "line": 1214,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\\n{'='*80}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_quantum_tests.py",
+      "line": 1215,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83e\uddea QUANTUM TEST SUITE RESULTS\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_quantum_tests.py",
+      "line": 1216,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"{'='*80}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_quantum_tests.py",
+      "line": 1217,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Total Tests: {report['summary']['total_tests']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_quantum_tests.py",
+      "line": 1218,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Passed: {report['summary']['passed_tests']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_quantum_tests.py",
+      "line": 1219,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Failed: {report['summary']['failed_tests']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_quantum_tests.py",
+      "line": 1220,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Pass Rate: {report['summary']['pass_rate']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_quantum_tests.py",
+      "line": 1221,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Total Time: {report['summary']['total_execution_time']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_quantum_tests.py",
+      "line": 1222,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Quantum Coherence: {report['summary']['quantum_coherence']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_quantum_tests.py",
+      "line": 1223,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"{'='*80}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 27,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\udd25 Testing WASM Torch Performance Optimizations\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 28,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\" * 50)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 31,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"1. Testing LRU Cache...\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 44,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   Cache stats: {stats}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 45,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   \u2705 Cache hit rate: {stats['hit_rate']:.2f}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 48,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\\n2. Testing Memory Pool...\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 57,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"   \u274c No tensor available from pool\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 60,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   Pool stats: {pool_stats}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 63,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\\n3. Testing Performance Monitor...\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 70,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   Operation {i+1} completed\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 73,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   Performance stats: {comprehensive_stats['operations']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 74,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   Cache stats: {comprehensive_stats['cache']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 77,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\\n4. Testing Enhanced Runtime...\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 83,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   Runtime uptime: {runtime_stats['uptime_seconds']:.2f}s\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 84,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   Load balancer workers: {runtime_stats['load_balancing']['current_workers']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "test_performance.py",
+      "line": 85,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   Performance operations: {runtime_stats['performance']['operations']['count']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 854,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\ude80 WASM-Torch Comprehensive Quantum Test Suite\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 855,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\" * 60)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 865,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\\n\" + \"=\" * 60)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 866,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\udcca TEST SUMMARY\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 867,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\" * 60)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 868,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Total Tests: {results['total_tests']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 869,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Passed: {results['passed_tests']} \u2705\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 870,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Failed: {results['failed_tests']} \u274c\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 871,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Success Rate: {results['success_rate']:.1%}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 872,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Total Execution Time: {results['total_execution_time']:.2f}s\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 873,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Coverage: {results['coverage_analysis']['coverage_percentage']:.1f}%\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 903,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\\n\u26a0\ufe0f Some tests failed. Review results before deployment.\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_dependency_free_tests.py",
+      "line": 898,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\ude80 WASM-Torch Dependency-Free Test Suite\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_dependency_free_tests.py",
+      "line": 899,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\" * 60)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_dependency_free_tests.py",
+      "line": 909,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\\n\" + \"=\" * 60)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_dependency_free_tests.py",
+      "line": 910,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\udcca TEST SUMMARY\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_dependency_free_tests.py",
+      "line": 911,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\" * 60)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_dependency_free_tests.py",
+      "line": 912,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Total Tests: {results['total_tests']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_dependency_free_tests.py",
+      "line": 913,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Passed: {results['passed_tests']} \u2705\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_dependency_free_tests.py",
+      "line": 914,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Failed: {results['failed_tests']} \u274c\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_dependency_free_tests.py",
+      "line": 915,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Success Rate: {results['success_rate']:.1%}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_dependency_free_tests.py",
+      "line": 916,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Coverage: {results['coverage_percentage']:.1f}%\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_dependency_free_tests.py",
+      "line": 917,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Total Execution Time: {results['total_execution_time']:.2f}s\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_security_audit.py",
+      "line": 724,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\udd12 WASM-Torch Security Audit & Vulnerability Assessment\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_security_audit.py",
+      "line": 725,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\" * 70)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_security_audit.py",
+      "line": 735,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\\n\" + \"=\" * 70)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_security_audit.py",
+      "line": 736,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\udee1\ufe0f SECURITY AUDIT SUMMARY\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_security_audit.py",
+      "line": 737,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\" * 70)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_security_audit.py",
+      "line": 738,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Security Score: {report['security_score']:.1f}/100 (Grade: {report['security_grade']})",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_security_audit.py",
+      "line": 739,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Total Files Scanned: {report['total_files_scanned']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_security_audit.py",
+      "line": 740,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Total Issues Found: {report['total_issues']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_security_audit.py",
+      "line": 767,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"    ({severity_str})",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "run_security_audit.py",
+      "line": 770,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\\n\ud83c\udfaf TOP SECURITY RECOMMENDATIONS:\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 540,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\ude80 Starting WASM-Torch Comprehensive Benchmark Suite\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 541,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\" * 60)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 547,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\\n\ud83d\udcca BENCHMARK RESULTS\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 548,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\" * 60)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 551,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Total Runtime: {total_time:.2f}s\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 552,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Suites Run: {summary['total_suites']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 553,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Tests Executed: {summary['total_tests']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 554,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Tests Passed: {summary['tests_passed']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 561,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Average Duration: {perf['avg_duration_ms']:.2f}ms\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 562,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"P95 Duration: {perf['p95_duration_ms']:.2f}ms\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 563,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"P99 Duration: {perf['p99_duration_ms']:.2f}ms\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 565,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\\n\ud83d\udca1 RECOMMENDATIONS\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 567,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"{i}. {rec}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/basic_export.py",
+      "line": 48,
+      "issue": "Direct input() usage without validation",
+      "matched_text": "input (28x28 flattened image)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/basic_export.py",
+      "line": 40,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\ude80 WASM Torch Export Demo\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/basic_export.py",
+      "line": 41,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\" * 40)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/basic_export.py",
+      "line": 49,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\udd22 Creating example input...\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/basic_export.py",
+      "line": 69,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\\n\ud83d\udd04 Exporting {name} configuration...\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/basic_export.py",
+      "line": 70,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   Optimization: {config['optimization_level']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/basic_export.py",
+      "line": 95,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\\n\ud83c\udfaf Custom operators registered: {list(get_custom_operators()",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 37,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\ude80 WASM Torch Example\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 38,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\" * 50)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 41,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"1. Creating simple model...\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 46,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(0, 2, (100, 1)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 52,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"2. Training model (10 epochs)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 65,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   Training completed! Final loss: {loss.item()",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 93,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"5. Exporting model to WASM...\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 112,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   \ud83d\udcdd Created dummy WASM file for demo: {output_path}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 125,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"   \u2705 Model loaded successfully\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 129,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   \ud83e\uddee Running inference with input shape: {test_input.shape}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 136,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"      Output mean: {output.mean()",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 140,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"   \ud83d\udcca Memory usage: {memory_stats}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 149,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"7. Performance comparison...\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 152,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"   \ud83d\udc0d Native PyTorch inference:\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 161,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"      Time: {native_time*1000:.2f}ms\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 162,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"      Output: {native_output.item()",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 164,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\\n\ud83c\udf89 WASM Torch example completed!\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 165,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"This example demonstrates the core functionality of WASM Torch:\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 166,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"  \u2022 Model optimization for browser deployment\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 167,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"  \u2022 Quantization for size reduction\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 168,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"  \u2022 WASM export pipeline (requires Emscripten)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 169,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"  \u2022 WASM runtime for browser inference\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "examples/simple_model_example.py",
+      "line": 46,
+      "issue": "Float conversion without validation",
+      "matched_text": "float()",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "scripts/generate-sbom.py",
+      "line": 311,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"SBOM generated: {output_path}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "scripts/generate-sbom.py",
+      "line": 319,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\\n=== SBOM Generation Summary ===\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "scripts/generate-sbom.py",
+      "line": 320,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Project: {self.package_info.get('name', 'Unknown')",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "scripts/generate-sbom.py",
+      "line": 321,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Version: {self.package_info.get('version', 'Unknown')",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "scripts/generate-sbom.py",
+      "line": 322,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Dependencies: {len(dependencies)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "scripts/generate-sbom.py",
+      "line": 323,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Source files: {len(source_files)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_export.py",
+      "line": 29,
+      "issue": "Direct input() usage without validation",
+      "matched_text": "input()",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_integration.py",
+      "line": 46,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"Starting complete pipeline test...\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_integration.py",
+      "line": 54,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(0, 10, (100,)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_integration.py",
+      "line": 97,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\u2705 Native inference completed, output shape: {native_output.shape}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_integration.py",
+      "line": 154,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\u2705 WASM model loaded\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_integration.py",
+      "line": 165,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\u2705 Runtime stats: {stats['inference_count']} inferences, {stats['error_count']} errors\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_integration.py",
+      "line": 169,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\u2705 Memory stats: {memory_stats['parameter_count']} parameters\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_integration.py",
+      "line": 172,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\u2705 Runtime cleanup completed\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_integration.py",
+      "line": 176,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"Testing security integration...\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_integration.py",
+      "line": 196,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"Testing validation integration...\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_integration.py",
+      "line": 219,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"Testing performance integration...\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_integration.py",
+      "line": 235,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\u2705 Memory pool working (no suitable tensor)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_integration.py",
+      "line": 275,
+      "issue": "Float conversion without validation",
+      "matched_text": "float('nan')",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_integration.py",
+      "line": 276,
+      "issue": "Float conversion without validation",
+      "matched_text": "float('inf')",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_research_modules.py",
+      "line": 441,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(0, 2, (32,)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_research_modules.py",
+      "line": 442,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(0, 2, (16,)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "tests/test_runtime_comprehensive.py",
+      "line": 198,
+      "issue": "Direct input() usage without validation",
+      "matched_text": "input(self)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 56,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"  Testing {model_name} with {opt_level}...\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 126,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"  Testing {model_name} quantization: {quant_type}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 175,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"  Optimizing {model_name} for {target_size}MB target\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 221,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"Starting WASM Torch Export Benchmark Suite\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 222,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\" * 50)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 244,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\\nBenchmarking {model_name}...\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 265,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(time.time()",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 274,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\\nResults saved to: {output_file}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 279,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\\n\" + \"=\" * 50)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 280,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"BENCHMARK SUMMARY\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 281,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\" * 50)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 293,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"  {opt_level}: FAILED\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/advanced_error_recovery.py",
+      "line": 188,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(time.time()",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_scaling_system.py",
+      "line": 43,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(1000000, 10000000)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_scaling_system.py",
+      "line": 44,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(1000000, 10000000)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_scaling_system.py",
+      "line": 52,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(1000000, 10000000)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_scaling_system.py",
+      "line": 53,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(1000000, 10000000)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_scaling_system.py",
+      "line": 742,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(np.random.normal(5, 2)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_scaling_system.py",
+      "line": 747,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(np.random.normal(3, 1)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_scaling_system.py",
+      "line": 591,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(metrics.queue_length)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_scaling_system.py",
+      "line": 593,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(metrics.active_requests)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_sdlc.py",
+      "line": 447,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\ude80 AUTONOMOUS SDLC EXECUTION COMPLETE\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_sdlc.py",
+      "line": 448,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\u2705 Overall Quality Score: {results['overall_metrics']['overall_code_quality']}/10\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_sdlc.py",
+      "line": 449,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\udcca Test Coverage: {results['overall_metrics']['comprehensive_test_coverage']*100:.1f}%\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_sdlc.py",
+      "line": 450,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\u26a1 Performance Improvement: {results['overall_metrics']['performance_improvement_factor']:.1f}x\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_sdlc.py",
+      "line": 451,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\udd2c Research Contributions: {results['research_contributions']['novel_algorithms']} novel algorithms\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_sdlc.py",
+      "line": 452,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83c\udf0d Production Readiness: {results['overall_metrics']['production_readiness']*100:.1f}%\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/cli.py",
+      "line": 287,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\\n\ud83d\udd0d Model Analysis Results for {model_path.name}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/cli.py",
+      "line": 288,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"=\" * 50)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/cli.py",
+      "line": 289,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Model Size: {info['model_size_mb']:.2f} MB\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/cli.py",
+      "line": 290,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Total Parameters: {info['parameter_count']:,}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/cli.py",
+      "line": 291,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Trainable Parameters: {info['trainable_parameters']:,}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/cli.py",
+      "line": 292,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"Quantizable Layers: {info['quantizable_layers']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 901,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83e\uddea COMPREHENSIVE TESTING FRAMEWORK DEMONSTRATION\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 887,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\udd12 ENTERPRISE SECURITY FRAMEWORK DEMONSTRATION\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 907,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\udccb Model Deployment: {deployment_result['deployment_status']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 908,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\udd10 Encryption Applied: {deployment_result['encryption_applied']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 920,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\udea8 Malicious Request Blocked: {not security_result['request_allowed']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 921,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\udd0d Threats Detected: {len(security_result['security_analysis']['threats_found'])",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 925,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\udccf Compliance Score: {security_status['compliance_score']:.3f}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 926,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\udee1\ufe0f Security Level: {security_status['security_level']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 193,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(base_instances * safety_buffer)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 351,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(base_allocation + quantum_fluctuation)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 428,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(total_resources * entanglement_factor)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 1065,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(5, 20)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 1089,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83c\udf0d GLOBAL SCALING ENGINE DEMONSTRATION\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 1124,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\u26a1 Scaling Actions: {len(scaling_result['scaling_actions'])",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 1125,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\udd2e Predictive Confidence: {scaling_result['optimization_results']['predictive_scaling']['confidence_score']:.3f}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 1126,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\udd2c Quantum Efficiency: {scaling_result['optimization_results']['quantum_optimization']['optimization_efficiency']:.3f}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 1127,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\udcb0 Cost Optimization: {scaling_result['optimization_results']['cost_carbon_optimization']['cost_optimization_percentage']:.1f}%\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 1128,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83c\udf31 Carbon Reduction: {scaling_result['optimization_results']['cost_carbon_optimization']['carbon_optimization_percentage']:.1f}%\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 1132,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83c\udf0d Global Performance Score: {status['optimization_metrics']['overall_optimization_score']:.3f}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 1133,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\ude80 Scaling Effectiveness: {status['scaling_effectiveness']['success_rate']:.3f}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/monitoring.py",
+      "line": 594,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(latest_sample.timestamp * 1000)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/performance.py",
+      "line": 123,
+      "issue": "Direct input() usage without validation",
+      "matched_text": "input\n            (1, 224, 224, 3)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/performance.py",
+      "line": 124,
+      "issue": "Direct input() usage without validation",
+      "matched_text": "input\n            (32, 128)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/performance.py",
+      "line": 24,
+      "issue": "Float conversion without validation",
+      "matched_text": "float('inf')",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 933,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(time.time()",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1281,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83c\udf0d PLANETARY DEPLOYMENT ENGINE DEMONSTRATION\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1298,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\ude80 Deployment Status: {deployment_result['overall_status']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1299,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83c\udf10 Global Success Rate: {deployment_result['global_deployment_result']['success_rate']:.3f}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1300,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\u26a1 Edge Coverage: {deployment_result.get('edge_deployment_result', {})",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1301,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\udd04 DR Readiness: {deployment_result.get('disaster_recovery_result', {})",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1302,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83c\udf31 Sustainability Score: {deployment_result.get('sustainability_metrics', {})",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1303,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\udcb0 Monthly Cost: ${deployment_result['global_deployment_result'].get('total_cost_usd', 0)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1304,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83c\udf0d Carbon Footprint: {deployment_result.get('sustainability_metrics', {})",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1311,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"  Global Throughput: {metrics['performance_metrics']['global_throughput_rps']:,.0f} RPS\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1312,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"  Estimated Availability: {metrics['reliability_metrics']['estimated_availability']:.5f}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1313,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"  Regions Deployed: {metrics['global_coverage']['regions_deployed']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1314,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"  Cloud Providers: {metrics['global_coverage']['cloud_providers_used']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1318,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\\n\ud83d\udcca Engine Status: {status['planetary_engine_status']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 1319,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\udccb Total Deployments: {status['global_status']['total_deployments_completed']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/production_reliability.py",
+      "line": 846,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\udd27 PRODUCTION RELIABILITY FRAMEWORK DEMONSTRATION\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_leap_features.py",
+      "line": 462,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(value * 10)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_leap_features.py",
+      "line": 733,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\ud83d\ude80 QUANTUM LEAP FEATURES DEMONSTRATION\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_leap_features.py",
+      "line": 740,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\u26a1 Quantum Speedup: {quantum_results['quantum_speedup']:.2f}x\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_leap_features.py",
+      "line": 752,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83c\udfe5 Healing Applied: {healing_results['healing_applied']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_leap_features.py",
+      "line": 761,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83e\udde0 Learning Progress: {learning_results['learning_progress']:.3f}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_leap_features.py",
+      "line": 766,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83d\udd2c Innovation Score: {research_results['innovation_score']:.3f}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_leap_features.py",
+      "line": 767,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(f\"\ud83c\udfc6 Breakthrough Discoveries: {research_results['breakthrough_discoveries']}\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 778,
+      "issue": "Float conversion without validation",
+      "matched_text": "float('-inf')",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 856,
+      "issue": "Float conversion without validation",
+      "matched_text": "float('-inf')",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 941,
+      "issue": "Float conversion without validation",
+      "matched_text": "float('-inf')",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/torch_free_modules.py",
+      "line": 289,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(\"\u2705 Diagnostics completed successfully\")",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/torch_free_modules.py",
+      "line": 292,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(json.dumps(diagnostics, indent=2, default=str)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_inference_pipeline.py",
+      "line": 105,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int((access_time % 86400)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_inference_pipeline.py",
+      "line": 106,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int((access_time / 86400)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/autonomous_inference_pipeline.py",
+      "line": 423,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int((time.time()",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_enhanced_optimization.py",
+      "line": 551,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(params[\"optimization_level\"])",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_enhanced_optimization.py",
+      "line": 560,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(params[\"thread_count\"])",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_enhanced_optimization.py",
+      "line": 614,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(params[\"optimization_level\"])",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_enhanced_optimization.py",
+      "line": 618,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(params[\"memory_layout\"])",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_enhanced_optimization.py",
+      "line": 622,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(params[\"instruction_scheduling\"])",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_enhanced_optimization.py",
+      "line": 628,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(params[\"thread_count\"])",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_enhanced_optimization.py",
+      "line": 629,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(params[\"thread_count\"])",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_enhanced_optimization.py",
+      "line": 632,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(params[\"loop_unrolling\"] * 8)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/quantum_enhanced_optimization.py",
+      "line": 86,
+      "issue": "Float conversion without validation",
+      "matched_text": "float('-inf')",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_scale_deployment.py",
+      "line": 402,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int((current_time % 86400)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_scale_deployment.py",
+      "line": 403,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int((current_time / 86400)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_scale_deployment.py",
+      "line": 476,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(current_capacity * load_ratio)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_scale_deployment.py",
+      "line": 512,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int((current_time % 86400)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_scale_deployment.py",
+      "line": 513,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int((current_time / 86400)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_scale_deployment.py",
+      "line": 202,
+      "issue": "Float conversion without validation",
+      "matched_text": "float('inf')",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/planetary_scale_deployment.py",
+      "line": 723,
+      "issue": "Float conversion without validation",
+      "matched_text": "float('inf')",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 116,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(torch.argmax(q_values)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 356,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(base_size * size_multiplier)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 93,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(model_chars.parameter_count)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 94,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(model_chars.flops)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 95,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(model_chars.memory_usage)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 96,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(model_chars.has_attention)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 97,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(model_chars.has_convolutions)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 98,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(target_env.get(\"mobile\", 0)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 99,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(target_env.get(\"low_memory\", 0)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 100,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(target_env.get(\"low_cpu\", 0)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 101,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(target_env.get(\"battery_sensitive\", 0)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 102,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(target_env.get(\"network_limited\", 0)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 103,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(model_chars.batch_size)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 104,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(model_chars.max_sequence_length or 0)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/adaptive_optimizer.py",
+      "line": 286,
+      "issue": "Float conversion without validation",
+      "matched_text": "float('-inf')",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/federated_inference.py",
+      "line": 625,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(len(available_clients)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/federated_inference.py",
+      "line": 188,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(epsilon_dp)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/ml_quantizer.py",
+      "line": 170,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(weight.numel()",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/ml_quantizer.py",
+      "line": 171,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(weight.abs()",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/ml_quantizer.py",
+      "line": 172,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(weight.std()",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/ml_quantizer.py",
+      "line": 173,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(weight.abs()",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/ml_quantizer.py",
+      "line": 180,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(sensitivity)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/ml_quantizer.py",
+      "line": 431,
+      "issue": "Float conversion without validation",
+      "matched_text": "float('-inf')",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/streaming_pipeline.py",
+      "line": 160,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(idx)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/streaming_pipeline.py",
+      "line": 186,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(sample_rate * chunk_duration)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/streaming_pipeline.py",
+      "line": 276,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(0, self.vocab_size, (batch_size, self.max_length)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/streaming_pipeline.py",
+      "line": 297,
+      "issue": "Integer conversion without validation",
+      "matched_text": "int(prediction[0])",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/streaming_pipeline.py",
+      "line": 160,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(prob)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/streaming_pipeline.py",
+      "line": 234,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(torch.mean(torch.max(log_probs, dim=-1)",
+      "severity": "medium"
+    },
+    {
+      "type": "input_validation",
+      "file": "src/wasm_torch/research/streaming_pipeline.py",
+      "line": 298,
+      "issue": "Float conversion without validation",
+      "matched_text": "float(torch.max(probs[0])",
+      "severity": "medium"
+    }
+  ],
+  "error_handling_issues": [
+    {
+      "type": "error_handling",
+      "file": "run_basic_tests.py",
+      "line": 83,
+      "issue": "Full traceback disclosure",
+      "matched_text": "traceback.print_exc()",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_basic_tests.py",
+      "line": 647,
+      "issue": "Full traceback disclosure",
+      "matched_text": "traceback.print_exc()",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_basic_tests.py",
+      "line": 153,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_basic_tests.py",
+      "line": 205,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_basic_tests.py",
+      "line": 257,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_basic_tests.py",
+      "line": 295,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_basic_tests.py",
+      "line": 349,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_basic_tests.py",
+      "line": 365,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_basic_tests.py",
+      "line": 406,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_basic_tests.py",
+      "line": 463,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_basic_tests.py",
+      "line": 536,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_tests.py",
+      "line": 155,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_tests.py",
+      "line": 189,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_tests.py",
+      "line": 252,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_tests.py",
+      "line": 272,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_tests.py",
+      "line": 280,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_tests.py",
+      "line": 289,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_tests.py",
+      "line": 302,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_tests.py",
+      "line": 346,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_tests.py",
+      "line": 395,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_tests.py",
+      "line": 444,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_tests.py",
+      "line": 488,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_tests.py",
+      "line": 489,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_enhanced_tests.py",
+      "line": 596,
+      "issue": "Full traceback disclosure",
+      "matched_text": "traceback.print_exc()",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_enhanced_tests.py",
+      "line": 140,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_enhanced_tests.py",
+      "line": 182,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_enhanced_tests.py",
+      "line": 223,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_enhanced_tests.py",
+      "line": 268,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_enhanced_tests.py",
+      "line": 303,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_enhanced_tests.py",
+      "line": 348,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_enhanced_tests.py",
+      "line": 389,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_enhanced_tests.py",
+      "line": 457,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 24,
+      "issue": "Error details printed to output",
+      "matched_text": "print(f\"Import error: {e}\")",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 137,
+      "issue": "Full traceback disclosure",
+      "matched_text": "traceback.print_exc()",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 1245,
+      "issue": "Full traceback disclosure",
+      "matched_text": "traceback.print_exc()",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 170,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 213,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 248,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 272,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 322,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 367,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 410,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 452,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 510,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 548,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 592,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 625,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 676,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 707,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 743,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 790,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 823,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 854,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 910,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 955,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 1001,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 1040,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 1097,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_quantum_tests.py",
+      "line": 1084,
+      "issue": "Bare except clause catches all exceptions",
+      "severity": "medium"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 908,
+      "issue": "Exception details printed to output",
+      "matched_text": "print(f\"\\n\ud83d\udca5 Test suite failed with exception: {e}\")",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 883,
+      "issue": "Error details printed to output",
+      "matched_text": "print(f\"    \u274c {detail['error']}\")",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 909,
+      "issue": "Traceback printed to output",
+      "matched_text": "print(traceback.format_exc()",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 74,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 77,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 139,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 203,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 288,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 369,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 435,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 550,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 652,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 716,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 718,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 720,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 720,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_comprehensive_quantum_tests.py",
+      "line": 769,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_dependency_free_tests.py",
+      "line": 946,
+      "issue": "Exception details printed to output",
+      "matched_text": "print(f\"\\n\ud83d\udca5 Test suite failed with exception: {e}\")",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_dependency_free_tests.py",
+      "line": 927,
+      "issue": "Error details printed to output",
+      "matched_text": "print(f\"    \u274c {detail['error']}\")",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_dependency_free_tests.py",
+      "line": 947,
+      "issue": "Traceback printed to output",
+      "matched_text": "print(traceback.format_exc()",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_dependency_free_tests.py",
+      "line": 70,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_dependency_free_tests.py",
+      "line": 73,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_dependency_free_tests.py",
+      "line": 141,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_dependency_free_tests.py",
+      "line": 168,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_dependency_free_tests.py",
+      "line": 232,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_dependency_free_tests.py",
+      "line": 331,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_dependency_free_tests.py",
+      "line": 426,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_dependency_free_tests.py",
+      "line": 521,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_dependency_free_tests.py",
+      "line": 604,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_dependency_free_tests.py",
+      "line": 769,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_dependency_free_tests.py",
+      "line": 871,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_security_audit.py",
+      "line": 812,
+      "issue": "Exception details printed to output",
+      "matched_text": "print(f\"\\n\ud83d\udca5 Security audit failed with exception: {e}\")",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "run_security_audit.py",
+      "line": 814,
+      "issue": "Full traceback disclosure",
+      "matched_text": "traceback.print_exc()",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 98,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 189,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "benchmarks/comprehensive_benchmark.py",
+      "line": 283,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "scripts/generate-sbom.py",
+      "line": 20,
+      "issue": "Error details printed to output",
+      "matched_text": "print(\"Error: cyclonedx-bom package required. Install with: pip install cyclonedx-bom\")",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "scripts/generate-sbom.py",
+      "line": 372,
+      "issue": "Error details printed to output",
+      "matched_text": "print(f\"Error generating SBOM: {e}\")",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "scripts/generate-sbom.py",
+      "line": 87,
+      "issue": "Bare except clause catches all exceptions",
+      "severity": "medium"
+    },
+    {
+      "type": "error_handling",
+      "file": "scripts/generate-sbom.py",
+      "line": 102,
+      "issue": "Bare except clause catches all exceptions",
+      "severity": "medium"
+    },
+    {
+      "type": "error_handling",
+      "file": "tests/test_export_comprehensive.py",
+      "line": 170,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "tests/test_export_comprehensive.py",
+      "line": 453,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "tests/test_integration.py",
+      "line": 165,
+      "issue": "Error details printed to output",
+      "matched_text": "print(f\"\u2705 Runtime stats: {stats['inference_count']} inferences, {stats['error_count']} errors\")",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "tests/test_integration.py",
+      "line": 259,
+      "issue": "Error details printed to output",
+      "matched_text": "print(\"\u2705 Error handling working for non-existent model\")",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "tests/test_integration.py",
+      "line": 264,
+      "issue": "Error details printed to output",
+      "matched_text": "print(\"\u2705 Runtime recovery after error working\")",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "tests/test_integration.py",
+      "line": 284,
+      "issue": "Error details printed to output",
+      "matched_text": "print(f\"\u2705 Validation error {i+1} handled correctly\")",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "tests/test_integration.py",
+      "line": 115,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "tests/test_integration.py",
+      "line": 214,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 91,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 149,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "benchmarks/python/benchmark_export.py",
+      "line": 200,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "deployment/scripts/health-check.py",
+      "line": 25,
+      "issue": "Error details printed to output",
+      "matched_text": "print(f\"Import error during health check: {e}\")",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "deployment/scripts/health-check.py",
+      "line": 68,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "deployment/scripts/health-check.py",
+      "line": 100,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "deployment/scripts/health-check.py",
+      "line": 129,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "deployment/scripts/health-check.py",
+      "line": 162,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "deployment/scripts/health-check.py",
+      "line": 199,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 173,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 229,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 290,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 312,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 334,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 356,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 378,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 401,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 423,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 445,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 467,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 495,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 521,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 548,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 574,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 601,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 628,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 654,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 680,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 708,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 734,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 760,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_testing.py",
+      "line": 786,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_validation.py",
+      "line": 241,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_validation.py",
+      "line": 242,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_validation.py",
+      "line": 292,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_validation.py",
+      "line": 293,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_validation.py",
+      "line": 533,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/comprehensive_validation.py",
+      "line": 534,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 171,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 200,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 722,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/global_scaling_engine.py",
+      "line": 856,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 335,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 408,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 616,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 694,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 992,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/production_reliability.py",
+      "line": 343,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/reliability.py",
+      "line": 269,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/reliability.py",
+      "line": 281,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/reliability.py",
+      "line": 300,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/reliability.py",
+      "line": 562,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/security.py",
+      "line": 381,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/security.py",
+      "line": 508,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/torch_free_modules.py",
+      "line": 287,
+      "issue": "Error details printed to output",
+      "matched_text": "print(f\"\u274c Diagnostics failed: {diagnostics['error']}\")",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/torch_free_modules.py",
+      "line": 273,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/validation.py",
+      "line": 238,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/validation.py",
+      "line": 258,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/planetary_scale_deployment.py",
+      "line": 787,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/research/federated_inference.py",
+      "line": 698,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/research/federated_inference.py",
+      "line": 818,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/research/streaming_pipeline.py",
+      "line": 775,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/research/streaming_pipeline.py",
+      "line": 831,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/webgpu/gpu_runtime.py",
+      "line": 423,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    },
+    {
+      "type": "error_handling",
+      "file": "src/wasm_torch/webgpu/gpu_runtime.py",
+      "line": 820,
+      "issue": "Exception converted to string (potential disclosure)",
+      "matched_text": "str(e)",
+      "severity": "low"
+    }
+  ],
+  "logging_issues": [
+    {
+      "type": "logging_security",
+      "file": "run_security_audit.py",
+      "line": 521,
+      "issue": "Potential password logging",
+      "matched_text": "log.*password\", \"Potential password",
+      "severity": "high"
+    },
+    {
+      "type": "logging_security",
+      "file": "run_security_audit.py",
+      "line": 522,
+      "issue": "Potential secret logging",
+      "matched_text": "log.*secret\", \"Potential secret",
+      "severity": "high"
+    },
+    {
+      "type": "logging_security",
+      "file": "run_security_audit.py",
+      "line": 523,
+      "issue": "Potential token logging",
+      "matched_text": "log.*token\", \"Potential token",
+      "severity": "high"
+    },
+    {
+      "type": "logging_security",
+      "file": "run_security_audit.py",
+      "line": 524,
+      "issue": "Potential key logging",
+      "matched_text": "log.*key\", \"Potential key",
+      "severity": "high"
+    },
+    {
+      "type": "logging_security",
+      "file": "run_security_audit.py",
+      "line": 525,
+      "issue": "Password printed to output",
+      "matched_text": "print.*password\", \"Password",
+      "severity": "high"
+    },
+    {
+      "type": "logging_security",
+      "file": "run_security_audit.py",
+      "line": 526,
+      "issue": "Secret printed to output",
+      "matched_text": "print.*secret\", \"Secret",
+      "severity": "high"
+    },
+    {
+      "type": "logging_security",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 232,
+      "issue": "Potential key logging",
+      "matched_text": "logger.info(\"\ud83d\udd04 Starting key",
+      "severity": "high"
+    },
+    {
+      "type": "logging_security",
+      "file": "src/wasm_torch/enterprise_security.py",
+      "line": 253,
+      "issue": "Potential key logging",
+      "matched_text": "logger.info(\"\u2705 Key",
+      "severity": "high"
+    },
+    {
+      "type": "logging_security",
+      "file": "src/wasm_torch/intelligent_caching.py",
+      "line": 336,
+      "issue": "Potential key logging",
+      "matched_text": "logger.debug(f\"Predicting access to {key",
+      "severity": "high"
+    },
+    {
+      "type": "logging_security",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 284,
+      "issue": "Potential key logging",
+      "matched_text": "logger.debug(f\"Cache hit for key: {key",
+      "severity": "high"
+    },
+    {
+      "type": "logging_security",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 287,
+      "issue": "Potential key logging",
+      "matched_text": "logger.debug(f\"Cache miss for key: {key",
+      "severity": "high"
+    },
+    {
+      "type": "logging_security",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 308,
+      "issue": "Potential key logging",
+      "matched_text": "logger.debug(f\"Cached item with key: {key",
+      "severity": "high"
+    },
+    {
+      "type": "logging_security",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 342,
+      "issue": "Potential key logging",
+      "matched_text": "logger.debug(f\"Evicted cache item: {key",
+      "severity": "high"
+    }
+  ],
+  "cryptographic_issues": [
+    {
+      "type": "cryptographic_security",
+      "file": "src/wasm_torch/export.py",
+      "line": 197,
+      "issue": "DES encryption is weak",
+      "matched_text": "des(",
+      "severity": "high"
+    },
+    {
+      "type": "cryptographic_security",
+      "file": "src/wasm_torch/performance.py",
+      "line": 587,
+      "issue": "MD5 is cryptographically broken",
+      "matched_text": "md5(",
+      "severity": "high"
+    },
+    {
+      "type": "cryptographic_security",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 294,
+      "issue": "MD5 is cryptographically broken",
+      "matched_text": "md5(",
+      "severity": "high"
+    },
+    {
+      "type": "cryptographic_security",
+      "file": "src/wasm_torch/planetary_deployment.py",
+      "line": 562,
+      "issue": "MD5 is cryptographically broken",
+      "matched_text": "md5(",
+      "severity": "high"
+    },
+    {
+      "type": "cryptographic_security",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 1066,
+      "issue": "MD5 is cryptographically broken",
+      "matched_text": "md5(",
+      "severity": "high"
+    },
+    {
+      "type": "cryptographic_security",
+      "file": "src/wasm_torch/quantum_optimization_engine.py",
+      "line": 201,
+      "issue": "DES encryption is weak",
+      "matched_text": "des (",
+      "severity": "high"
+    },
+    {
+      "type": "cryptographic_security",
+      "file": "src/wasm_torch/runtime.py",
+      "line": 364,
+      "issue": "MD5 is cryptographically broken",
+      "matched_text": "md5(",
+      "severity": "high"
+    },
+    {
+      "type": "cryptographic_security",
+      "file": "src/wasm_torch/planetary_scale_deployment.py",
+      "line": 195,
+      "issue": "DES encryption is weak",
+      "matched_text": "des(",
+      "severity": "high"
+    },
+    {
+      "type": "cryptographic_security",
+      "file": "src/wasm_torch/planetary_scale_deployment.py",
+      "line": 232,
+      "issue": "DES encryption is weak",
+      "matched_text": "des(",
+      "severity": "high"
+    },
+    {
+      "type": "cryptographic_security",
+      "file": "src/wasm_torch/planetary_scale_deployment.py",
+      "line": 822,
+      "issue": "DES encryption is weak",
+      "matched_text": "des(",
+      "severity": "high"
+    },
+    {
+      "type": "cryptographic_security",
+      "file": "src/wasm_torch/planetary_scale_deployment.py",
+      "line": 878,
+      "issue": "DES encryption is weak",
+      "matched_text": "des(",
+      "severity": "high"
+    }
+  ],
+  "total_issues": 689,
+  "security_grade": "F"
+}

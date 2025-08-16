@@ -1,0 +1,105 @@
+{
+  "total_tests": 8,
+  "passed_tests": 8,
+  "failed_tests": 0,
+  "test_details": [
+    {
+      "category": "Core Module Imports",
+      "passed": true,
+      "tests_run": 3,
+      "message": "Core imports working with graceful degradation",
+      "error": "",
+      "performance_metrics": {},
+      "data_structure_metrics": {},
+      "file_metrics": {}
+    },
+    {
+      "category": "Error Handling",
+      "passed": true,
+      "tests_run": 3,
+      "message": "Error handling mechanisms working correctly",
+      "error": "",
+      "performance_metrics": {},
+      "data_structure_metrics": {},
+      "file_metrics": {}
+    },
+    {
+      "category": "Security Features",
+      "passed": true,
+      "tests_run": 3,
+      "message": "Security features working without dependencies",
+      "error": "",
+      "performance_metrics": {},
+      "data_structure_metrics": {},
+      "file_metrics": {}
+    },
+    {
+      "category": "Performance Measurement",
+      "passed": true,
+      "tests_run": 3,
+      "message": "Performance measurement working correctly",
+      "error": "",
+      "performance_metrics": {
+        "timing_accuracy_ms": 50.371408462524414,
+        "concurrent_processing_ms": 10.523796081542969,
+        "memory_tracking": "functional"
+      },
+      "data_structure_metrics": {},
+      "file_metrics": {}
+    },
+    {
+      "category": "Configuration Handling",
+      "passed": true,
+      "tests_run": 2,
+      "message": "Configuration handling working correctly",
+      "error": "",
+      "performance_metrics": {},
+      "data_structure_metrics": {},
+      "file_metrics": {}
+    },
+    {
+      "category": "Async Operations",
+      "passed": true,
+      "tests_run": 4,
+      "message": "Async operations working correctly",
+      "error": "",
+      "performance_metrics": {
+        "batch_processing_ms": 1.3496875762939453,
+        "queue_operations": "functional"
+      },
+      "data_structure_metrics": {},
+      "file_metrics": {}
+    },
+    {
+      "category": "Data Structures",
+      "passed": true,
+      "tests_run": 3,
+      "message": "Data structures working correctly",
+      "error": "",
+      "performance_metrics": {},
+      "data_structure_metrics": {
+        "cache_operations": "functional",
+        "priority_queue": "functional",
+        "graph_algorithms": "functional"
+      },
+      "file_metrics": {}
+    },
+    {
+      "category": "File Operations",
+      "passed": true,
+      "tests_run": 3,
+      "message": "File operations working correctly",
+      "error": "",
+      "performance_metrics": {},
+      "data_structure_metrics": {},
+      "file_metrics": {
+        "temp_file_operations": "functional",
+        "json_serialization": "functional",
+        "directory_operations": "functional"
+      }
+    }
+  ],
+  "coverage_percentage": 100.0,
+  "total_execution_time": 0.10648798942565918,
+  "success_rate": 1.0
+}
