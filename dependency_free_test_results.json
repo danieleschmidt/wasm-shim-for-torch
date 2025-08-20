@@ -40,8 +40,8 @@
       "message": "Performance measurement working correctly",
       "error": "",
       "performance_metrics": {
-        "timing_accuracy_ms": 50.371408462524414,
-        "concurrent_processing_ms": 10.523796081542969,
+        "timing_accuracy_ms": 50.33707618713379,
+        "concurrent_processing_ms": 10.434150695800781,
         "memory_tracking": "functional"
       },
       "data_structure_metrics": {},
@@ -64,7 +64,7 @@
       "message": "Async operations working correctly",
       "error": "",
       "performance_metrics": {
-        "batch_processing_ms": 1.3496875762939453,
+        "batch_processing_ms": 1.2941360473632812,
         "queue_operations": "functional"
       },
       "data_structure_metrics": {},
@@ -100,6 +100,6 @@
     }
   ],
   "coverage_percentage": 100.0,
-  "total_execution_time": 0.10648798942565918,
+  "total_execution_time": 0.10550355911254883,
   "success_rate": 1.0
 }

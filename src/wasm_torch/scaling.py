@@ -13,7 +13,10 @@ from collections import defaultdict, deque
 from concurrent.futures import ThreadPoolExecutor, ProcessPoolExecutor
 import torch
 from pathlib import Path
-import psutil
+try:
+    import psutil
+except ImportError:
+    from .mock_dependencies import psutil
 import weakref
 
 logger = logging.getLogger(__name__)
