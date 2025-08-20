@@ -1,0 +1,105 @@
+{
+  "compilation_results": {
+    "quantum_enhanced": {
+      "error": "[Errno 2] No such file or directory: 'emcmake'",
+      "success": false
+    },
+    "ml_guided": {
+      "error": "[Errno 2] No such file or directory: 'emcmake'",
+      "success": false
+    },
+    "adaptive_fusion": {
+      "error": "[Errno 2] No such file or directory: 'emcmake'",
+      "success": false
+    }
+  },
+  "compilation_analytics": {
+    "compilation_metrics": {
+      "time_seconds": 0.0,
+      "model_size_bytes": 0,
+      "optimization_passes": 9,
+      "cache_hit_rate": 0.0
+    },
+    "quantum_improvements": {
+      "gate_optimization": 0.15
+    },
+    "ml_guided_optimizations": [
+      "neural_architecture_search"
+    ],
+    "adaptive_fusion_count": 1,
+    "compilation_profile": {
+      "target_device": "browser",
+      "performance_budget_ms": 50.0,
+      "memory_budget_mb": 256,
+      "optimization_level": 3
+    }
+  },
+  "evolution_results": {
+    "is_evolving": false,
+    "current_generation": 50,
+    "max_generations": 50,
+    "population_size": 20,
+    "elite_count": 2,
+    "metrics": {
+      "fitness_score": 0.8505957278648282,
+      "diversity_index": 0.03418921353442122,
+      "convergence_rate": 0.0007106394175805386,
+      "improvement_rate": 0.0006228047458607389,
+      "quantum_coherence": 0.9990579543833784,
+      "consciousness_level": 0.0,
+      "mutation_rate": 0.5,
+      "selection_pressure": 0.9
+    },
+    "best_agent": {
+      "agent_id": "child_48_8364",
+      "fitness": 0.8505957278648282,
+      "age": 1,
+      "capabilities": [
+        "adaptive_learning",
+        "quantum_consciousness",
+        "predictive_optimization",
+        "self_modification"
+      ]
+    }
+  },
+  "inference_results": [
+    {
+      "prediction": [
+        0.1,
+        0.2,
+        0.7
+      ],
+      "quantum_coherence": 0.95,
+      "entanglement_level": 0.8,
+      "quantum_advantage": 1.45,
+      "accuracy_improvement": 0.12,
+      "inference_time_ms": 100.41260719299316
+    },
+    {
+      "prediction": [
+        0.1,
+        0.2,
+        0.7
+      ],
+      "quantum_coherence": 0.95,
+      "entanglement_level": 0.8,
+      "quantum_advantage": 1.45,
+      "accuracy_improvement": 0.12,
+      "inference_time_ms": 100.5408763885498
+    },
+    {
+      "prediction": [
+        0.1,
+        0.2,
+        0.7
+      ],
+      "quantum_coherence": 0.95,
+      "entanglement_level": 0.8,
+      "quantum_advantage": 1.45,
+      "accuracy_improvement": 0.12,
+      "inference_time_ms": 100.43859481811523
+    }
+  ],
+  "total_time_seconds": 7.578061580657959,
+  "demo_timestamp": 1755723154.971213
+}

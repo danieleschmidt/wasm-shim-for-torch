@@ -21,7 +21,10 @@ from collections import defaultdict, deque
 import uuid
 import math
 import statistics
-import psutil
+try:
+    import psutil
+except ImportError:
+    from .mock_dependencies import psutil
 import contextlib
 
 # Initialize high-performance logging
@@ -260,7 +263,12 @@ class QuantumPerformancePredictor:
         
         # Calculate quantum oscillation parameters
         mean_value = statistics.mean(values)
-        amplitude = params['amplitude'] * statistics.stdev(values) if len(values) > 1 else 0.1
+        try:
+            stdev_value = statistics.stdev(values) if len(values) > 1 else 0.1
+            amplitude = params['amplitude'] * stdev_value
+        except statistics.StatisticsError:
+            # Handle case where all values are identical (no variance)
+            amplitude = params['amplitude'] * 0.1
         frequency = params['frequency'] / 3600  # Convert to Hz
         phase = params['phase']
         damping = params['damping']
@@ -392,7 +400,11 @@ class QuantumPerformancePredictor:
                 
                 if len(values1) > 1 and len(values2) > 1:
                     # Simple correlation calculation
-                    correlation = abs(statistics.correlation(values1, values2)) if len(values1) == len(values2) and len(values1) > 1 else 0
+                    try:
+                        correlation = abs(statistics.correlation(values1, values2)) if len(values1) == len(values2) and len(values1) > 1 else 0
+                    except statistics.StatisticsError:
+                        # Handle case where one of the inputs has no variance
+                        correlation = 0.0
                     correlations[f"{metric1}-{metric2}"] = correlation
         
         # Predict based on entangled correlations

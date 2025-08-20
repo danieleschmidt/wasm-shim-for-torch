@@ -1,0 +1,112 @@
+{
+  "planetary_results": {
+    "edge_devices": {
+      "error": "No suitable nodes found for workload requirements",
+      "success": false
+    },
+    "regional_clusters": {
+      "error": "No suitable nodes found for workload requirements",
+      "success": false
+    },
+    "global_distribution": {
+      "error": "No suitable nodes found for workload requirements",
+      "success": false
+    },
+    "planetary_mesh": {
+      "error": "No suitable nodes found for workload requirements",
+      "success": false
+    },
+    "quantum_grid": {
+      "error": "No suitable nodes found for workload requirements",
+      "success": false
+    },
+    "hyperdimensional": {
+      "error": "No suitable nodes found for workload requirements",
+      "success": false
+    }
+  },
+  "hyperdimensional_results": {
+    "optimization_time": 0.0011496543884277344,
+    "optimal_placement": [
+      "hyperdim_node_0"
+    ],
+    "fitness_score": 0.6519289031278243,
+    "dimensions": 2048
+  },
+  "quantum_results": [
+    {
+      "workload_id": "quantum_search",
+      "can_accelerate": true,
+      "expected_speedup": 1.4985,
+      "actual_speedup": 2.5,
+      "processing_time": 0.10042572021484375,
+      "quantum_gates_used": 32
+    },
+    {
+      "workload_id": "classical_batch",
+      "can_accelerate": false,
+      "expected_speedup": 0.0
+    },
+    {
+      "workload_id": "quantum_ml_optimization",
+      "can_accelerate": true,
+      "expected_speedup": 1.4985,
+      "actual_speedup": 2.5,
+      "processing_time": 0.10040092468261719,
+      "quantum_gates_used": 32
+    }
+  ],
+  "edge_results": {
+    "optimization_time": 0.0003082752227783203,
+    "optimal_placement": "us-east",
+    "recommendations": [
+      [
+        "us-east",
+        {
+          "average_distance_km": 7198.490195554421,
+          "estimated_latency_ms": 23.99496731851474,
+          "capacity": 1000,
+          "location": {
+            "lat": 40.7128,
+            "lon": -74.006
+          }
+        }
+      ],
+      [
+        "eu-central",
+        {
+          "average_distance_km": 7222.575743807909,
+          "estimated_latency_ms": 24.075252479359698,
+          "capacity": 900,
+          "location": {
+            "lat": 50.1109,
+            "lon": 8.6821
+          }
+        }
+      ],
+      [
+        "us-west",
+        {
+          "average_distance_km": 7386.5569288273455,
+          "estimated_latency_ms": 24.621856429424486,
+          "capacity": 800,
+          "location": {
+            "lat": 37.7749,
+            "lon": -122.4194
+          }
+        }
+      ]
+    ],
+    "user_locations_count": 10
+  },
+  "total_time_seconds": 0.8266022205352783,
+  "demo_timestamp": 1755723417.3975956,
+  "summary": {
+    "successful_scales": 0,
+    "total_scales": 6,
+    "best_scale_target": null,
+    "best_fitness_score": 0,
+    "quantum_acceleration_count": 2,
+    "average_quantum_speedup": 2.5
+  }
+}
