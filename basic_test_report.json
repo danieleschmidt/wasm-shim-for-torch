@@ -1,19 +1,19 @@
 {
-  "timestamp": 1755270486.431394,
+  "timestamp": 1755892003.370734,
   "test_suite": "Basic WASM-Torch Test Suite",
   "version": "1.0.0",
   "summary": {
     "total_tests": 8,
-    "passed_tests": 5,
-    "failed_tests": 3,
-    "pass_rate": "62.50%",
-    "total_execution_time": "0.23s",
-    "avg_execution_time": "0.028s"
+    "passed_tests": 6,
+    "failed_tests": 2,
+    "pass_rate": "75.00%",
+    "total_execution_time": "0.14s",
+    "avg_execution_time": "0.017s"
   },
   "categories": {
     "module": {
       "total": 1,
-      "passed": 0
+      "passed": 1
     },
     "mock": {
       "total": 1,
@@ -47,30 +47,45 @@
   "detailed_results": [
     {
       "test_name": "module_imports",
-      "passed": false,
-      "execution_time": "0.114s",
-      "error_message": "'MockNumpy' object has no attribute 'ndarray'",
-      "metrics": {}
+      "passed": true,
+      "execution_time": "0.034s",
+      "error_message": null,
+      "metrics": {
+        "imported_modules": [
+          "wasm_torch_core",
+          "wasm_torch_lite",
+          "error_recovery",
+          "validation",
+          "optimization",
+          "scaling",
+          "error_recovery",
+          "validation",
+          "optimization",
+          "scaling"
+        ],
+        "import_count": 10
+      }
     },
     {
       "test_name": "mock_pytorch",
       "passed": false,
       "execution_time": "0.001s",
-      "error_message": "No module named 'numpy'",
+      "error_message": "module 'numpy' has no attribute 'ones'",
       "metrics": {}
     },
     {
       "test_name": "core_systems",
       "passed": true,
-      "execution_time": "0.006s",
+      "execution_time": "0.001s",
       "error_message": null,
       "metrics": {
         "initialized_systems": [
           "error_recovery",
           "validation",
+          "optimization",
           "scaling"
         ],
-        "system_count": 3
+        "system_count": 4
       }
     },
     {
@@ -205,17 +220,17 @@
             true
           ]
         ],
-        "computation_time": 0.00013303756713867188,
-        "memory_time": 0.0008590221405029297,
-        "async_time": 0.0017266273498535156,
-        "cache_time": 0.00013113021850585938
+        "computation_time": 8.630752563476562e-05,
+        "memory_time": 0.0006704330444335938,
+        "async_time": 0.0017075538635253906,
+        "cache_time": 9.059906005859375e-05
       }
     },
     {
       "test_name": "integration",
       "passed": false,
-      "execution_time": "0.001s",
-      "error_message": "No module named 'numpy'",
+      "execution_time": "0.000s",
+      "error_message": "unsupported operand type(s) for +: 'float' and 'MockNdarray'",
       "metrics": {}
     }
   ]

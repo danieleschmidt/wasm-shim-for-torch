@@ -8,20 +8,114 @@ import time
 
 
 # Mock numpy implementation
+class MockNdarray:
+    """Mock numpy ndarray."""
+    
+    def __init__(self, data, shape=None, dtype='float32'):
+        if isinstance(data, list):
+            self.data = data
+            self.shape = shape or self._calculate_shape(data)
+        else:
+            self.data = [data]
+            self.shape = shape or (1,)
+        self.dtype = dtype
+        
+    def _calculate_shape(self, data):
+        """Calculate shape from nested list."""
+        if not isinstance(data, list):
+            return ()
+        if not data:
+            return (0,)
+        
+        shape = [len(data)]
+        if isinstance(data[0], list):
+            shape.extend(self._calculate_shape(data[0]))
+        return tuple(shape)
+        
+    def __getitem__(self, key):
+        return self.data[key]
+        
+    def __setitem__(self, key, value):
+        self.data[key] = value
+        
+    def __len__(self):
+        return len(self.data)
+        
+    @property
+    def T(self):
+        """Transpose property."""
+        # For simplicity, return self for 1D arrays
+        if len(self.shape) <= 1:
+            return self
+        # For 2D arrays, create a simple transpose
+        if len(self.shape) == 2:
+            rows, cols = self.shape
+            transposed_data = []
+            for col in range(cols):
+                row_data = []
+                for row in range(rows):
+                    if isinstance(self.data[row], list):
+                        row_data.append(self.data[row][col])
+                    else:
+                        row_data.append(self.data[row * cols + col])
+                transposed_data.append(row_data)
+            return MockNdarray(transposed_data, shape=(cols, rows), dtype=self.dtype)
+        return self
+        
+    def tobytes(self):
+        """Convert to bytes for hashing."""
+        import struct
+        flat_data = self._flatten_data(self.data)
+        return struct.pack(f'{len(flat_data)}f', *flat_data)
+        
+    def _flatten_data(self, data):
+        """Flatten nested list data."""
+        result = []
+        for item in data:
+            if isinstance(item, list):
+                result.extend(self._flatten_data(item))
+            else:
+                result.append(float(item))
+        return result
+        
+    def astype(self, dtype):
+        """Convert to different data type."""
+        return MockNdarray(self.data, self.shape, dtype)
+        
+    def reshape(self, *new_shape):
+        """Reshape array."""
+        return MockNdarray(self.data, new_shape, self.dtype)
+        
+    def copy(self):
+        """Create a copy."""
+        return MockNdarray(self.data.copy(), self.shape, self.dtype)
+
+
 class MockNumPy:
     """Mock numpy for basic mathematical operations."""
+    
+    ndarray = MockNdarray
+    float32 = 'float32'
+    int32 = 'int32'
     
     @staticmethod
     def zeros(size):
         """Create array of zeros."""
         if isinstance(size, int):
-            return [0.0] * size
+            return MockNdarray([0.0] * size)
         else:
             # Multi-dimensional array
             total_size = 1
             for dim in size:
                 total_size *= dim
-            return [0.0] * total_size
+            return MockNdarray([0.0] * total_size, shape=tuple(size))
+            
+    @staticmethod
+    def array(data, dtype=None):
+        """Create array from data."""
+        if isinstance(data, list):
+            return MockNdarray(data, dtype=dtype)
+        return MockNdarray([data], dtype=dtype)
     
     @staticmethod
     def random():
@@ -183,7 +277,13 @@ class MockAiohttp:
 np = MockNumPy()
 psutil = MockPsutil()
 
+# Create a module-level numpy compatible interface
+numpy = np
+
 try:
     import asyncio
 except ImportError:
     asyncio = None
+
+# Export aliases for compatibility
+__all__ = ['np', 'numpy', 'psutil', 'MockNumPy', 'MockPsutil', 'MockNdarray']

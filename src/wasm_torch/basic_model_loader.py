@@ -625,6 +625,159 @@ async def demo_basic_model_loader():
         print(f"Demo error: {e}")
 
 
+# Mock implementations for when PyTorch is not available
+class MockExporter:
+    """Mock model exporter for testing without PyTorch."""
+    
+    def export_to_wasm(self, model, output_path, example_input=None, **kwargs):
+        """Mock WASM export implementation."""
+        try:
+            from .mock_torch import torch
+            
+            # Create a simple mock WASM file
+            output_path = Path(output_path)
+            
+            # Mock WASM file content (simplified)
+            mock_wasm_content = b'\x00asm\x01\x00\x00\x00'  # WASM magic bytes
+            mock_wasm_content += b'\x00' * 100  # Dummy content
+            
+            output_path.write_bytes(mock_wasm_content)
+            
+            # Also create a JSON metadata file
+            metadata = {
+                "model_info": {
+                    "input_shape": getattr(example_input, 'shape', [1, 10]) if example_input else [1, 10],
+                    "input_dtype": "float32"
+                },
+                "graph": {
+                    "operations": [
+                        {"kind": "aten::linear", "attributes": {}},
+                        {"kind": "aten::relu", "attributes": {}}
+                    ],
+                    "parameters": {}
+                },
+                "optimization": {
+                    "use_simd": kwargs.get('use_simd', True),
+                    "use_threads": kwargs.get('use_threads', True)
+                },
+                "metadata": {
+                    "torch_version": "mock-2.4.0",
+                    "export_version": "0.1.0"
+                }
+            }
+            
+            metadata_path = output_path.with_suffix('.json')
+            metadata_path.write_text(json.dumps(metadata, indent=2))
+            
+            logger.info(f"Mock WASM export completed: {output_path}")
+            return str(output_path)
+            
+        except Exception as e:
+            logger.error(f"Mock WASM export failed: {e}")
+            raise RuntimeError(f"Mock export failed: {e}")
+
+
+class MockWASMRuntime:
+    """Mock WASM runtime for testing without PyTorch."""
+    
+    def __init__(self, simd=True, threads=4, memory_limit_mb=1024, enable_monitoring=True, **kwargs):
+        self.simd = simd
+        self.threads = threads 
+        self.memory_limit_mb = memory_limit_mb
+        self.enable_monitoring = enable_monitoring
+        self._initialized = False
+        self._models = {}
+        self._stats = {
+            'inference_count': 0,
+            'total_inference_time': 0.0,
+            'memory_peak_mb': 0.0
+        }
+        
+    async def init(self):
+        """Initialize the mock runtime."""
+        self._initialized = True
+        logger.info("Mock WASM runtime initialized")
+        return self
+        
+    async def load_model(self, model_path):
+        """Load a mock model."""
+        if not self._initialized:
+            await self.init()
+            
+        model_path = Path(model_path)
+        model_id = model_path.stem
+        
+        # Create mock model
+        mock_model = MockWASMModel(model_path, self)
+        await mock_model._load_model_data()
+        
+        self._models[model_id] = mock_model
+        logger.info(f"Mock model loaded: {model_id}")
+        return mock_model
+        
+    async def cleanup(self):
+        """Cleanup mock runtime."""
+        self._models.clear()
+        logger.info("Mock WASM runtime cleaned up")
+        
+    def get_runtime_stats(self):
+        """Get mock runtime statistics."""
+        return {
+            'uptime_seconds': 100.0,
+            'inference_count': self._stats['inference_count'],
+            'total_inference_time': self._stats['total_inference_time'],
+            'average_inference_time': 0.05,
+            'memory_peak_mb': self._stats['memory_peak_mb'],
+            'health_status': 'healthy'
+        }
+
+
+class MockWASMModel:
+    """Mock WASM model for testing."""
+    
+    def __init__(self, model_path, runtime):
+        self.model_path = Path(model_path)
+        self.runtime = runtime
+        self._is_loaded = False
+        
+    async def _load_model_data(self):
+        """Mock model data loading."""
+        self._is_loaded = True
+        
+    async def forward(self, input_tensor):
+        """Mock forward pass."""
+        from .mock_torch import MockTensor
+        
+        if not self._is_loaded:
+            raise RuntimeError("Model not loaded")
+            
+        # Update stats
+        self.runtime._stats['inference_count'] += 1
+        self.runtime._stats['total_inference_time'] += 0.05
+        
+        # Return mock output tensor
+        if hasattr(input_tensor, 'data'):
+            output_data = [x * 0.5 + 0.1 for x in input_tensor.data]
+        else:
+            output_data = [0.5, 0.3, 0.2]  # Default output
+            
+        return MockTensor(output_data)
+
+
+class MockOptimizer:
+    """Mock optimizer for testing without PyTorch."""
+    
+    def optimize_for_browser(self, model, **kwargs):
+        """Mock browser optimization."""
+        logger.info("Mock browser optimization applied")
+        return model  # Return unchanged
+        
+    def quantize_for_wasm(self, model, **kwargs):
+        """Mock WASM quantization.""" 
+        logger.info("Mock WASM quantization applied")
+        return model  # Return unchanged
+
+
 if __name__ == "__main__":
     import asyncio
     asyncio.run(demo_basic_model_loader())
