@@ -5,10 +5,10 @@
   "test_details": [
     {
       "category": "Core Export System",
-      "passed": true,
-      "tests_run": 3,
-      "message": "Core export system handles missing dependencies gracefully",
-      "error": "",
+      "passed": false,
+      "tests_run": 1,
+      "message": "",
+      "error": "Mock export failed: argument should be a str or an os.PathLike object where __fspath__ returns a str, not 'NoneType'",
       "metrics": {},
       "performance_metrics": {},
       "security_metrics": {},
@@ -17,11 +17,36 @@
     },
     {
       "category": "Autonomous Inference Pipeline",
-      "passed": false,
-      "tests_run": 1,
-      "message": "",
-      "error": "No module named 'numpy'",
-      "metrics": {},
+      "passed": true,
+      "tests_run": 4,
+      "message": "Autonomous pipeline functioning correctly",
+      "error": "",
+      "metrics": {
+        "performance": {
+          "latency_ms": 0.0,
+          "throughput_ops_sec": 0.0,
+          "cache_hit_ratio": 0.0,
+          "optimization_score": 0.0
+        },
+        "adaptation": {
+          "adaptation_events": 0,
+          "self_healing_actions": 0,
+          "optimization_state": {
+            "batch_size": 8,
+            "thread_count": 4,
+            "memory_allocation": 256,
+            "optimization_level": "O2"
+          }
+        },
+        "cache": {
+          "hit_ratio": 1.0,
+          "total_entries": 1,
+          "total_requests": 1,
+          "evictions": 0,
+          "estimated_size_mb": 0.009765625
+        },
+        "health_status": "stopped"
+      },
       "performance_metrics": {},
       "security_metrics": {},
       "compliance_summary": {},
@@ -32,7 +57,7 @@
       "passed": false,
       "tests_run": 1,
       "message": "",
-      "error": "No module named 'numpy'",
+      "error": "module 'numpy' has no attribute 'pi'",
       "metrics": {},
       "performance_metrics": {},
       "security_metrics": {},
@@ -44,7 +69,7 @@
       "passed": false,
       "tests_run": 1,
       "message": "",
-      "error": "No module named 'numpy'",
+      "error": "module 'numpy' has no attribute 'radians'",
       "metrics": {},
       "performance_metrics": {},
       "security_metrics": {},
@@ -80,7 +105,7 @@
       "passed": false,
       "tests_run": 1,
       "message": "",
-      "error": "No module named 'numpy'",
+      "error": "CCPA not detected for California region",
       "metrics": {},
       "performance_metrics": {},
       "security_metrics": {},
@@ -92,7 +117,7 @@
       "passed": false,
       "tests_run": 1,
       "message": "",
-      "error": "No module named 'numpy'",
+      "error": "module 'numpy' has no attribute 'radians'",
       "metrics": {},
       "performance_metrics": {},
       "security_metrics": {},
@@ -101,18 +126,19 @@
     }
   ],
   "performance_metrics": {
-    "total_execution_time": 0.15697598457336426,
-    "average_test_time": 0.019621998071670532,
+    "total_execution_time": 0.18256163597106934,
+    "average_test_time": 0.022820204496383667,
     "performance_benchmarks": {},
     "resource_usage": {},
     "scalability_metrics": {}
   },
   "coverage_analysis": {
-    "coverage_percentage": 12.5,
+    "coverage_percentage": 11.11111111111111,
     "covered_areas": [
-      "Core Export System"
+      "Autonomous Inference Pipeline"
     ],
     "uncovered_areas": [
+      "Core Export System",
       "Autonomous Pipeline",
       "Quantum Optimization",
       "Planetary Deployment",
@@ -122,16 +148,17 @@
       "Integration Scenarios"
     ],
     "detailed_coverage": {
-      "Core Export System": true,
+      "Core Export System": false,
       "Autonomous Pipeline": false,
       "Quantum Optimization": false,
       "Planetary Deployment": false,
       "Performance Benchmarks": false,
       "Security Features": false,
       "Compliance Engine": false,
-      "Integration Scenarios": false
+      "Integration Scenarios": false,
+      "Autonomous Inference Pipeline": true
     }
   },
-  "total_execution_time": 0.15697598457336426,
+  "total_execution_time": 0.18256163597106934,
   "success_rate": 0.125
 }

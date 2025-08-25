@@ -131,6 +131,13 @@ class MockTensor:
         """Get tensor size."""
         return self.shape
     
+    def view(self, *new_shape):
+        """Reshape tensor (view operation)."""
+        # Simplified view operation - return tensor with new shape
+        tensor = MockTensor(self.data, self.dtype, self.device, self.requires_grad)
+        tensor.shape = new_shape
+        return tensor
+    
     @property
     def grad(self):
         """Gradient tensor."""
@@ -240,6 +247,20 @@ class MockTorch:
         return False
     
     @staticmethod
+    def equal(a, b):
+        """Check if tensors are exactly equal."""
+        if not isinstance(a, MockTensor) or not isinstance(b, MockTensor):
+            return False
+        
+        if len(a.data) != len(b.data):
+            return False
+            
+        for x, y in zip(a.data, b.data):
+            if x != y:
+                return False
+        return True
+    
+    @staticmethod
     def allclose(a, b, rtol=1e-05, atol=1e-08):
         """Check if tensors are close."""
         if not isinstance(a, MockTensor) or not isinstance(b, MockTensor):
@@ -332,6 +353,33 @@ class MockTorch:
 
 
 # Mock torch.nn module
+class MockMultiheadAttention:
+    """Mock multihead attention layer."""
+    
+    def __init__(self, embed_dim, num_heads, dropout=0.0, bias=True, batch_first=False):
+        self.embed_dim = embed_dim
+        self.num_heads = num_heads
+        self.dropout = dropout
+        self.batch_first = batch_first
+        
+    def __call__(self, query, key, value, key_padding_mask=None, need_weights=True, attn_mask=None):
+        # Mock multihead attention forward
+        batch_size = query.shape[1] if not self.batch_first else query.shape[0]
+        seq_len = query.shape[0] if not self.batch_first else query.shape[1]
+        
+        # Return mock output with same shape as query and mock attention weights
+        output_shape = query.shape
+        attn_weights_shape = (batch_size, seq_len, seq_len)
+        
+        output = MockTensor([[random.uniform(-0.1, 0.1) for _ in range(self.embed_dim)] for _ in range(seq_len)], device=query.device, dtype=query.dtype)
+        output.shape = output_shape
+        attn_weights = MockTensor([[random.uniform(0, 1) for _ in range(seq_len)] for _ in range(seq_len)], device=query.device, dtype=query.dtype) if need_weights else None
+        if attn_weights:
+            attn_weights.shape = attn_weights_shape
+        
+        return output, attn_weights
+
+
 class MockNN:
     """Mock torch.nn module."""
     
@@ -596,6 +644,7 @@ class MockNode:
 # Create mock torch instance
 torch = MockTorch()
 torch.nn = MockNN()
+torch.nn.MultiheadAttention = MockMultiheadAttention
 torch.jit = MockJIT()
 torch.Tensor = MockTensor
 

@@ -1,19 +1,19 @@
 {
   "security_validation": "Advanced Security Assessment v4.0",
-  "timestamp": 1756065639.1417992,
-  "validation_duration": 2.847151041030884,
+  "timestamp": 1756071723.3872225,
+  "validation_duration": 0.6860949993133545,
   "summary": {
-    "total_threats": 233,
-    "vulnerabilities_found": 233,
+    "total_threats": 234,
+    "vulnerabilities_found": 234,
     "security_score": 0.0,
     "security_rating": "CRITICAL",
     "quantum_security_level": 0.0,
-    "autonomous_mitigations_applied": 233
+    "autonomous_mitigations_applied": 234
   },
   "threat_summary": {
     "CRITICAL": 7,
     "HIGH": 57,
-    "MEDIUM": 141,
+    "MEDIUM": 142,
     "LOW": 28,
     "INFO": 0
   },
@@ -107,6 +107,20 @@
         "severity": "MEDIUM",
         "description": "Insecure random number generation for cryptographic purposes",
         "location": "/root/repo/src/wasm_torch/autonomous_testing_framework.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Insecure random number generation for cryptographic purposes",
+        "location": "/root/repo/src/wasm_torch/autonomous_transcendent_orchestrator.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Insecure random number generation for cryptographic purposes",
+        "location": "/root/repo/src/wasm_torch/autonomous_validation_engine.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.5
       },
@@ -225,35 +239,14 @@
       {
         "severity": "MEDIUM",
         "description": "Insecure random number generation for cryptographic purposes",
-        "location": "/root/repo/src/wasm_torch/quantum_optimization_engine.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Insecure random number generation for cryptographic purposes",
-        "location": "/root/repo/src/wasm_torch/robust_error_handling.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Insecure random number generation for cryptographic purposes",
-        "location": "/root/repo/src/wasm_torch/transcendent_reliability_system.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Insecure random number generation for cryptographic purposes",
-        "location": "/root/repo/src/wasm_torch/autonomous_transcendent_orchestrator.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Insecure random number generation for cryptographic purposes",
         "location": "/root/repo/src/wasm_torch/quantum_leap_v5.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Insecure random number generation for cryptographic purposes",
+        "location": "/root/repo/src/wasm_torch/quantum_optimization_engine.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.5
       },
@@ -267,6 +260,13 @@
       {
         "severity": "MEDIUM",
         "description": "Insecure random number generation for cryptographic purposes",
+        "location": "/root/repo/src/wasm_torch/robust_error_handling.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Insecure random number generation for cryptographic purposes",
         "location": "/root/repo/src/wasm_torch/transcendent_error_recovery.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.5
@@ -274,7 +274,7 @@
       {
         "severity": "MEDIUM",
         "description": "Insecure random number generation for cryptographic purposes",
-        "location": "/root/repo/src/wasm_torch/autonomous_validation_engine.py",
+        "location": "/root/repo/src/wasm_torch/transcendent_reliability_system.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.5
       },
@@ -296,6 +296,85 @@
         "severity": "MEDIUM",
         "description": "Insecure random number generation for cryptographic purposes",
         "location": "/root/repo/src/wasm_torch/webgpu/gpu_runtime.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      }
+    ],
+    "PATH_TRAVERSAL": [
+      {
+        "severity": "MEDIUM",
+        "description": "Potential path traversal vulnerability",
+        "location": "/root/repo/deploy_production_transcendent.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Potential path traversal vulnerability",
+        "location": "/root/repo/run_basic_tests.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Potential path traversal vulnerability",
+        "location": "/root/repo/run_comprehensive_quantum_tests.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Potential path traversal vulnerability",
+        "location": "/root/repo/run_dependency_free_tests.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Potential path traversal vulnerability",
+        "location": "/root/repo/run_enhanced_quality_validation.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Potential path traversal vulnerability",
+        "location": "/root/repo/run_enhanced_tests.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Potential path traversal vulnerability",
+        "location": "/root/repo/run_quantum_tests.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Potential path traversal vulnerability",
+        "location": "/root/repo/run_security_validation.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Potential path traversal vulnerability",
+        "location": "/root/repo/tests/test_validation.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Potential path traversal vulnerability",
+        "location": "/root/repo/src/wasm_torch/comprehensive_validation_robust.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Potential path traversal vulnerability",
+        "location": "/root/repo/src/wasm_torch/enterprise_security.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.5
       }
@@ -373,20 +452,6 @@
       },
       {
         "severity": "HIGH",
-        "description": "Dangerous function usage: subprocess.run",
-        "location": "/root/repo/security_audit.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.8049999999999999
-      },
-      {
-        "severity": "HIGH",
-        "description": "Dangerous function usage: eval(",
-        "location": "/root/repo/test_basic_functionality.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.8049999999999999
-      },
-      {
-        "severity": "HIGH",
         "description": "Dangerous function usage: os.system",
         "location": "/root/repo/run_security_validation.py",
         "mitigation_applied": true,
@@ -417,6 +482,20 @@
         "severity": "HIGH",
         "description": "Dangerous function usage: exec(",
         "location": "/root/repo/run_security_validation.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.8049999999999999
+      },
+      {
+        "severity": "HIGH",
+        "description": "Dangerous function usage: subprocess.run",
+        "location": "/root/repo/security_audit.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.8049999999999999
+      },
+      {
+        "severity": "HIGH",
+        "description": "Dangerous function usage: eval(",
+        "location": "/root/repo/test_basic_functionality.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.8049999999999999
       },
@@ -603,78 +682,6 @@
         "quantum_threat_score": 0.8049999999999999
       }
     ],
-    "PATH_TRAVERSAL": [
-      {
-        "severity": "MEDIUM",
-        "description": "Potential path traversal vulnerability",
-        "location": "/root/repo/run_basic_tests.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Potential path traversal vulnerability",
-        "location": "/root/repo/run_comprehensive_quantum_tests.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Potential path traversal vulnerability",
-        "location": "/root/repo/run_dependency_free_tests.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Potential path traversal vulnerability",
-        "location": "/root/repo/run_enhanced_quality_validation.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Potential path traversal vulnerability",
-        "location": "/root/repo/run_enhanced_tests.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Potential path traversal vulnerability",
-        "location": "/root/repo/run_quantum_tests.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Potential path traversal vulnerability",
-        "location": "/root/repo/run_security_validation.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Potential path traversal vulnerability",
-        "location": "/root/repo/tests/test_validation.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Potential path traversal vulnerability",
-        "location": "/root/repo/src/wasm_torch/comprehensive_validation_robust.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Potential path traversal vulnerability",
-        "location": "/root/repo/src/wasm_torch/enterprise_security.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      }
-    ],
     "SQL_INJECTION": [
       {
         "severity": "HIGH",
@@ -723,14 +730,14 @@
       {
         "severity": "MEDIUM",
         "description": "Subprocess with shell=True",
-        "location": "/root/repo/security_audit.py",
+        "location": "/root/repo/run_security_validation.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.5
       },
       {
         "severity": "MEDIUM",
         "description": "Subprocess with shell=True",
-        "location": "/root/repo/run_security_validation.py",
+        "location": "/root/repo/security_audit.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.5
       }
@@ -767,18 +774,18 @@
         "quantum_threat_score": 0.5
       },
       {
-        "severity": "MEDIUM",
-        "description": "Usage of dangerous function: getattr(",
-        "location": "/root/repo/test_mock_system.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
         "severity": "HIGH",
         "description": "Usage of dangerous function: getattr(",
         "location": "/root/repo/run_security_validation.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.7
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Usage of dangerous function: getattr(",
+        "location": "/root/repo/test_mock_system.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
       },
       {
         "severity": "MEDIUM",
@@ -874,13 +881,6 @@
         "quantum_threat_score": 0.65
       },
       {
-        "severity": "MEDIUM",
-        "description": "Usage of dangerous function: eval(",
-        "location": "/root/repo/test_basic_functionality.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.65
-      },
-      {
         "severity": "CRITICAL",
         "description": "Usage of dangerous function: eval(",
         "location": "/root/repo/run_security_validation.py",
@@ -898,6 +898,13 @@
         "severity": "MEDIUM",
         "description": "Usage of dangerous function: compile(",
         "location": "/root/repo/run_security_validation.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.65
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Usage of dangerous function: eval(",
+        "location": "/root/repo/test_basic_functionality.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.65
       },
@@ -1069,14 +1076,14 @@
       {
         "severity": "MEDIUM",
         "description": "Usage of dangerous function: __import__(",
-        "location": "/root/repo/security_audit.py",
+        "location": "/root/repo/run_security_validation.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.5
       },
       {
         "severity": "MEDIUM",
         "description": "Usage of dangerous function: __import__(",
-        "location": "/root/repo/run_security_validation.py",
+        "location": "/root/repo/security_audit.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.5
       },
@@ -1208,6 +1215,20 @@
       {
         "severity": "MEDIUM",
         "description": "Quantum key management without encryption",
+        "location": "/root/repo/src/wasm_torch/autonomous_transcendent_orchestrator.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Quantum key management without encryption",
+        "location": "/root/repo/src/wasm_torch/autonomous_validation_engine.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Quantum key management without encryption",
         "location": "/root/repo/src/wasm_torch/global_scaling_engine.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.5
@@ -1264,35 +1285,14 @@
       {
         "severity": "MEDIUM",
         "description": "Quantum key management without encryption",
-        "location": "/root/repo/src/wasm_torch/quantum_optimization_engine.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Quantum key management without encryption",
-        "location": "/root/repo/src/wasm_torch/torch_free_modules.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Quantum key management without encryption",
-        "location": "/root/repo/src/wasm_torch/transcendent_reliability_system.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Quantum key management without encryption",
-        "location": "/root/repo/src/wasm_torch/autonomous_transcendent_orchestrator.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.5
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Quantum key management without encryption",
         "location": "/root/repo/src/wasm_torch/quantum_leap_v5.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Quantum key management without encryption",
+        "location": "/root/repo/src/wasm_torch/quantum_optimization_engine.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.5
       },
@@ -1306,6 +1306,13 @@
       {
         "severity": "MEDIUM",
         "description": "Quantum key management without encryption",
+        "location": "/root/repo/src/wasm_torch/torch_free_modules.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.5
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Quantum key management without encryption",
         "location": "/root/repo/src/wasm_torch/transcendent_error_recovery.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.5
@@ -1313,7 +1320,7 @@
       {
         "severity": "MEDIUM",
         "description": "Quantum key management without encryption",
-        "location": "/root/repo/src/wasm_torch/autonomous_validation_engine.py",
+        "location": "/root/repo/src/wasm_torch/transcendent_reliability_system.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.5
       }
@@ -1379,6 +1386,20 @@
         "severity": "LOW",
         "description": "Potentially insecure quantum random number generation",
         "location": "/root/repo/src/wasm_torch/autonomous_testing_framework.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.3
+      },
+      {
+        "severity": "LOW",
+        "description": "Potentially insecure quantum random number generation",
+        "location": "/root/repo/src/wasm_torch/autonomous_transcendent_orchestrator.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.3
+      },
+      {
+        "severity": "LOW",
+        "description": "Potentially insecure quantum random number generation",
+        "location": "/root/repo/src/wasm_torch/autonomous_validation_engine.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.3
       },
@@ -1455,28 +1476,14 @@
       {
         "severity": "LOW",
         "description": "Potentially insecure quantum random number generation",
-        "location": "/root/repo/src/wasm_torch/quantum_optimization_engine.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.3
-      },
-      {
-        "severity": "LOW",
-        "description": "Potentially insecure quantum random number generation",
-        "location": "/root/repo/src/wasm_torch/transcendent_reliability_system.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.3
-      },
-      {
-        "severity": "LOW",
-        "description": "Potentially insecure quantum random number generation",
-        "location": "/root/repo/src/wasm_torch/autonomous_transcendent_orchestrator.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.3
-      },
-      {
-        "severity": "LOW",
-        "description": "Potentially insecure quantum random number generation",
         "location": "/root/repo/src/wasm_torch/quantum_leap_v5.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.3
+      },
+      {
+        "severity": "LOW",
+        "description": "Potentially insecure quantum random number generation",
+        "location": "/root/repo/src/wasm_torch/quantum_optimization_engine.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.3
       },
@@ -1497,7 +1504,7 @@
       {
         "severity": "LOW",
         "description": "Potentially insecure quantum random number generation",
-        "location": "/root/repo/src/wasm_torch/autonomous_validation_engine.py",
+        "location": "/root/repo/src/wasm_torch/transcendent_reliability_system.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.3
       }
@@ -1520,7 +1527,7 @@
       {
         "severity": "MEDIUM",
         "description": "Potential quantum state information leakage",
-        "location": "/root/repo/test_transcendent_systems.py",
+        "location": "/root/repo/run_security_validation.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.6
       },
@@ -1534,7 +1541,7 @@
       {
         "severity": "MEDIUM",
         "description": "Potential quantum state information leakage",
-        "location": "/root/repo/run_security_validation.py",
+        "location": "/root/repo/test_transcendent_systems.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.6
       },
@@ -1570,6 +1577,13 @@
         "severity": "MEDIUM",
         "description": "Potential quantum state information leakage",
         "location": "/root/repo/src/wasm_torch/autonomous_testing_framework.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.6
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Potential quantum state information leakage",
+        "location": "/root/repo/src/wasm_torch/autonomous_validation_engine.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.6
       },
@@ -1618,21 +1632,14 @@
       {
         "severity": "MEDIUM",
         "description": "Potential quantum state information leakage",
-        "location": "/root/repo/src/wasm_torch/quantum_optimization_engine.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.6
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Potential quantum state information leakage",
-        "location": "/root/repo/src/wasm_torch/universal_security_fortress.py",
-        "mitigation_applied": true,
-        "quantum_threat_score": 0.6
-      },
-      {
-        "severity": "MEDIUM",
-        "description": "Potential quantum state information leakage",
         "location": "/root/repo/src/wasm_torch/quantum_leap_v5.py",
+        "mitigation_applied": true,
+        "quantum_threat_score": 0.6
+      },
+      {
+        "severity": "MEDIUM",
+        "description": "Potential quantum state information leakage",
+        "location": "/root/repo/src/wasm_torch/quantum_optimization_engine.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.6
       },
@@ -1653,7 +1660,7 @@
       {
         "severity": "MEDIUM",
         "description": "Potential quantum state information leakage",
-        "location": "/root/repo/src/wasm_torch/autonomous_validation_engine.py",
+        "location": "/root/repo/src/wasm_torch/universal_security_fortress.py",
         "mitigation_applied": true,
         "quantum_threat_score": 0.6
       }
@@ -1699,25 +1706,8 @@
   "quantum_security_metrics": {
     "quantum_threat_scores": [
       0.5,
-      0.8049999999999999,
       0.5,
       0.8049999999999999,
-      0.8049999999999999,
-      0.8049999999999999,
-      0.8049999999999999,
-      0.8049999999999999,
-      0.8049999999999999,
-      0.8049999999999999,
-      0.5,
-      0.5,
-      0.8049999999999999,
-      0.5,
-      0.5,
-      0.8049999999999999,
-      0.5,
-      0.5,
-      0.8049999999999999,
-      0.5,
       0.5,
       0.8049999999999999,
       0.8049999999999999,
@@ -1729,6 +1719,23 @@
       0.5,
       0.5,
       0.8049999999999999,
+      0.5,
+      0.5,
+      0.8049999999999999,
+      0.5,
+      0.5,
+      0.8049999999999999,
+      0.5,
+      0.5,
+      0.8049999999999999,
+      0.8049999999999999,
+      0.8049999999999999,
+      0.8049999999999999,
+      0.8049999999999999,
+      0.5,
+      0.8049999999999999,
+      0.8049999999999999,
+      0.5,
       0.8049999999999999,
       0.8049999999999999,
       0.8049999999999999,
@@ -1736,34 +1743,8 @@
       0.8049999999999999,
       0.8049999999999999,
       0.8049999999999999,
-      0.5,
       0.8049999999999999,
       0.5,
-      0.8049999999999999,
-      0.5,
-      0.5,
-      0.5,
-      0.5,
-      0.5,
-      0.8049999999999999,
-      0.8049999999999999,
-      0.5,
-      0.5,
-      0.5,
-      0.5,
-      0.5,
-      0.5,
-      0.5,
-      0.8049999999999999,
-      0.8049999999999999,
-      0.5,
-      0.5,
-      0.5,
-      0.5,
-      0.8049999999999999,
-      0.5,
-      0.5,
-      0.8049999999999999,
       0.8049999999999999,
       0.5,
       0.8049999999999999,
@@ -1772,6 +1753,37 @@
       0.5,
       0.5,
       0.5,
+      0.8049999999999999,
+      0.8049999999999999,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.8049999999999999,
+      0.8049999999999999,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.8049999999999999,
+      0.5,
+      0.5,
+      0.8049999999999999,
+      0.8049999999999999,
+      0.5,
+      0.8049999999999999,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
+      0.5,
       0.5,
       0.5,
       0.5,
@@ -1780,15 +1792,11 @@
       0.8049999999999999,
       0.8049999999999999,
       0.5,
+      0.5,
       0.8049999999999999,
       0.8049999999999999,
       0.8049999999999999,
       0.8049999999999999,
-      0.5,
-      0.5,
-      0.5,
-      0.5,
-      0.5,
       0.8049999999999999,
       0.5,
       0.8049999999999999,
@@ -1811,9 +1819,6 @@
       0.7,
       0.65,
       0.5,
-      0.5,
-      0.65,
-      0.5,
       1.0,
       1.0,
       0.65,
@@ -1821,6 +1826,9 @@
       0.7,
       0.7,
       0.7,
+      0.5,
+      0.65,
+      0.5,
       0.65,
       0.65,
       0.65,
@@ -1884,6 +1892,11 @@
       0.3,
       0.5,
       0.3,
+      0.5,
+      0.6,
+      0.3,
+      0.5,
+      0.3,
       0.6,
       0.3,
       0.5,
@@ -1910,29 +1923,24 @@
       0.6,
       0.3,
       0.5,
-      0.5,
-      0.3,
-      0.5,
       0.6,
       0.3,
       0.5,
       0.6,
       0.3,
       0.5,
-      0.6,
-      0.3,
       0.5,
       0.6,
       0.3,
       0.5,
-      0.6,
       0.3,
       0.5,
+      0.6,
       0.7,
       0.3,
       0.3
     ],
-    "average_quantum_threat_score": 0.5864377682403433,
+    "average_quantum_threat_score": 0.586068376068376,
     "quantum_security_level": 0.0
   },
   "status": "NEEDS_ATTENTION"
