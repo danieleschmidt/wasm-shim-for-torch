@@ -1,0 +1,12 @@
+{
+  "start_time": 1756326886.5375357,
+  "components_deployed": 0,
+  "total_components": 7,
+  "deployment_status": "failed",
+  "health_checks_passed": 0,
+  "performance_validations": {},
+  "security_validations": {},
+  "errors": [
+    "[Errno 2] No such file or directory: 'kubectl'"
+  ]
+}
