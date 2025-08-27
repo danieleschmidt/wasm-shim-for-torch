@@ -1,113 +1,81 @@
-"""
-Simple Inference Engine - Generation 1: Make It Work
-Lightweight, dependency-free inference engine for WASM-Torch.
+"""Simple Inference Engine - Generation 1: Basic Functionality
+
+Lightweight inference engine for PyTorch-to-WASM models with essential features
+for quick deployment and testing.
 """
 
 import asyncio
-import logging
 import time
-import json
-from typing import Dict, Any, List, Optional, Union, Callable
-from dataclasses import dataclass, field
-from pathlib import Path
-import tempfile
+import logging
 import threading
+from typing import Dict, List, Any, Optional, Union, Callable
+from dataclasses import dataclass, field
 from concurrent.futures import ThreadPoolExecutor
-from contextlib import asynccontextmanager
+from collections import deque
+import json
+
+# Handle torch import gracefully
+try:
+    import torch
+    torch_available = True
+except ImportError:
+    from .mock_torch import torch, MockTensor
+    torch_available = False
 
 logger = logging.getLogger(__name__)
 
 
 @dataclass
-class InferenceRequest:
-    """Simple inference request structure."""
-    
+class SimpleRequest:
+    """Simple request structure for basic inference."""
     request_id: str
     model_id: str
     input_data: Any
     timestamp: float = field(default_factory=time.time)
     timeout: float = 30.0
-    priority: int = 1  # Lower number = higher priority
-    metadata: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
-class InferenceResult:
-    """Simple inference result structure."""
-    
+class SimpleResult:
+    """Simple result structure for basic inference."""
     request_id: str
     model_id: str
     output_data: Any
-    success: bool
-    execution_time: float
-    timestamp: float = field(default_factory=time.time)
-    error_message: Optional[str] = None
-    metadata: Dict[str, Any] = field(default_factory=dict)
+    processing_time: float
+    success: bool = True
+    error: Optional[str] = None
 
 
-class SimpleModelRegistry:
-    """
-    Simple model registry for managing loaded models.
-    No external dependencies, just basic in-memory storage.
-    """
+class SimpleInferenceEngine:
+    """Simple inference engine with essential features for quick deployment."""
     
-    def __init__(self):
-        self._models: Dict[str, Dict[str, Any]] = {}
-        self._lock = threading.RLock()
+    def __init__(self, max_workers: int = 4):
+        self.max_workers = max_workers
+        self._models: Dict[str, Any] = {}
+        self._thread_pool = ThreadPoolExecutor(max_workers=max_workers)
+        self._stats = {
+            'total_requests': 0,
+            'successful_requests': 0,
+            'failed_requests': 0,
+            'average_processing_time': 0.0
+        }
+        self._lock = threading.Lock()
         
-    def register_model(
-        self, 
-        model_id: str, 
-        model_data: Any, 
-        metadata: Optional[Dict[str, Any]] = None
-    ) -> bool:
-        """Register a model in the registry."""
-        try:
-            with self._lock:
-                self._models[model_id] = {
-                    'data': model_data,
-                    'metadata': metadata or {},
-                    'registered_at': time.time(),
-                    'access_count': 0,
-                    'last_accessed': None
-                }
-            
-            logger.info(f"Registered model: {model_id}")
-            return True
-            
-        except Exception as e:
-            logger.error(f"Failed to register model {model_id}: {e}")
-            return False
+        logger.info(f"Simple Inference Engine initialized with {max_workers} workers")
     
-    def get_model(self, model_id: str) -> Optional[Any]:
-        """Retrieve a model from the registry."""
-        try:
-            with self._lock:
-                if model_id not in self._models:
-                    return None
-                
-                model_info = self._models[model_id]
-                model_info['access_count'] += 1
-                model_info['last_accessed'] = time.time()
-                
-                return model_info['data']
-                
-        except Exception as e:
-            logger.error(f"Failed to get model {model_id}: {e}")
-            return None
+    def register_model(self, model_id: str, model: Any) -> None:
+        """Register a model for inference."""
+        with self._lock:
+            self._models[model_id] = model
+        logger.info(f"Registered model: {model_id}")
     
     def unregister_model(self, model_id: str) -> bool:
-        """Remove a model from the registry."""
-        try:
-            with self._lock:
-                if model_id in self._models:
-                    del self._models[model_id]
-                    logger.info(f"Unregistered model: {model_id}")
-                    return True
-                return False
-                
-        except Exception as e:
-            logger.error(f"Failed to unregister model {model_id}: {e}")
+        """Unregister a model."""
+        with self._lock:
+            if model_id in self._models:
+                del self._models[model_id]
+                logger.info(f"Unregistered model: {model_id}")
+                return True
             return False
     
     def list_models(self) -> List[str]:
@@ -115,384 +83,279 @@ class SimpleModelRegistry:
         with self._lock:
             return list(self._models.keys())
     
-    def get_model_info(self, model_id: str) -> Optional[Dict[str, Any]]:
-        """Get metadata about a specific model."""
-        with self._lock:
-            if model_id not in self._models:
-                return None
-            
-            info = self._models[model_id].copy()
-            # Don't return the actual model data, just metadata
-            info.pop('data', None)
-            return info
-
-
-class SimpleInferenceEngine:
-    """
-    Simple inference engine - Generation 1 implementation.
-    Focuses on basic functionality with minimal dependencies.
-    """
-    
-    def __init__(self, config: Optional[Dict[str, Any]] = None):
-        self.config = config or {}
-        self.max_workers = self.config.get('max_workers', 4)
-        self.max_queue_size = self.config.get('max_queue_size', 100)
+    async def infer(self, model_id: str, input_data: Any, timeout: float = 30.0) -> SimpleResult:
+        """Perform simple inference."""
+        request_id = f"{model_id}_{int(time.time() * 1000000)}"
+        request = SimpleRequest(
+            request_id=request_id,
+            model_id=model_id,
+            input_data=input_data,
+            timeout=timeout
+        )
         
-        # Core components
-        self.model_registry = SimpleModelRegistry()
-        self.request_queue: asyncio.Queue = asyncio.Queue(maxsize=self.max_queue_size)
-        self.result_cache: Dict[str, InferenceResult] = {}
-        self.executor = ThreadPoolExecutor(max_workers=self.max_workers)
+        return await self._process_request(request)
+    
+    async def infer_batch(self, requests: List[tuple], timeout: float = 30.0) -> List[SimpleResult]:
+        """Perform batch inference."""
+        tasks = []
+        for model_id, input_data in requests:
+            task = self.infer(model_id, input_data, timeout)
+            tasks.append(task)
         
-        # State management
-        self._running = False
-        self._worker_tasks: List[asyncio.Task] = []
-        self._statistics = {
-            'total_requests': 0,
-            'successful_requests': 0,
-            'failed_requests': 0,
-            'average_execution_time': 0.0,
-            'peak_queue_size': 0
-        }
-        
-    async def start(self) -> bool:
-        """Start the inference engine."""
-        try:
-            if self._running:
-                logger.warning("Inference engine is already running")
-                return True
-            
-            logger.info("Starting Simple Inference Engine")
-            self._running = True
-            
-            # Start worker tasks
-            for i in range(self.max_workers):
-                task = asyncio.create_task(
-                    self._worker_loop(f"worker-{i}")
-                )
-                self._worker_tasks.append(task)
-            
-            logger.info(f"Started {len(self._worker_tasks)} worker tasks")
-            return True
-            
-        except Exception as e:
-            logger.error(f"Failed to start inference engine: {e}")
-            return False
+        return await asyncio.gather(*tasks)
     
-    async def stop(self) -> None:
-        """Stop the inference engine gracefully."""
-        try:
-            logger.info("Stopping Simple Inference Engine")
-            self._running = False
-            
-            # Cancel worker tasks
-            for task in self._worker_tasks:
-                if not task.done():
-                    task.cancel()
-            
-            # Wait for tasks to complete
-            if self._worker_tasks:
-                await asyncio.gather(*self._worker_tasks, return_exceptions=True)
-            
-            # Shutdown thread pool
-            self.executor.shutdown(wait=True)
-            
-            logger.info("Simple Inference Engine stopped")
-            
-        except Exception as e:
-            logger.error(f"Error stopping inference engine: {e}")
-    
-    async def submit_request(self, request: InferenceRequest) -> bool:
-        """Submit an inference request for processing."""
-        try:
-            if not self._running:
-                logger.error("Inference engine is not running")
-                return False
-            
-            # Check queue capacity
-            if self.request_queue.full():
-                logger.warning("Request queue is full, rejecting request")
-                return False
-            
-            await self.request_queue.put(request)
-            self._statistics['total_requests'] += 1
-            
-            # Update peak queue size
-            queue_size = self.request_queue.qsize()
-            if queue_size > self._statistics['peak_queue_size']:
-                self._statistics['peak_queue_size'] = queue_size
-            
-            logger.debug(f"Submitted request: {request.request_id}")
-            return True
-            
-        except Exception as e:
-            logger.error(f"Failed to submit request: {e}")
-            return False
-    
-    async def get_result(
-        self, 
-        request_id: str, 
-        timeout: float = 30.0
-    ) -> Optional[InferenceResult]:
-        """Get the result of an inference request."""
-        start_time = time.time()
-        
-        while time.time() - start_time < timeout:
-            if request_id in self.result_cache:
-                result = self.result_cache.pop(request_id)
-                return result
-            
-            await asyncio.sleep(0.1)  # Check every 100ms
-        
-        logger.warning(f"Timeout waiting for result: {request_id}")
-        return None
-    
-    def register_model(
-        self, 
-        model_id: str, 
-        model_data: Any, 
-        metadata: Optional[Dict[str, Any]] = None
-    ) -> bool:
-        """Register a model for inference."""
-        return self.model_registry.register_model(model_id, model_data, metadata)
-    
-    def unregister_model(self, model_id: str) -> bool:
-        """Unregister a model."""
-        return self.model_registry.unregister_model(model_id)
-    
-    def list_models(self) -> List[str]:
-        """List all registered models."""
-        return self.model_registry.list_models()
-    
-    def get_statistics(self) -> Dict[str, Any]:
-        """Get engine statistics."""
-        stats = self._statistics.copy()
-        stats.update({
-            'running': self._running,
-            'active_workers': len(self._worker_tasks),
-            'queue_size': self.request_queue.qsize(),
-            'registered_models': len(self.model_registry.list_models()),
-            'cached_results': len(self.result_cache)
-        })
-        return stats
-    
-    async def _worker_loop(self, worker_id: str) -> None:
-        """Main worker loop for processing inference requests."""
-        logger.info(f"Worker {worker_id} started")
-        
-        while self._running:
-            try:
-                # Get next request with timeout
-                try:
-                    request = await asyncio.wait_for(
-                        self.request_queue.get(), 
-                        timeout=1.0
-                    )
-                except asyncio.TimeoutError:
-                    continue
-                
-                # Process the request
-                result = await self._process_request(request, worker_id)
-                
-                # Store result in cache
-                self.result_cache[request.request_id] = result
-                
-                # Update statistics
-                if result.success:
-                    self._statistics['successful_requests'] += 1
-                else:
-                    self._statistics['failed_requests'] += 1
-                
-                # Update average execution time
-                total_requests = (
-                    self._statistics['successful_requests'] + 
-                    self._statistics['failed_requests']
-                )
-                if total_requests > 0:
-                    current_avg = self._statistics['average_execution_time']
-                    new_avg = (
-                        (current_avg * (total_requests - 1) + result.execution_time) / 
-                        total_requests
-                    )
-                    self._statistics['average_execution_time'] = new_avg
-                
-                logger.debug(f"Worker {worker_id} processed request {request.request_id}")
-                
-            except asyncio.CancelledError:
-                logger.info(f"Worker {worker_id} cancelled")
-                break
-            except Exception as e:
-                logger.error(f"Worker {worker_id} error: {e}")
-                await asyncio.sleep(1.0)  # Brief pause on error
-        
-        logger.info(f"Worker {worker_id} stopped")
-    
-    async def _process_request(
-        self, 
-        request: InferenceRequest, 
-        worker_id: str
-    ) -> InferenceResult:
-        """Process a single inference request."""
+    async def _process_request(self, request: SimpleRequest) -> SimpleResult:
+        """Process an inference request."""
         start_time = time.time()
         
         try:
-            # Get the model
-            model = self.model_registry.get_model(request.model_id)
+            # Get model
+            model = self._models.get(request.model_id)
             if model is None:
-                return InferenceResult(
-                    request_id=request.request_id,
-                    model_id=request.model_id,
-                    output_data=None,
-                    success=False,
-                    execution_time=time.time() - start_time,
-                    error_message=f"Model not found: {request.model_id}"
-                )
+                raise ValueError(f"Model not found: {request.model_id}")
             
-            # Perform inference (simplified mock implementation)
-            output = await self._run_inference(model, request.input_data, request)
+            # Process with thread pool for CPU-bound operations
+            loop = asyncio.get_event_loop()
+            output_data = await loop.run_in_executor(
+                self._thread_pool,
+                self._run_model,
+                model,
+                request.input_data
+            )
             
-            execution_time = time.time() - start_time
+            processing_time = time.time() - start_time
             
-            return InferenceResult(
+            # Update stats
+            with self._lock:
+                self._stats['total_requests'] += 1
+                self._stats['successful_requests'] += 1
+                total_time = self._stats['average_processing_time'] * (self._stats['successful_requests'] - 1)
+                self._stats['average_processing_time'] = (total_time + processing_time) / self._stats['successful_requests']
+            
+            return SimpleResult(
                 request_id=request.request_id,
                 model_id=request.model_id,
-                output_data=output,
-                success=True,
-                execution_time=execution_time,
-                metadata={
-                    'worker_id': worker_id,
-                    'processed_at': time.time()
-                }
+                output_data=output_data,
+                processing_time=processing_time,
+                success=True
             )
             
         except Exception as e:
-            execution_time = time.time() - start_time
-            logger.error(f"Inference failed for request {request.request_id}: {e}")
+            processing_time = time.time() - start_time
+            error_message = str(e)
             
-            return InferenceResult(
+            # Update error stats
+            with self._lock:
+                self._stats['total_requests'] += 1
+                self._stats['failed_requests'] += 1
+            
+            logger.error(f"Inference failed for {request.request_id}: {error_message}")
+            
+            return SimpleResult(
                 request_id=request.request_id,
                 model_id=request.model_id,
                 output_data=None,
+                processing_time=processing_time,
                 success=False,
-                execution_time=execution_time,
-                error_message=str(e),
-                metadata={
-                    'worker_id': worker_id,
-                    'processed_at': time.time()
-                }
+                error=error_message
             )
     
-    async def _run_inference(
-        self, 
-        model: Any, 
-        input_data: Any, 
-        request: InferenceRequest
-    ) -> Any:
-        """
-        Run actual inference on the model.
-        This is a simplified implementation for Generation 1.
-        """
-        # Simulate processing time
-        processing_time = 0.01 + (hash(str(input_data)) % 100) / 10000
-        await asyncio.sleep(processing_time)
-        
-        # Mock inference result based on input
-        if isinstance(input_data, (list, tuple)):
-            # Return sum for numeric inputs
-            try:
-                numeric_sum = sum(float(x) for x in input_data if isinstance(x, (int, float)))
-                return {'prediction': numeric_sum, 'confidence': 0.95}
-            except:
-                return {'prediction': len(input_data), 'confidence': 0.8}
-        
-        elif isinstance(input_data, str):
-            # Return text analysis for string inputs
-            return {
-                'prediction': len(input_data.split()),
-                'sentiment': 'positive' if len(input_data) % 2 == 0 else 'negative',
-                'confidence': 0.85
-            }
-        
-        elif isinstance(input_data, dict):
-            # Return aggregated results for dict inputs
-            return {
-                'prediction': len(input_data),
-                'keys': list(input_data.keys()),
-                'confidence': 0.90
-            }
-        
+    def _run_model(self, model, input_data):
+        """Run model inference (CPU-bound operation)."""
+        if hasattr(model, 'forward'):
+            return model.forward(input_data)
+        elif hasattr(model, '__call__'):
+            return model(input_data)
         else:
-            # Default response
-            return {
-                'prediction': str(type(input_data).__name__),
-                'confidence': 0.75
-            }
-
-
-# Utility functions for testing and demonstration
-async def demo_simple_inference_engine():
-    """Demonstration of the simple inference engine."""
-    engine = SimpleInferenceEngine({
-        'max_workers': 2,
-        'max_queue_size': 10
-    })
+            # Simple processing for demo
+            if isinstance(input_data, list):
+                return [x * 0.5 + 0.1 for x in input_data]
+            elif isinstance(input_data, (int, float)):
+                return input_data * 0.5 + 0.1
+            else:
+                return f"processed_{input_data}"
     
-    try:
-        # Start engine
-        success = await engine.start()
-        if not success:
-            print("Failed to start inference engine")
-            return
+    def get_stats(self) -> Dict[str, Any]:
+        """Get engine statistics."""
+        with self._lock:
+            return self._stats.copy()
+    
+    def shutdown(self) -> None:
+        """Shutdown the engine."""
+        self._thread_pool.shutdown(wait=True)
+        logger.info("Simple Inference Engine shutdown")
+
+
+class SimpleTensorOps:
+    """Simple tensor operations for WASM compatibility."""
+    
+    @staticmethod
+    def relu(tensor):
+        """ReLU activation."""
+        if torch_available and hasattr(tensor, 'clamp_'):
+            return tensor.clamp_(min=0.0)
+        elif isinstance(tensor, list):
+            return [max(0.0, x) for x in tensor]
+        else:
+            return max(0.0, tensor)
+    
+    @staticmethod
+    def linear(input_tensor, weight, bias=None):
+        """Linear transformation."""
+        if torch_available and hasattr(input_tensor, 'matmul'):
+            output = torch.matmul(input_tensor, weight.T)
+            if bias is not None:
+                output = output + bias
+            return output
+        else:
+            # Simple mock implementation
+            if isinstance(input_tensor, list) and isinstance(weight, list):
+                # Simplified matrix multiplication
+                if len(weight) > 0 and len(input_tensor) == len(weight[0]):
+                    output = []
+                    for row in weight:
+                        value = sum(a * b for a, b in zip(input_tensor, row))
+                        output.append(value)
+                    
+                    if bias and len(bias) == len(output):
+                        output = [o + b for o, b in zip(output, bias)]
+                    
+                    return output
+            
+            return input_tensor
+    
+    @staticmethod
+    def softmax(tensor):
+        """Softmax activation."""
+        if torch_available and hasattr(tensor, 'softmax'):
+            return torch.softmax(tensor, dim=-1)
+        elif isinstance(tensor, list):
+            # Simple softmax implementation
+            import math
+            exp_values = [math.exp(x - max(tensor)) for x in tensor]
+            sum_exp = sum(exp_values)
+            return [x / sum_exp for x in exp_values]
+        else:
+            return tensor
+
+
+class SimpleModel:
+    """Simple model implementation for testing."""
+    
+    def __init__(self, layers: List[Dict[str, Any]]):
+        self.layers = layers
+        self.ops = SimpleTensorOps()
+    
+    def forward(self, input_data):
+        """Forward pass through the model."""
+        current_input = input_data
         
-        # Register a mock model
-        mock_model = {'type': 'simple_classifier', 'version': '1.0'}
-        engine.register_model('test_model', mock_model)
+        for layer in self.layers:
+            layer_type = layer.get('type', 'unknown')
+            
+            if layer_type == 'linear':
+                weight = layer.get('weight', [[1.0]])
+                bias = layer.get('bias', None)
+                current_input = self.ops.linear(current_input, weight, bias)
+            
+            elif layer_type == 'relu':
+                current_input = self.ops.relu(current_input)
+            
+            elif layer_type == 'softmax':
+                current_input = self.ops.softmax(current_input)
+            
+            else:
+                logger.warning(f"Unknown layer type: {layer_type}")
         
-        # Submit some test requests
-        test_inputs = [
-            [1, 2, 3, 4, 5],
-            "Hello world, this is a test",
-            {'key1': 'value1', 'key2': 'value2'},
-            42
+        return current_input
+    
+    @classmethod
+    def create_classifier(cls, input_size: int, hidden_size: int, num_classes: int):
+        """Create a simple classifier model."""
+        import random
+        
+        # Generate random weights for demo
+        hidden_weights = [[random.uniform(-0.1, 0.1) for _ in range(input_size)] for _ in range(hidden_size)]
+        output_weights = [[random.uniform(-0.1, 0.1) for _ in range(hidden_size)] for _ in range(num_classes)]
+        
+        layers = [
+            {'type': 'linear', 'weight': hidden_weights, 'bias': [0.1] * hidden_size},
+            {'type': 'relu'},
+            {'type': 'linear', 'weight': output_weights, 'bias': [0.0] * num_classes},
+            {'type': 'softmax'}
         ]
         
-        print("Submitting inference requests...")
-        request_ids = []
+        return cls(layers)
+
+
+# Demo function
+async def demo_simple_inference_engine():
+    """Demonstration of the simple inference engine."""
+    
+    try:
+        print("Simple Inference Engine Demo - Generation 1")
+        print("=" * 50)
         
-        for i, input_data in enumerate(test_inputs):
-            request = InferenceRequest(
-                request_id=f"test_request_{i}",
-                model_id='test_model',
-                input_data=input_data
-            )
-            
-            success = await engine.submit_request(request)
-            if success:
-                request_ids.append(request.request_id)
-                print(f"Submitted: {request.request_id}")
+        # Create engine
+        engine = SimpleInferenceEngine(max_workers=2)
+        print("✓ Engine created")
         
-        # Get results
-        print("\nGetting results...")
-        for request_id in request_ids:
-            result = await engine.get_result(request_id, timeout=5.0)
-            if result:
-                print(f"Result for {request_id}: {result.output_data}")
-            else:
-                print(f"No result for {request_id}")
+        # Create test models
+        classifier = SimpleModel.create_classifier(4, 8, 3)
+        simple_processor = lambda x: [val * 2 + 1 for val in x] if isinstance(x, list) else x * 2 + 1
+        
+        # Register models
+        engine.register_model('classifier', classifier)
+        engine.register_model('processor', simple_processor)
+        print(f"✓ Registered models: {engine.list_models()}")
+        
+        # Test single inference
+        print("\\nTesting single inference...")
+        result1 = await engine.infer('classifier', [0.5, -0.3, 0.8, 0.1])
+        print(f"Classifier result: {result1.output_data} (time: {result1.processing_time:.4f}s)")
+        
+        result2 = await engine.infer('processor', [1, 2, 3, 4])
+        print(f"Processor result: {result2.output_data} (time: {result2.processing_time:.4f}s)")
+        
+        # Test batch inference
+        print("\\nTesting batch inference...")
+        batch_requests = [
+            ('classifier', [0.2, 0.4, -0.1, 0.6]),
+            ('processor', [5, 6, 7]),
+            ('classifier', [-0.3, 0.9, 0.2, -0.5])
+        ]
+        
+        batch_results = await engine.infer_batch(batch_requests)
+        print(f"✓ Processed {len(batch_results)} requests in batch")
+        
+        for i, result in enumerate(batch_results):
+            print(f"  Result {i+1}: {result.output_data[:3] if isinstance(result.output_data, list) else result.output_data} "
+                  f"(time: {result.processing_time:.4f}s)")
         
         # Show statistics
-        stats = engine.get_statistics()
-        print(f"\nEngine statistics:")
+        stats = engine.get_stats()
+        print(f"\\nEngine Statistics:")
         print(f"Total requests: {stats['total_requests']}")
         print(f"Successful: {stats['successful_requests']}")
         print(f"Failed: {stats['failed_requests']}")
-        print(f"Average execution time: {stats['average_execution_time']:.4f}s")
+        print(f"Average processing time: {stats['average_processing_time']:.4f}s")
         
-    finally:
-        # Stop engine
-        await engine.stop()
+        # Test error handling
+        print("\\nTesting error handling...")
+        error_result = await engine.infer('nonexistent_model', [1, 2, 3])
+        print(f"Error result: success={error_result.success}, error={error_result.error}")
+        
+        # Shutdown
+        engine.shutdown()
+        print("\\n✓ Engine shutdown complete")
+        
+        print("\\n🎉 Simple Inference Engine Demo Complete!")
+        
+    except Exception as e:
+        print(f"Demo error: {e}")
+        import traceback
+        traceback.print_exc()
 
 
 if __name__ == "__main__":
-    # Run demonstration
     asyncio.run(demo_simple_inference_engine())

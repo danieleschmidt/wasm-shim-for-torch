@@ -1,607 +1,629 @@
-"""
-Robust Error Handling - Generation 2: Make It Robust
-Comprehensive error handling, recovery, and resilience systems.
+"""Robust Error Handling - Generation 2: Reliability Systems
+
+Comprehensive error handling, recovery mechanisms, and validation systems
+for production-ready PyTorch-to-WASM inference.
 """
 
 import asyncio
-import logging
 import time
+import logging
 import traceback
-from typing import Dict, Any, List, Optional, Callable, Union, Type
-from dataclasses import dataclass, field
-from enum import Enum, auto
-from functools import wraps
 import threading
-from contextlib import asynccontextmanager, contextmanager
-import weakref
+from typing import Dict, List, Any, Optional, Union, Callable, Type
+from dataclasses import dataclass, field
+from enum import Enum
+from contextlib import asynccontextmanager
+from abc import ABC, abstractmethod
 import json
+import hashlib
+import sys
 
 logger = logging.getLogger(__name__)
 
 
 class ErrorSeverity(Enum):
-    """Error severity levels for classification and handling."""
-    
-    LOW = auto()          # Minor issues, can continue
-    MEDIUM = auto()       # Significant issues, degraded performance
-    HIGH = auto()         # Major issues, partial system failure
-    CRITICAL = auto()     # System-breaking issues, immediate attention
+    """Error severity levels."""
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    CRITICAL = "critical"
 
 
 class ErrorCategory(Enum):
-    """Error categories for better classification and handling."""
-    
-    VALIDATION = auto()   # Input/output validation errors
-    RESOURCE = auto()     # Resource exhaustion, allocation failures
-    NETWORK = auto()      # Network connectivity, timeout issues
-    PERMISSION = auto()   # Access control, authorization failures
-    CORRUPTION = auto()   # Data corruption, integrity issues
-    TIMEOUT = auto()      # Operation timeout errors
-    DEPENDENCY = auto()   # Missing or failed dependencies
-    CONFIGURATION = auto() # Configuration errors
-    RUNTIME = auto()      # General runtime errors
+    """Error categories for classification."""
+    INPUT_VALIDATION = "input_validation"
+    MODEL_EXECUTION = "model_execution"
+    RESOURCE_EXHAUSTION = "resource_exhaustion"
+    NETWORK_ERROR = "network_error"
+    TIMEOUT = "timeout"
+    AUTHENTICATION = "authentication"
+    AUTHORIZATION = "authorization"
+    SYSTEM_ERROR = "system_error"
+    UNKNOWN = "unknown"
 
 
 @dataclass
 class ErrorContext:
-    """Rich context information for errors."""
-    
-    error_id: str
+    """Comprehensive error context for debugging and recovery."""
+    error_id: str = field(default_factory=lambda: hashlib.md5(f"{time.time()}".encode()).hexdigest()[:8])
     timestamp: float = field(default_factory=time.time)
     severity: ErrorSeverity = ErrorSeverity.MEDIUM
-    category: ErrorCategory = ErrorCategory.RUNTIME
-    component: str = "unknown"
-    operation: str = "unknown"
-    error_type: str = "Exception"
-    error_message: str = ""
-    traceback_info: str = ""
-    metadata: Dict[str, Any] = field(default_factory=dict)
-    recovery_attempts: int = 0
-    max_recovery_attempts: int = 3
-    last_recovery_attempt: Optional[float] = None
+    category: ErrorCategory = ErrorCategory.UNKNOWN
+    error_type: str = "UnknownError"
+    message: str = ""
+    details: Dict[str, Any] = field(default_factory=dict)
+    stack_trace: Optional[str] = None
+    recovery_suggestions: List[str] = field(default_factory=list)
+    retry_count: int = 0
+    max_retries: int = 3
+    backoff_delay: float = 1.0
+    context_data: Dict[str, Any] = field(default_factory=dict)
     
     def to_dict(self) -> Dict[str, Any]:
         """Convert to dictionary for serialization."""
         return {
             'error_id': self.error_id,
             'timestamp': self.timestamp,
-            'severity': self.severity.name,
-            'category': self.category.name,
-            'component': self.component,
-            'operation': self.operation,
+            'severity': self.severity.value,
+            'category': self.category.value,
             'error_type': self.error_type,
-            'error_message': self.error_message,
-            'traceback_info': self.traceback_info,
-            'metadata': self.metadata,
-            'recovery_attempts': self.recovery_attempts,
-            'max_recovery_attempts': self.max_recovery_attempts,
-            'last_recovery_attempt': self.last_recovery_attempt
+            'message': self.message,
+            'details': self.details,
+            'stack_trace': self.stack_trace,
+            'recovery_suggestions': self.recovery_suggestions,
+            'retry_count': self.retry_count,
+            'max_retries': self.max_retries,
+            'backoff_delay': self.backoff_delay,
+            'context_data': self.context_data
         }
-
-
-class CircuitBreakerState(Enum):
-    """Circuit breaker states."""
     
-    CLOSED = auto()    # Normal operation
-    OPEN = auto()      # Failing, block requests
-    HALF_OPEN = auto() # Testing if recovered
+    def should_retry(self) -> bool:
+        """Check if error should be retried."""
+        return (self.retry_count < self.max_retries and 
+                self.category in [ErrorCategory.NETWORK_ERROR, ErrorCategory.TIMEOUT, ErrorCategory.RESOURCE_EXHAUSTION])
 
 
-class RobustCircuitBreaker:
-    """
-    Robust circuit breaker implementation with adaptive thresholds.
-    """
+class WASMTorchError(Exception):
+    """Base exception for WASM-Torch library."""
     
-    def __init__(
-        self,
-        name: str,
-        failure_threshold: int = 5,
-        recovery_timeout: float = 60.0,
-        success_threshold: int = 3
-    ):
-        self.name = name
-        self.failure_threshold = failure_threshold
-        self.recovery_timeout = recovery_timeout
-        self.success_threshold = success_threshold
-        
-        # State tracking
-        self.state = CircuitBreakerState.CLOSED
-        self.failure_count = 0
-        self.success_count = 0
-        self.last_failure_time: Optional[float] = None
-        self.last_success_time: Optional[float] = None
-        
-        # Statistics
-        self.total_calls = 0
-        self.successful_calls = 0
-        self.failed_calls = 0
-        self.blocked_calls = 0
-        
-        self._lock = threading.RLock()
-        
-    @asynccontextmanager
-    async def protect(self):
-        """Async context manager for circuit breaker protection."""
-        if not self._should_allow_call():
-            self.blocked_calls += 1
-            raise CircuitBreakerOpenError(
-                f"Circuit breaker '{self.name}' is OPEN"
-            )
-        
-        self.total_calls += 1
-        start_time = time.time()
-        
-        try:
-            yield
-            # Success case
-            execution_time = time.time() - start_time
-            await self._on_success(execution_time)
-            
-        except Exception as e:
-            # Failure case
-            execution_time = time.time() - start_time
-            await self._on_failure(e, execution_time)
-            raise
-    
-    def _should_allow_call(self) -> bool:
-        """Determine if a call should be allowed."""
-        with self._lock:
-            if self.state == CircuitBreakerState.CLOSED:
-                return True
-            elif self.state == CircuitBreakerState.OPEN:
-                # Check if we should transition to half-open
-                if (self.last_failure_time and 
-                    time.time() - self.last_failure_time > self.recovery_timeout):
-                    self.state = CircuitBreakerState.HALF_OPEN
-                    self.success_count = 0
-                    return True
-                return False
-            elif self.state == CircuitBreakerState.HALF_OPEN:
-                return True
-            
-            return False
-    
-    async def _on_success(self, execution_time: float) -> None:
-        """Handle successful operation."""
-        with self._lock:
-            self.successful_calls += 1
-            self.last_success_time = time.time()
-            
-            if self.state == CircuitBreakerState.HALF_OPEN:
-                self.success_count += 1
-                if self.success_count >= self.success_threshold:
-                    self.state = CircuitBreakerState.CLOSED
-                    self.failure_count = 0
-                    logger.info(f"Circuit breaker '{self.name}' transitioned to CLOSED")
-            
-            elif self.state == CircuitBreakerState.CLOSED:
-                # Reset failure count on success
-                self.failure_count = max(0, self.failure_count - 1)
-    
-    async def _on_failure(self, error: Exception, execution_time: float) -> None:
-        """Handle failed operation."""
-        with self._lock:
-            self.failed_calls += 1
-            self.failure_count += 1
-            self.last_failure_time = time.time()
-            
-            if self.state == CircuitBreakerState.CLOSED:
-                if self.failure_count >= self.failure_threshold:
-                    self.state = CircuitBreakerState.OPEN
-                    logger.warning(f"Circuit breaker '{self.name}' opened due to failures")
-            
-            elif self.state == CircuitBreakerState.HALF_OPEN:
-                self.state = CircuitBreakerState.OPEN
-                logger.warning(f"Circuit breaker '{self.name}' reopened after half-open failure")
-    
-    def get_stats(self) -> Dict[str, Any]:
-        """Get circuit breaker statistics."""
-        with self._lock:
-            success_rate = (
-                self.successful_calls / self.total_calls 
-                if self.total_calls > 0 else 0.0
-            )
-            
-            return {
-                'name': self.name,
-                'state': self.state.name,
-                'total_calls': self.total_calls,
-                'successful_calls': self.successful_calls,
-                'failed_calls': self.failed_calls,
-                'blocked_calls': self.blocked_calls,
-                'success_rate': success_rate,
-                'failure_count': self.failure_count,
-                'last_failure_time': self.last_failure_time,
-                'last_success_time': self.last_success_time
-            }
+    def __init__(self, message: str, error_context: Optional[ErrorContext] = None):
+        super().__init__(message)
+        self.error_context = error_context or ErrorContext(message=message)
+        self.error_context.message = message
+        self.error_context.error_type = self.__class__.__name__
 
 
-class CircuitBreakerOpenError(Exception):
-    """Exception raised when circuit breaker is open."""
-    pass
-
-
-class RobustRetryPolicy:
-    """
-    Configurable retry policy with exponential backoff and jitter.
-    """
+class ModelNotFoundError(WASMTorchError):
+    """Raised when a requested model is not found."""
     
-    def __init__(
-        self,
-        max_attempts: int = 3,
-        base_delay: float = 1.0,
-        max_delay: float = 60.0,
-        exponential_base: float = 2.0,
-        jitter: bool = True,
-        retry_exceptions: Optional[List[Type[Exception]]] = None
-    ):
-        self.max_attempts = max_attempts
+    def __init__(self, model_id: str):
+        context = ErrorContext(
+            severity=ErrorSeverity.HIGH,
+            category=ErrorCategory.MODEL_EXECUTION,
+            message=f"Model not found: {model_id}",
+            details={"model_id": model_id},
+            recovery_suggestions=["Check if model is registered", "Verify model ID spelling"]
+        )
+        super().__init__(f"Model not found: {model_id}", context)
+
+
+class InputValidationError(WASMTorchError):
+    """Raised when input validation fails."""
+    
+    def __init__(self, message: str, input_data: Any = None):
+        context = ErrorContext(
+            severity=ErrorSeverity.MEDIUM,
+            category=ErrorCategory.INPUT_VALIDATION,
+            message=message,
+            details={"input_type": type(input_data).__name__ if input_data else None},
+            recovery_suggestions=["Check input format", "Validate input dimensions", "Ensure input is not None"]
+        )
+        super().__init__(message, context)
+
+
+class ResourceExhaustionError(WASMTorchError):
+    """Raised when system resources are exhausted."""
+    
+    def __init__(self, resource_type: str, current_usage: float, limit: float):
+        context = ErrorContext(
+            severity=ErrorSeverity.HIGH,
+            category=ErrorCategory.RESOURCE_EXHAUSTION,
+            message=f"{resource_type} exhausted: {current_usage}/{limit}",
+            details={
+                "resource_type": resource_type,
+                "current_usage": current_usage,
+                "limit": limit,
+                "usage_percentage": (current_usage / limit) * 100 if limit > 0 else 0
+            },
+            recovery_suggestions=[
+                "Wait for resources to free up",
+                "Increase resource limits",
+                "Optimize resource usage"
+            ]
+        )
+        super().__init__(f"{resource_type} exhausted: {current_usage}/{limit}", context)
+
+
+class InferenceTimeoutError(WASMTorchError):
+    """Raised when inference times out."""
+    
+    def __init__(self, timeout: float, elapsed: float):
+        context = ErrorContext(
+            severity=ErrorSeverity.HIGH,
+            category=ErrorCategory.TIMEOUT,
+            message=f"Inference timeout: {elapsed:.2f}s > {timeout:.2f}s",
+            details={
+                "timeout": timeout,
+                "elapsed": elapsed,
+                "overhead": elapsed - timeout
+            },
+            recovery_suggestions=[
+                "Increase timeout value",
+                "Optimize model performance",
+                "Check system load"
+            ]
+        )
+        super().__init__(f"Inference timeout: {elapsed:.2f}s > {timeout:.2f}s", context)
+
+
+class CircuitBreakerError(WASMTorchError):
+    """Raised when circuit breaker is open."""
+    
+    def __init__(self, service_name: str, failure_rate: float):
+        context = ErrorContext(
+            severity=ErrorSeverity.CRITICAL,
+            category=ErrorCategory.SYSTEM_ERROR,
+            message=f"Circuit breaker open for {service_name} (failure rate: {failure_rate:.2%})",
+            details={
+                "service_name": service_name,
+                "failure_rate": failure_rate
+            },
+            recovery_suggestions=[
+                "Wait for circuit breaker to reset",
+                "Check service health",
+                "Implement fallback mechanism"
+            ]
+        )
+        super().__init__(f"Circuit breaker open for {service_name}", context)
+
+
+class ErrorRecoveryStrategy(ABC):
+    """Abstract base class for error recovery strategies."""
+    
+    @abstractmethod
+    async def can_recover(self, error_context: ErrorContext) -> bool:
+        """Check if this strategy can recover from the error."""
+        pass
+    
+    @abstractmethod
+    async def recover(self, error_context: ErrorContext) -> Any:
+        """Attempt to recover from the error."""
+        pass
+
+
+class RetryRecoveryStrategy(ErrorRecoveryStrategy):
+    """Retry-based recovery strategy with exponential backoff."""
+    
+    def __init__(self, max_retries: int = 3, base_delay: float = 1.0, max_delay: float = 30.0):
+        self.max_retries = max_retries
         self.base_delay = base_delay
         self.max_delay = max_delay
-        self.exponential_base = exponential_base
-        self.jitter = jitter
-        self.retry_exceptions = retry_exceptions or [Exception]
     
-    def should_retry(self, error: Exception, attempt: int) -> bool:
-        """Determine if an error should be retried."""
-        if attempt >= self.max_attempts:
-            return False
+    async def can_recover(self, error_context: ErrorContext) -> bool:
+        """Check if error can be recovered by retrying."""
+        return error_context.should_retry()
+    
+    async def recover(self, error_context: ErrorContext) -> Any:
+        """Attempt recovery by waiting and retrying."""
+        error_context.retry_count += 1
         
-        # Check if error type is retryable
-        return any(isinstance(error, exc_type) for exc_type in self.retry_exceptions)
-    
-    def calculate_delay(self, attempt: int) -> float:
-        """Calculate delay for next retry attempt."""
-        delay = self.base_delay * (self.exponential_base ** attempt)
-        delay = min(delay, self.max_delay)
-        
-        if self.jitter:
-            # Add jitter: ±20% of the delay
-            import random
-            jitter_factor = 0.8 + (0.4 * random.random())
-            delay *= jitter_factor
-        
-        return delay
-
-
-class RobustErrorManager:
-    """
-    Comprehensive error management system for robust operations.
-    """
-    
-    def __init__(self):
-        self._error_history: List[ErrorContext] = []
-        self._circuit_breakers: Dict[str, RobustCircuitBreaker] = {}
-        self._error_handlers: Dict[str, Callable] = {}
-        self._recovery_strategies: Dict[str, Callable] = {}
-        self._lock = threading.RLock()
-        
-        # Error statistics
-        self._stats = {
-            'total_errors': 0,
-            'errors_by_severity': {sev.name: 0 for sev in ErrorSeverity},
-            'errors_by_category': {cat.name: 0 for cat in ErrorCategory},
-            'recovery_success_rate': 0.0,
-            'circuit_breaker_trips': 0
-        }
-    
-    def register_circuit_breaker(
-        self, 
-        name: str, 
-        failure_threshold: int = 5,
-        recovery_timeout: float = 60.0
-    ) -> RobustCircuitBreaker:
-        """Register a new circuit breaker."""
-        with self._lock:
-            circuit_breaker = RobustCircuitBreaker(
-                name=name,
-                failure_threshold=failure_threshold,
-                recovery_timeout=recovery_timeout
-            )
-            self._circuit_breakers[name] = circuit_breaker
-            return circuit_breaker
-    
-    def get_circuit_breaker(self, name: str) -> Optional[RobustCircuitBreaker]:
-        """Get a circuit breaker by name."""
-        return self._circuit_breakers.get(name)
-    
-    def register_error_handler(
-        self, 
-        error_type: str, 
-        handler: Callable[[ErrorContext], Any]
-    ) -> None:
-        """Register a custom error handler."""
-        self._error_handlers[error_type] = handler
-    
-    def register_recovery_strategy(
-        self,
-        component: str,
-        strategy: Callable[[ErrorContext], bool]
-    ) -> None:
-        """Register a recovery strategy for a component."""
-        self._recovery_strategies[component] = strategy
-    
-    async def handle_error(
-        self,
-        error: Exception,
-        component: str,
-        operation: str,
-        severity: ErrorSeverity = ErrorSeverity.MEDIUM,
-        category: ErrorCategory = ErrorCategory.RUNTIME,
-        metadata: Optional[Dict[str, Any]] = None
-    ) -> ErrorContext:
-        """Handle an error with full context and recovery."""
-        
-        # Create error context
-        error_context = ErrorContext(
-            error_id=f"{component}_{operation}_{int(time.time() * 1000000)}",
-            severity=severity,
-            category=category,
-            component=component,
-            operation=operation,
-            error_type=type(error).__name__,
-            error_message=str(error),
-            traceback_info=traceback.format_exc(),
-            metadata=metadata or {}
+        # Calculate exponential backoff delay
+        delay = min(
+            self.base_delay * (2 ** (error_context.retry_count - 1)),
+            self.max_delay
         )
         
-        # Record error
-        with self._lock:
-            self._error_history.append(error_context)
-            self._stats['total_errors'] += 1
-            self._stats['errors_by_severity'][severity.name] += 1
-            self._stats['errors_by_category'][category.name] += 1
+        logger.info(f"Retrying after {delay:.2f}s (attempt {error_context.retry_count}/{error_context.max_retries})")
+        await asyncio.sleep(delay)
         
-        # Log error with appropriate level
+        return None  # Signal that operation should be retried
+
+
+class FallbackRecoveryStrategy(ErrorRecoveryStrategy):
+    """Fallback-based recovery strategy."""
+    
+    def __init__(self, fallback_function: Callable):
+        self.fallback_function = fallback_function
+    
+    async def can_recover(self, error_context: ErrorContext) -> bool:
+        """Check if fallback is available."""
+        return self.fallback_function is not None
+    
+    async def recover(self, error_context: ErrorContext) -> Any:
+        """Attempt recovery using fallback function."""
+        logger.warning(f"Using fallback for error: {error_context.message}")
+        
+        if asyncio.iscoroutinefunction(self.fallback_function):
+            return await self.fallback_function(error_context)
+        else:
+            return self.fallback_function(error_context)
+
+
+class CircuitBreakerRecoveryStrategy(ErrorRecoveryStrategy):
+    """Circuit breaker-based recovery strategy."""
+    
+    def __init__(self, failure_threshold: float = 0.5, reset_timeout: float = 60.0):
+        self.failure_threshold = failure_threshold
+        self.reset_timeout = reset_timeout
+        self._circuit_states: Dict[str, Dict] = {}
+    
+    async def can_recover(self, error_context: ErrorContext) -> bool:
+        """Check if circuit breaker allows recovery."""
+        service_name = error_context.context_data.get('service_name', 'default')
+        state = self._circuit_states.get(service_name, {
+            'state': 'closed',
+            'failure_count': 0,
+            'success_count': 0,
+            'last_failure_time': 0
+        })
+        
+        return state['state'] != 'open'
+    
+    async def recover(self, error_context: ErrorContext) -> Any:
+        """Update circuit breaker state."""
+        service_name = error_context.context_data.get('service_name', 'default')
+        
+        if service_name not in self._circuit_states:
+            self._circuit_states[service_name] = {
+                'state': 'closed',
+                'failure_count': 0,
+                'success_count': 0,
+                'last_failure_time': 0
+            }
+        
+        state = self._circuit_states[service_name]
+        current_time = time.time()
+        
+        # Update failure count
+        state['failure_count'] += 1
+        state['last_failure_time'] = current_time
+        
+        # Calculate failure rate
+        total_requests = state['failure_count'] + state['success_count']
+        if total_requests > 0:
+            failure_rate = state['failure_count'] / total_requests
+            
+            # Open circuit if failure rate exceeds threshold
+            if failure_rate > self.failure_threshold and total_requests >= 10:
+                state['state'] = 'open'
+                logger.warning(f"Circuit breaker opened for {service_name} (failure rate: {failure_rate:.2%})")
+                raise CircuitBreakerError(service_name, failure_rate)
+        
+        return None
+
+
+class InputValidator:
+    """Comprehensive input validation system."""
+    
+    @staticmethod
+    def validate_tensor_input(input_data: Any, expected_shape: Optional[List[int]] = None,
+                            expected_dtype: Optional[str] = None) -> None:
+        """Validate tensor input data."""
+        if input_data is None:
+            raise InputValidationError("Input data cannot be None")
+        
+        # Check for NaN and infinite values
+        if hasattr(input_data, '__iter__') and not isinstance(input_data, str):
+            try:
+                flat_data = list(input_data) if isinstance(input_data, (list, tuple)) else [input_data]
+                for value in flat_data:
+                    if isinstance(value, (int, float)):
+                        if str(value).lower() in ['nan', 'inf', '-inf']:
+                            raise InputValidationError(f"Input contains invalid value: {value}")
+                        # Check for extremely large values that might cause overflow
+                        if abs(value) > 1e10:
+                            logger.warning(f"Input contains very large value: {value}")
+            except (TypeError, ValueError) as e:
+                raise InputValidationError(f"Failed to validate input values: {e}")
+        
+        # Validate shape if expected
+        if expected_shape is not None and hasattr(input_data, 'shape'):
+            if list(input_data.shape) != expected_shape:
+                raise InputValidationError(
+                    f"Input shape mismatch: expected {expected_shape}, got {list(input_data.shape)}"
+                )
+        
+        # Validate data type if expected
+        if expected_dtype is not None and hasattr(input_data, 'dtype'):
+            if str(input_data.dtype) != expected_dtype:
+                raise InputValidationError(
+                    f"Input dtype mismatch: expected {expected_dtype}, got {input_data.dtype}"
+                )
+    
+    @staticmethod
+    def validate_model_id(model_id: str) -> None:
+        """Validate model ID format and content."""
+        if not isinstance(model_id, str):
+            raise InputValidationError("Model ID must be a string")
+        
+        if not model_id.strip():
+            raise InputValidationError("Model ID cannot be empty")
+        
+        if len(model_id) > 100:
+            raise InputValidationError("Model ID too long (max 100 characters)")
+        
+        # Check for potentially malicious characters
+        dangerous_chars = ['<', '>', '&', '"', "'", '\\', '/', '..']
+        for char in dangerous_chars:
+            if char in model_id:
+                raise InputValidationError(f"Model ID contains dangerous character: {char}")
+    
+    @staticmethod
+    def validate_timeout(timeout: float) -> None:
+        """Validate timeout value."""
+        if not isinstance(timeout, (int, float)):
+            raise InputValidationError("Timeout must be a number")
+        
+        if timeout <= 0:
+            raise InputValidationError("Timeout must be positive")
+        
+        if timeout > 3600:  # 1 hour
+            logger.warning(f"Very long timeout specified: {timeout}s")
+    
+    @staticmethod
+    def validate_batch_size(batch_size: int, max_batch_size: int = 100) -> None:
+        """Validate batch size."""
+        if not isinstance(batch_size, int):
+            raise InputValidationError("Batch size must be an integer")
+        
+        if batch_size <= 0:
+            raise InputValidationError("Batch size must be positive")
+        
+        if batch_size > max_batch_size:
+            raise InputValidationError(f"Batch size too large: {batch_size} > {max_batch_size}")
+
+
+class RobustErrorHandler:
+    """Comprehensive error handling system with recovery strategies."""
+    
+    def __init__(self):
+        self._recovery_strategies: List[ErrorRecoveryStrategy] = []
+        self._error_history: List[ErrorContext] = []
+        self._error_counts: Dict[str, int] = {}
+        self._lock = threading.RLock()
+        
+        # Add default recovery strategies
+        self.add_recovery_strategy(RetryRecoveryStrategy())
+        self.add_recovery_strategy(CircuitBreakerRecoveryStrategy())
+    
+    def add_recovery_strategy(self, strategy: ErrorRecoveryStrategy) -> None:
+        """Add a recovery strategy."""
+        self._recovery_strategies.append(strategy)
+    
+    async def handle_error(self, error: Exception, context_data: Optional[Dict[str, Any]] = None) -> Any:
+        """Handle error with recovery strategies."""
+        # Create error context
+        error_context = self._create_error_context(error, context_data or {})
+        
+        # Log error
         self._log_error(error_context)
         
-        # Try custom error handler
-        error_type = type(error).__name__
-        if error_type in self._error_handlers:
-            try:
-                await self._error_handlers[error_type](error_context)
-            except Exception as handler_error:
-                logger.error(f"Error handler failed: {handler_error}")
+        # Record error in history
+        with self._lock:
+            self._error_history.append(error_context)
+            self._error_counts[error_context.error_type] = (
+                self._error_counts.get(error_context.error_type, 0) + 1
+            )
+            
+            # Limit history size
+            if len(self._error_history) > 1000:
+                self._error_history = self._error_history[-500:]
         
-        # Attempt recovery if appropriate
-        if severity in [ErrorSeverity.MEDIUM, ErrorSeverity.HIGH]:
-            recovery_success = await self._attempt_recovery(error_context)
-            if recovery_success:
-                logger.info(f"Recovery successful for error {error_context.error_id}")
+        # Attempt recovery
+        for strategy in self._recovery_strategies:
+            if await strategy.can_recover(error_context):
+                try:
+                    recovery_result = await strategy.recover(error_context)
+                    logger.info(f"Error recovered using {strategy.__class__.__name__}")
+                    return recovery_result
+                except Exception as recovery_error:
+                    logger.error(f"Recovery strategy failed: {recovery_error}")
+                    continue
+        
+        # No recovery possible, re-raise with enhanced context
+        if isinstance(error, WASMTorchError):
+            raise error
+        else:
+            raise WASMTorchError(str(error), error_context)
+    
+    def _create_error_context(self, error: Exception, context_data: Dict[str, Any]) -> ErrorContext:
+        """Create comprehensive error context."""
+        # Extract error details
+        error_type = type(error).__name__
+        message = str(error)
+        stack_trace = traceback.format_exc()
+        
+        # Categorize error
+        category = self._categorize_error(error)
+        severity = self._determine_severity(error, category)
+        
+        # Create context
+        error_context = ErrorContext(
+            severity=severity,
+            category=category,
+            error_type=error_type,
+            message=message,
+            stack_trace=stack_trace,
+            context_data=context_data
+        )
+        
+        # Add recovery suggestions
+        error_context.recovery_suggestions = self._generate_recovery_suggestions(error, category)
         
         return error_context
     
-    async def _attempt_recovery(self, error_context: ErrorContext) -> bool:
-        """Attempt to recover from an error."""
-        if error_context.recovery_attempts >= error_context.max_recovery_attempts:
-            return False
+    def _categorize_error(self, error: Exception) -> ErrorCategory:
+        """Categorize error based on type and message."""
+        error_type = type(error).__name__.lower()
+        error_message = str(error).lower()
         
-        component = error_context.component
-        if component not in self._recovery_strategies:
-            return False
+        if isinstance(error, (ValueError, TypeError)) or 'validation' in error_message:
+            return ErrorCategory.INPUT_VALIDATION
+        elif 'timeout' in error_message or isinstance(error, asyncio.TimeoutError):
+            return ErrorCategory.TIMEOUT
+        elif 'memory' in error_message or 'resource' in error_message:
+            return ErrorCategory.RESOURCE_EXHAUSTION
+        elif 'network' in error_message or 'connection' in error_message:
+            return ErrorCategory.NETWORK_ERROR
+        elif 'permission' in error_message or 'access' in error_message:
+            return ErrorCategory.AUTHORIZATION
+        elif 'model' in error_message and 'not found' in error_message:
+            return ErrorCategory.MODEL_EXECUTION
+        else:
+            return ErrorCategory.SYSTEM_ERROR
+    
+    def _determine_severity(self, error: Exception, category: ErrorCategory) -> ErrorSeverity:
+        """Determine error severity."""
+        if category in [ErrorCategory.SYSTEM_ERROR, ErrorCategory.RESOURCE_EXHAUSTION]:
+            return ErrorSeverity.CRITICAL
+        elif category in [ErrorCategory.MODEL_EXECUTION, ErrorCategory.TIMEOUT]:
+            return ErrorSeverity.HIGH
+        elif category in [ErrorCategory.INPUT_VALIDATION, ErrorCategory.NETWORK_ERROR]:
+            return ErrorSeverity.MEDIUM
+        else:
+            return ErrorSeverity.LOW
+    
+    def _generate_recovery_suggestions(self, error: Exception, category: ErrorCategory) -> List[str]:
+        """Generate context-specific recovery suggestions."""
+        suggestions = []
         
-        try:
-            error_context.recovery_attempts += 1
-            error_context.last_recovery_attempt = time.time()
-            
-            recovery_strategy = self._recovery_strategies[component]
-            success = await recovery_strategy(error_context)
-            
-            if success:
-                # Update success rate
-                with self._lock:
-                    total_recoveries = sum(
-                        ec.recovery_attempts for ec in self._error_history
-                    )
-                    successful_recoveries = len([
-                        ec for ec in self._error_history 
-                        if ec.recovery_attempts > 0
-                    ])
-                    if total_recoveries > 0:
-                        self._stats['recovery_success_rate'] = (
-                            successful_recoveries / total_recoveries
-                        )
-            
-            return success
-            
-        except Exception as recovery_error:
-            logger.error(f"Recovery attempt failed: {recovery_error}")
-            return False
+        if category == ErrorCategory.INPUT_VALIDATION:
+            suggestions.extend([
+                "Validate input format and types",
+                "Check for null or empty values",
+                "Verify input dimensions match model requirements"
+            ])
+        elif category == ErrorCategory.TIMEOUT:
+            suggestions.extend([
+                "Increase timeout value",
+                "Check system performance",
+                "Optimize model or reduce input size"
+            ])
+        elif category == ErrorCategory.RESOURCE_EXHAUSTION:
+            suggestions.extend([
+                "Free up system resources",
+                "Increase memory limits",
+                "Process smaller batches"
+            ])
+        elif category == ErrorCategory.MODEL_EXECUTION:
+            suggestions.extend([
+                "Verify model is properly loaded",
+                "Check model compatibility",
+                "Validate model file integrity"
+            ])
+        
+        return suggestions
     
     def _log_error(self, error_context: ErrorContext) -> None:
         """Log error with appropriate level based on severity."""
-        message = (
-            f"Error in {error_context.component}.{error_context.operation}: "
-            f"{error_context.error_message}"
-        )
+        log_message = f"Error {error_context.error_id}: {error_context.message}"
         
         if error_context.severity == ErrorSeverity.CRITICAL:
-            logger.critical(message)
+            logger.critical(log_message, extra={'error_context': error_context.to_dict()})
         elif error_context.severity == ErrorSeverity.HIGH:
-            logger.error(message)
+            logger.error(log_message, extra={'error_context': error_context.to_dict()})
         elif error_context.severity == ErrorSeverity.MEDIUM:
-            logger.warning(message)
+            logger.warning(log_message, extra={'error_context': error_context.to_dict()})
         else:
-            logger.info(message)
+            logger.info(log_message, extra={'error_context': error_context.to_dict()})
     
     def get_error_statistics(self) -> Dict[str, Any]:
-        """Get comprehensive error statistics."""
+        """Get error statistics for monitoring."""
         with self._lock:
             recent_errors = [
-                ec for ec in self._error_history
-                if time.time() - ec.timestamp < 3600  # Last hour
+                error for error in self._error_history
+                if time.time() - error.timestamp < 3600  # Last hour
             ]
             
-            circuit_breaker_stats = {
-                name: cb.get_stats() 
-                for name, cb in self._circuit_breakers.items()
-            }
-            
             return {
-                'total_errors': self._stats['total_errors'],
+                'total_errors': len(self._error_history),
                 'recent_errors': len(recent_errors),
-                'errors_by_severity': self._stats['errors_by_severity'].copy(),
-                'errors_by_category': self._stats['errors_by_category'].copy(),
-                'recovery_success_rate': self._stats['recovery_success_rate'],
-                'circuit_breakers': circuit_breaker_stats,
-                'error_history_size': len(self._error_history)
+                'error_counts_by_type': dict(self._error_counts),
+                'error_counts_by_category': {
+                    category.value: sum(1 for error in recent_errors if error.category == category)
+                    for category in ErrorCategory
+                },
+                'error_counts_by_severity': {
+                    severity.value: sum(1 for error in recent_errors if error.severity == severity)
+                    for severity in ErrorSeverity
+                }
             }
     
-    def get_recent_errors(self, limit: int = 10) -> List[Dict[str, Any]]:
-        """Get recent errors for analysis."""
-        with self._lock:
-            recent_errors = sorted(
-                self._error_history,
-                key=lambda ec: ec.timestamp,
-                reverse=True
-            )[:limit]
-            
-            return [ec.to_dict() for ec in recent_errors]
-
-
-# Global error manager instance
-_global_error_manager: Optional[RobustErrorManager] = None
-
-
-def get_global_error_manager() -> RobustErrorManager:
-    """Get the global error manager instance."""
-    global _global_error_manager
-    if _global_error_manager is None:
-        _global_error_manager = RobustErrorManager()
-    return _global_error_manager
-
-
-# Decorators for robust error handling
-def robust_operation(
-    component: str,
-    operation: Optional[str] = None,
-    severity: ErrorSeverity = ErrorSeverity.MEDIUM,
-    category: ErrorCategory = ErrorCategory.RUNTIME,
-    retry_policy: Optional[RobustRetryPolicy] = None,
-    circuit_breaker: Optional[str] = None
-):
-    """
-    Decorator for robust error handling with retries and circuit breakers.
-    """
-    def decorator(func):
-        actual_operation = operation or func.__name__
+    @asynccontextmanager
+    async def error_context(self, operation_name: str, **context_kwargs):
+        """Context manager for handling errors in operations."""
+        context_data = {
+            'operation': operation_name,
+            'timestamp': time.time(),
+            **context_kwargs
+        }
         
-        @wraps(func)
-        async def async_wrapper(*args, **kwargs):
-            error_manager = get_global_error_manager()
-            retry_pol = retry_policy or RobustRetryPolicy()
-            
-            # Get circuit breaker if specified
-            cb = None
-            if circuit_breaker:
-                cb = error_manager.get_circuit_breaker(circuit_breaker)
-                if not cb:
-                    cb = error_manager.register_circuit_breaker(circuit_breaker)
-            
-            last_error = None
-            
-            for attempt in range(retry_pol.max_attempts):
-                try:
-                    if cb:
-                        async with cb.protect():
-                            return await func(*args, **kwargs)
-                    else:
-                        return await func(*args, **kwargs)
-                        
-                except Exception as e:
-                    last_error = e
-                    
-                    # Handle error
-                    await error_manager.handle_error(
-                        error=e,
-                        component=component,
-                        operation=actual_operation,
-                        severity=severity,
-                        category=category,
-                        metadata={
-                            'attempt': attempt + 1,
-                            'max_attempts': retry_pol.max_attempts,
-                            'args_count': len(args),
-                            'kwargs_keys': list(kwargs.keys())
-                        }
-                    )
-                    
-                    # Check if should retry
-                    if not retry_pol.should_retry(e, attempt + 1):
-                        break
-                    
-                    # Wait before retry
-                    if attempt < retry_pol.max_attempts - 1:
-                        delay = retry_pol.calculate_delay(attempt)
-                        await asyncio.sleep(delay)
-            
-            # All retries failed
-            raise last_error
-        
-        @wraps(func)
-        def sync_wrapper(*args, **kwargs):
-            # For sync functions, run in async context
-            return asyncio.run(async_wrapper(*args, **kwargs))
-        
-        if asyncio.iscoroutinefunction(func):
-            return async_wrapper
-        else:
-            return sync_wrapper
-    
-    return decorator
+        try:
+            yield context_data
+        except Exception as e:
+            await self.handle_error(e, context_data)
+            raise
 
 
-# Example usage and testing
+# Demo function
 async def demo_robust_error_handling():
-    """Demonstration of robust error handling."""
-    error_manager = get_global_error_manager()
+    """Demonstrate robust error handling capabilities."""
     
-    # Register circuit breaker
-    cb = error_manager.register_circuit_breaker("demo_service", failure_threshold=3)
+    print("Robust Error Handling Demo - Generation 2")
+    print("=" * 50)
     
-    # Register recovery strategy
-    async def demo_recovery_strategy(error_context: ErrorContext) -> bool:
-        print(f"Attempting recovery for {error_context.error_id}")
-        # Simulate recovery logic
-        return error_context.recovery_attempts == 1  # Succeed on second attempt
+    # Create error handler
+    error_handler = RobustErrorHandler()
+    validator = InputValidator()
     
-    error_manager.register_recovery_strategy("demo_component", demo_recovery_strategy)
-    
-    # Test robust operation
-    @robust_operation(
-        component="demo_component",
-        operation="test_operation",
-        circuit_breaker="demo_service",
-        retry_policy=RobustRetryPolicy(max_attempts=2)
-    )
-    async def failing_operation(fail_count: int = 0):
-        if fail_count > 0:
-            raise ValueError(f"Simulated failure {fail_count}")
-        return "Success!"
-    
-    print("Testing robust error handling...")
-    
-    # Test successful operation
+    # Test input validation
+    print("\\nTesting input validation...")
     try:
-        result = await failing_operation(0)
-        print(f"Success: {result}")
-    except Exception as e:
-        print(f"Failed: {e}")
+        validator.validate_model_id("")
+    except InputValidationError as e:
+        print(f"✓ Caught validation error: {e.error_context.message}")
     
-    # Test operation with failures
     try:
-        result = await failing_operation(1)
-        print(f"Success after retry: {result}")
-    except Exception as e:
-        print(f"Failed after retries: {e}")
+        validator.validate_tensor_input([float('nan'), 1, 2])
+    except InputValidationError as e:
+        print(f"✓ Caught NaN validation error: {e.error_context.message}")
     
-    # Show statistics
-    stats = error_manager.get_error_statistics()
-    print(f"Error statistics: {json.dumps(stats, indent=2)}")
+    # Test error handling with recovery
+    print("\\nTesting error handling with recovery...")
+    async def failing_function():
+        raise ConnectionError("Network temporarily unavailable")
     
-    # Show circuit breaker stats
-    cb_stats = cb.get_stats()
-    print(f"Circuit breaker stats: {json.dumps(cb_stats, indent=2)}")
+    # Add fallback strategy
+    def fallback_function(error_context):
+        return "fallback_result"
+    
+    error_handler.add_recovery_strategy(FallbackRecoveryStrategy(fallback_function))
+    
+    async with error_handler.error_context("test_operation", service="test_service"):
+        try:
+            result = await failing_function()
+        except Exception as e:
+            print(f"✓ Handling error: {e}")
+            # Error will be handled by context manager
+    
+    # Show error statistics
+    stats = error_handler.get_error_statistics()
+    print(f"\\nError Statistics:")
+    print(f"Total errors: {stats['total_errors']}")
+    print(f"Recent errors: {stats['recent_errors']}")
+    print(f"Error types: {stats['error_counts_by_type']}")
+    
+    print("\\n🛡️ Robust Error Handling Demo Complete!")
 
 
 if __name__ == "__main__":
